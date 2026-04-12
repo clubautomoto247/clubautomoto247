@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="L'agenda auto & moto autour de chez toi — rassemblements, musées, loisirs en Alsace.">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+  <meta name="theme-color" content="#8B6BB5">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://clubautomoto247.github.io/clubautomoto247/">
+<meta property="og:title" content="Club AutoMoto 24/7">
+<meta property="og:description" content="L'agenda auto & moto autour de chez toi — Haut-Rhin · Bas-Rhin · Belfort">
+<meta property="og:image" content="https://clubautomoto247.github.io/clubautomoto247/assets/logo.png">
+<title>Club AutoMoto 24/7 — L'agenda auto & moto autour de chez toi</title>
+<!-- Plausible Analytics -->
+<!-- Plausible Analytics -->
+<script async src="https://plausible.io/js/pa-eS2HfxitsjaTCGZUBNquj.js"></script>
+<script>
+  window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  plausible.init()
+</script>
+<!-- GTM -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-53BBKQ68');</script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:2.5rem clamp(1.5rem,5vw,4rem) 2.5rem}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 55% 55% at 75% 30%,rgba(139,107,181,0.14),transparent),radial-gradient(ellipse 40% 50% at 15% 75%,rgba(139,107,181,0.07),transparent)}
+.hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--mauve-b) 1px,transparent 1px),linear-gradient(90deg,var(--mauve-b) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 10%,transparent 100%);opacity:0.45}
+.hero-content{position:relative;z-index:1;max-width:720px}
+.hero-pill{display:inline-flex;align-items:center;gap:0.5rem;background:var(--mauve-sub);border:1px solid var(--mauve-b2);color:var(--mauve-l);font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:0.32rem 0.9rem;border-radius:20px;margin-bottom:1.3rem;animation:fadeUp 0.7s 0.1s both}
+.hero-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--mauve);animation:pd 2s infinite}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.6rem,7.5vw,7.5rem);line-height:0.93;letter-spacing:-0.04em;animation:fadeUp 0.7s 0.2s both}
+.hero h1 .l1{display:block;color:var(--txt)}
+.hero h1 .l2{display:block;color:var(--mauve-l)}
+.hero h1 .l2 .amp{font-weight:300;opacity:0.75;font-style:italic}
+.hero h1 .l3{display:block;-webkit-text-stroke:1.5px var(--mauve-d);color:transparent}
+.hero-sub{font-size:clamp(0.88rem,1.7vw,1.02rem);color:var(--txt-d);font-weight:300;max-width:480px;line-height:1.8;margin-top:1.4rem;animation:fadeUp 0.7s 0.32s both}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:0.7rem;margin-top:1.8rem;animation:fadeUp 0.7s 0.44s both}
+.hero-tags{display:flex;flex-wrap:wrap;gap:0.45rem;margin-top:1.6rem;animation:fadeUp 0.7s 0.56s both}
+.hero-tag{padding:0.28rem 0.8rem;border-radius:14px;border:1px solid var(--border2);color:var(--txt-m);font-size:0.7rem;font-weight:500;transition:all 0.2s}
+.hero-tag.on{border-color:var(--mauve);color:var(--mauve-l);background:var(--mauve-sub)}
+.hero-tag.soon{opacity:0.45;font-style:italic}
+.hero-scroll{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.35rem;color:var(--txt-m);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;animation:fadeIn 1s 1.2s both;z-index:1}
+.hero-scroll-line{width:1px;height:32px;background:linear-gradient(to bottom,var(--mauve),transparent);animation:sa 2s ease-in-out infinite}
+@keyframes sa{0%,100%{transform:scaleY(1);opacity:1}50%{transform:scaleY(0.4);opacity:0.3}}
+/* PREVIEW SECTION */
+.preview-section{padding:clamp(2.5rem,6vw,5rem) clamp(1.5rem,5vw,4rem)}
+.preview-header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.8rem}
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.2rem}
+.see-all-wrap{display:flex;justify-content:center;margin-top:1.8rem}
+/* FAVS SECTION */
+.favs-section{padding:clamp(2rem,5vw,4rem) clamp(1.5rem,5vw,4rem);background:var(--bg2);display:none}
+.favs-section.has-favs{display:block}
+/* TABS */
+.section-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.8rem;gap:0;overflow-x:auto;scrollbar-width:none}
+.section-tabs::-webkit-scrollbar{display:none}
+.stab{padding:0.65rem 1.2rem;font-size:0.82rem;font-weight:600;color:var(--txt-m);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;font-family:'Outfit',sans-serif}
+.stab.on{color:var(--mauve-l);border-bottom-color:var(--mauve)}
+.stab:hover{color:var(--txt)}
+.tab-content{display:none}.tab-content.on{display:block}
+@media(max-width:640px){.hero h1{font-size:clamp(2.4rem,11vw,4rem)}.preview-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53BBKQ68" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-badge"><img src="assets/logo.png" alt="Logo" onerror="this.outerHTML='<span class=nav-badge-txt>24<br>/7</span>'"></div>
+    <div class="nav-name">Club <em>AutoMoto</em> 24/7</div>
+  </a>
+  <div class="nav-right">
+    <a href="https://www.instagram.com/club.automoto.247" target="_blank" rel="noopener" class="nav-insta" onclick="track('Instagram click',{source:'nav'})">📷 Instagram</a>
+  </div>
+</nav>
+
+<div class="cat-nav" id="cat-nav">
+  <a href="index.html" class="cat-nav-item active-home"><span class="cat-nav-dot" style="background:var(--orange)"></span>🏠 Accueil</a>
+  <a href="decouvrir.html" class="cat-nav-item"><span class="cat-nav-dot" style="background:var(--mauve-l)"></span>🗺️ Découvrir</a>
+  <a href="rassemblements.html" class="cat-nav-item"><span class="cat-nav-dot rasso"></span>🏁 Rassemblements</a>
+  <a href="musees.html" class="cat-nav-item"><span class="cat-nav-dot musee"></span>🏛️ Musées</a>
+  <a href="loisirs.html" class="cat-nav-item"><span class="cat-nav-dot loisir"></span>🎯 Loisirs</a>
+  <span class="cat-nav-hint" id="cat-nav-hint">›</span>
+</div>
+
+<section class="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-pill"><span class="hero-pill-dot"></span>Creation by ThomsFR</div>
+    <h1>
+      <span class="l1">L'agenda</span>
+      <span class="l2">Auto <span class="amp">&amp;</span> Moto</span>
+      <span class="l3">24/7</span>
+    </h1>
+    <p class="hero-sub">L'agenda auto &amp; moto autour de chez toi — rassemblements · musées · loisirs</p>
+    <div class="hero-ctas">
+      <a href="rassemblements.html" class="btn-primary" onclick="track('CTA click',{label:'Voir rassemblements'})">🏁 Voir les rassemblements</a>
+      <a href="https://www.instagram.com/club.automoto.247" target="_blank" rel="noopener" class="btn-outline" onclick="track('Instagram click',{source:'hero'})">📷 Instagram</a>
+    </div>
+    <div class="hero-tags">
+      <span class="hero-tag on">Haut-Rhin</span>
+      <span class="hero-tag on">Bas-Rhin</span>
+      <span class="hero-tag on">Belfort</span>
+      <span class="hero-tag soon">Vosges — bientôt</span>
+    </div>
+  </div>
+  <div class="hero-scroll"><div class="hero-scroll-line"></div>Découvrir</div>
+</section>
+
+<div class="stats-bar" style="pointer-events:none">
+  <div class="stat"><div class="stat-n" id="stat-future">–</div><div class="stat-l">Rassemblements à venir</div></div>
+  <div class="stat"><div class="stat-n">3</div><div class="stat-l">Départements couverts</div></div>
+  <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">La passion auto &amp; moto</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Gratuit &amp; sans pub</div></div>
+</div>
+
+<!-- WEEKEND -->
+<div class="weekend-band" id="weekend-band" style="display:none">
+  <div class="weekend-title">
+    <span class="weekend-dot"></span>
+    Ce week-end
+  </div>
+  <div id="weekend-list"></div>
+</div>
+
+<!-- FAVORIS -->
+<section class="favs-section" id="favs-section">
+  <div><div class="s-tag" style="color:#f43f5e">Mes favoris</div><h2 class="s-title">Tes événements sauvegardés</h2></div>
+  <div class="preview-grid" id="favs-grid" style="margin-top:1.5rem"></div>
+</section>
+
+<!-- PREVIEW TABS -->
+<section class="preview-section">
+  <div style="margin-bottom:0">
+    <div class="s-tag">Découvrir</div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:0.8rem">
+      <h2 class="s-title">À la une</h2>
+    </div>
+  </div>
+  <div class="section-tabs">
+    <button class="stab on" onclick="switchTab('rasso',this)">🏁 Rassemblements</button>
+    <button class="stab" onclick="switchTab('musees',this)">🏛️ Musées</button>
+    <button class="stab" onclick="switchTab('loisirs',this)">🎯 Loisirs</button>
+  </div>
+  <div class="tab-content on" id="tab-rasso">
+    <div class="preview-grid" id="preview-rasso"><div class="loading-txt">Chargement...</div></div>
+    <div class="see-all-wrap"><a href="rassemblements.html" class="btn-see-all">Voir tous les rassemblements →</a></div>
+  </div>
+  <div class="tab-content" id="tab-musees">
+    <div class="preview-grid" id="preview-musees"></div>
+    <div class="see-all-wrap"><a href="musees.html" style="border-color:#1a5c8a;color:#4a9fd4" class="btn-see-all">Voir tous les musées →</a></div>
+  </div>
+  <div class="tab-content" id="tab-loisirs">
+    <div class="preview-grid" id="preview-loisirs"></div>
+    <div class="see-all-wrap"><a href="loisirs.html" style="border-color:#1a6b3a;color:#4ad47a" class="btn-see-all">Voir tous les loisirs →</a></div>
+  </div>
+</section>
+
+<!-- INSTAGRAM BAND -->
+<div class="insta-band">
+  <div class="insta-band-info">
+    <div class="insta-band-avatar">📷</div>
+    <div>
+      <div class="insta-band-name">@club.automoto.247</div>
+      <div class="insta-band-sub">Photos de rassemblements & événements · Alsace</div>
+    </div>
+  </div>
+  <a href="https://www.instagram.com/club.automoto.247" target="_blank" rel="noopener" class="btn-insta-follow" onclick="track('Instagram click',{source:'band'})">📷 Suivre sur Instagram</a>
+</div>
+
+<div class="about-band">
+  <p><strong>Club AutoMoto 24/7</strong>, votre référence locale pour ne rater aucun rassemblement en Alsace. Fondé par <strong>Club AutoMoto 24/7</strong>, passionné de photo auto &amp; moto.</p>
+  <div class="about-sub">La passion auto &amp; moto 24h/24 et 7j/7</div>
+</div>
+
+<footer>
+  <div class="footer-logo">Club <em>AutoMoto</em> 24/7</div>
+  <div class="footer-links">
+    <a href="decouvrir.html">Découvrir</a>
+    <a href="rassemblements.html">Rassemblements</a>
+    <a href="musees.html">Musées</a>
+    <a href="loisirs.html">Loisirs</a>
+    <a href="https://www.instagram.com/club.automoto.247" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <div class="footer-right"><div>© 2026 Club AutoMoto 24/7</div><div>Creation by ThomsFR</div></div>
+
+<div class="footer-disclaimer"><span>⚠️</span><p>Club AutoMoto 24/7 ne pourra être tenu responsable en cas de modification, report ou annulation d'une manifestation. Veuillez vérifier ces informations auprès des organisateurs avant de vous déplacer.</p></div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal"><button class="modal-close" onclick="closeModal()">✕</button><div id="modal-content"></div></div>
+</div>
+<div class="cookie-banner" id="cookie-banner">
+  <div class="cookie-text">🍪 Ce site utilise des analytics anonymes pour améliorer votre expérience. <a href="https://policies.google.com/privacy" target="_blank">En savoir plus</a></div>
+  <div class="cookie-actions"><button class="btn-cookie-no" onclick="setCookie(0)">Refuser</button><button class="btn-cookie-ok" onclick="setCookie(1)">Accepter</button></div>
+</div>
+
+<script src="assets/data.js"></script>
+<script>
+let allEvents = [];
+
+window.addEventListener('scroll',()=>document.getElementById('main-nav').classList.toggle('scrolled',scrollY>30),{passive:true});
+function setCookie(v){localStorage.setItem('cookie_consent',v);document.getElementById('cookie-banner').classList.add('hidden')}
+if(localStorage.getItem('cookie_consent')!==null)document.getElementById('cookie-banner').classList.add('hidden');
+
+// Tab switch
+function switchTab(name, btn){
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('tab-'+name).classList.add('on');
+  track('Tab switch',{tab:name});
+}
+
+// Modal
+function openModal(id,ds){document.getElementById('modal-content').innerHTML=buildModal(id,ds,allEvents);document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function openMuseeModal(id){document.getElementById('modal-content').innerHTML=buildMuseeModal(id,allEvents);document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function openLoisirModal(id){document.getElementById('modal-content').innerHTML=buildLoisirModal(id,allEvents);document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+// Favorites section
+function renderFavSection(){
+  const favs = getFavs();
+  const section = document.getElementById('favs-section');
+  if(!favs.length){section.classList.remove('has-favs');return;}
+  section.classList.add('has-favs');
+  const items = favs.map(id => {
+    const e = allEvents.find(x=>x.id===id);
+    if(!e) return '';
+    const exp = expandEvents([e]);
+    if(e.type==='rassemblement' && exp.length) return evCardHTML(exp[0]);
+    if(e.type==='musee') return museeCardHTML(e);
+    if(e.type==='loisir') return loisirCardHTML(e);
+    return '';
+  }).filter(Boolean);
+  document.getElementById('favs-grid').innerHTML = items.join('') || '<div class="empty-msg">Tes favoris apparaîtront ici.</div>';
+}
+
+async function init(){
+  allEvents = await loadData();
+  const exp = expandEvents(allEvents);
+  document.getElementById('stat-future').textContent = exp.length + '+';
+
+  // Weekend
+  const we = getWeekendEvents(allEvents);
+  if(we.length){
+    document.getElementById('weekend-band').style.display='block';
+    document.getElementById('weekend-list').innerHTML = `<div class="weekend-list">${we.map(evListHTML).join('')}</div>`;
+  }
+
+  // Tabs preview
+  const rassos = exp.slice(0,5);
+  document.getElementById('preview-rasso').innerHTML = rassos.length ? rassos.map(evCardHTML).join('') : '<div class="empty-msg">Aucun rassemblement à venir.</div>';
+
+  const musees = allEvents.filter(e=>e.type==='musee'&&e.publie!==false);
+  document.getElementById('preview-musees').innerHTML = musees.length ? musees.map(museeCardHTML).join('') : '<div class="empty-msg">Aucun musée répertorié.</div>';
+
+  const loisirs = allEvents.filter(e=>e.type==='loisir'&&e.publie!==false);
+  document.getElementById('preview-loisirs').innerHTML = loisirs.length ? loisirs.map(loisirCardHTML).join('') : '<div class="empty-msg">Aucun loisir répertorié.</div>';
+
+  // Favoris
+  renderFavSection();
+}
+init();
+</script>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+</body>
+</html>

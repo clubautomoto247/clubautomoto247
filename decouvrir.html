@@ -1,0 +1,551 @@
+<!-- © 2026 Club AutoMoto 24/7 | Created by ThomsFR | clubautomoto247.github.io | Unauthorized reproduction prohibited -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Découvrir les rassemblements, musées et loisirs auto & moto en Alsace sur la carte">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  <link rel="apple-touch-icon" href="assets/logo.png">
+  <meta name="theme-color" content="#8B6BB5">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://clubautomoto247.github.io/clubautomoto247/decouvrir.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Découvrir la carte — Club AutoMoto 24/7">
+  <meta property="og:description" content="Explorez la carte des événements, musées et loisirs auto & moto en Alsace.">
+  <meta property="og:url" content="https://clubautomoto247.github.io/clubautomoto247/decouvrir.html">
+  <meta property="og:image" content="https://clubautomoto247.github.io/clubautomoto247/assets/logo.png">
+  <meta property="og:site_name" content="Club AutoMoto 24/7">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Découvrir la carte — Club AutoMoto 24/7">
+<title>Découvrir — Club AutoMoto 24/7</title>
+<script defer data-domain="clubautomoto247.github.io" src="https://plausible.io/js/pa-eS2HfxitsjaTCGZUBNquj.js"></script>
+<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/common.css">
+<style>
+
+/* TOPBAR SCROLL HINT */
+.topbar-hint{position:sticky;right:0;flex-shrink:0;display:none;align-items:center;justify-content:center;width:32px;height:100%;background:linear-gradient(to right,transparent,rgba(19,19,26,0.97) 55%);color:var(--mauve-l);font-size:1.1rem;font-weight:700;z-index:2;cursor:pointer;transition:color 0.2s}
+.topbar-hint.show{display:flex}
+.topbar-hint:hover{color:#fff}
+
+/* PAGE FULL HEIGHT */
+html,body{height:100%;overflow:hidden;display:flex;flex-direction:column;padding-top:0}
+
+/* Override nav position for this page */
+nav{position:relative !important;top:0 !important;flex-shrink:0}
+.cat-nav{position:relative !important;top:0 !important;flex-shrink:0}
+
+/* TOPBAR */
+.deco-topbar{
+  flex-shrink:0;display:flex;align-items:center;gap:0.4rem;
+  padding:0.45rem clamp(0.75rem,2vw,1.5rem);
+  background:var(--surf);border-bottom:1px solid var(--border);
+  overflow-x:auto;scrollbar-width:none;
+}
+.deco-topbar::-webkit-scrollbar{display:none}
+
+/* VIEW PILLS */
+.view-pills{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;flex-shrink:0}
+.vpill{display:flex;align-items:center;gap:0.3rem;padding:0.36rem 0.75rem;font-size:0.74rem;font-weight:600;color:var(--txt-m);background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.18s;white-space:nowrap}
+.vpill:hover{color:var(--txt);background:rgba(255,255,255,0.04)}
+.vpill.on{background:var(--mauve);color:#fff}
+
+/* FILTER GROUPS */
+.fg{display:flex;align-items:center;gap:0.28rem;flex-shrink:0}
+.fg-sep{width:1px;height:14px;background:var(--border);flex-shrink:0;margin:0 0.1rem}
+.fpill{padding:0.25rem 0.55rem;border-radius:9px;border:1px solid var(--border2);color:var(--txt-m);font-size:0.68rem;font-weight:500;cursor:pointer;background:none;font-family:'Outfit',sans-serif;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.fpill:hover{border-color:var(--mauve);color:var(--mauve-l)}
+.fpill.on{background:var(--mauve-sub);border-color:var(--mauve);color:var(--mauve-l)}
+.fpill.cat-rasso.on{background:rgba(90,63,138,0.18);border-color:#8B6BB5;color:#c4a8f0}
+.fpill.cat-musee.on{background:rgba(26,92,200,0.14);border-color:#4a9fd4;color:#4a9fd4}
+.fpill.cat-loisir.on{background:rgba(26,107,58,0.14);border-color:#4ad47a;color:#4ad47a}
+.fpill.fav-f.on{background:rgba(244,63,94,0.12);border-color:rgba(244,63,94,0.45);color:#f43f5e}
+
+/* DAY/NIGHT TOGGLE */
+.tile-toggle{display:flex;border:1px solid var(--border2);border-radius:8px;overflow:hidden;flex-shrink:0}
+.tile-btn{padding:0.33rem 0.58rem;font-size:0.76rem;background:none;border:none;cursor:pointer;color:var(--txt-m);transition:all 0.18s;line-height:1}
+.tile-btn.on{background:var(--surf2);color:var(--txt)}
+
+/* GEO BTN + COUNT */
+.btn-geo{display:flex;align-items:center;gap:0.3rem;padding:0.34rem 0.72rem;border-radius:7px;border:1px solid var(--mauve-b2);color:var(--mauve-l);font-size:0.72rem;font-weight:600;background:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s;white-space:nowrap;flex-shrink:0}
+.btn-geo:hover{background:var(--mauve-sub)}
+.btn-geo:disabled{opacity:0.5;cursor:not-allowed}
+.res-count{font-size:0.68rem;color:var(--txt-m);flex-shrink:0;padding:0 0.25rem;white-space:nowrap}
+
+/* MAIN WRAPPER */
+.deco-main{flex:1;position:relative;overflow:hidden;min-height:0;display:flex}
+
+/* MAP */
+#map-el{flex:1;height:100%;min-height:0;background:#f0ebe3;z-index:1}
+
+/* SIDEBAR */
+.deco-sidebar{
+  width:278px;flex-shrink:0;
+  background:var(--surf);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;overflow:hidden;
+  transition:width 0.22s ease,opacity 0.22s ease;
+  z-index:2;
+}
+.deco-sidebar.closed{width:0;opacity:0;pointer-events:none}
+.sb-head{padding:0.65rem 0.9rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.sb-head-title{font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700}
+.sb-close{width:24px;height:24px;border-radius:5px;border:1px solid var(--border2);color:var(--txt-m);background:none;cursor:pointer;font-size:0.7rem;display:flex;align-items:center;justify-content:center}
+.sb-close:hover{color:var(--txt);border-color:var(--mauve)}
+.sb-list{flex:1;overflow-y:auto;padding:0.2rem 0}
+.sb-row{padding:0.58rem 0.9rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.sb-row:hover{background:var(--surf2)}
+.sb-row:last-child{border-bottom:none}
+.sb-name{font-size:0.79rem;font-weight:600;color:var(--txt);display:flex;align-items:center;gap:0.38rem;margin-bottom:0.18rem}
+.sb-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.sb-sub{font-size:0.68rem;color:var(--txt-d)}
+.sb-km{font-size:0.63rem;font-weight:700;color:var(--mauve-l);margin-top:0.18rem}
+.sb-empty{padding:2rem 1rem;text-align:center;color:var(--txt-m);font-size:0.78rem}
+
+/* FLOATING BTN */
+.map-fab{position:absolute;top:0.75rem;right:0.75rem;z-index:500}
+.fab-btn{width:34px;height:34px;border-radius:8px;background:var(--surf2);border:1px solid var(--border2);color:var(--txt-d);display:flex;align-items:center;justify-content:center;font-size:0.82rem;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.3);transition:all 0.2s}
+.fab-btn:hover,.fab-btn.on{color:var(--mauve-l);border-color:var(--mauve);background:var(--mauve-sub)}
+
+/* TOAST */
+.geo-toast{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);z-index:900;background:var(--surf2);border:1px solid var(--mauve-b2);border-radius:8px;padding:0.45rem 0.9rem;font-size:0.73rem;color:var(--mauve-l);white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.4);display:none;pointer-events:none}
+
+/* ALT VIEWS */
+.alt-view{position:absolute;inset:0;z-index:400;background:var(--bg);overflow-y:auto;display:none}
+.alt-view.on{display:block}
+.alt-inner{padding:1.2rem clamp(1rem,3vw,2rem)}
+.alt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1rem}
+.alt-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:50vh;color:var(--txt-m);text-align:center;gap:0.8rem;font-size:0.88rem}
+.alt-empty-icon{font-size:3.2rem;opacity:0.3}
+
+/* LEAFLET OVERRIDES */
+.leaflet-container{font-family:'Outfit',sans-serif !important}
+.leaflet-popup-content-wrapper{background:var(--surf2) !important;color:var(--txt) !important;border:1px solid var(--mauve-b2) !important;border-radius:12px !important;box-shadow:0 8px 32px rgba(0,0,0,0.55) !important;padding:0 !important}
+.leaflet-popup-content{margin:0 !important;padding:0 !important;min-width:195px}
+.leaflet-popup-tip{background:var(--surf2) !important}
+.leaflet-popup-close-button{color:var(--txt-m) !important;top:8px !important;right:10px !important;font-size:1rem !important;z-index:2;background:transparent !important}
+.leaflet-popup-close-button:hover{color:var(--mauve-l) !important}
+.leaflet-control-zoom{border:none !important;margin:10px !important}
+.leaflet-control-zoom a{background:var(--surf2) !important;color:var(--txt-d) !important;border:1px solid var(--border2) !important;width:30px !important;height:30px !important;line-height:28px !important}
+.leaflet-control-zoom a:hover{color:var(--mauve-l) !important;border-color:var(--mauve) !important}
+.leaflet-control-attribution{background:rgba(9,9,13,0.7) !important;color:var(--txt-m) !important;font-size:0.58rem !important}
+.leaflet-control-attribution a{color:var(--mauve-l) !important}
+
+/* MAP PINS */
+.map-pin{width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:2.5px solid rgba(255,255,255,0.65);box-shadow:0 4px 14px rgba(0,0,0,0.55),0 0 0 1.5px rgba(0,0,0,0.15)}
+.pin-rasso{background:#8B6BB5}
+.pin-musee{background:#1a5c8a}
+.pin-loisir{background:#1a6b3a}
+.pin-inner{transform:rotate(45deg);font-size:0.82rem;line-height:1}
+
+/* POPUP */
+.mpop{padding:0.82rem 1rem 0.88rem}
+.mpop-type{font-size:0.55rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.12rem 0.48rem;border-radius:7px;border:1px solid;display:inline-block;margin-bottom:0.5rem}
+.mpop-title{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--txt);line-height:1.2;margin-bottom:0.28rem;padding-right:1rem}
+.mpop-loc{font-size:0.7rem;color:var(--txt-d);margin-bottom:0.25rem}
+.mpop-date{font-size:0.68rem;color:var(--mauve-l);font-weight:600;margin-bottom:0.48rem}
+.mpop-dist{font-size:0.62rem;font-weight:700;color:var(--mauve-l);background:var(--mauve-sub);border:1px solid var(--mauve-b2);padding:0.1rem 0.4rem;border-radius:6px;display:inline-block;margin-bottom:0.48rem}
+.mpop-btn{display:block;width:100%;padding:0.42rem;background:var(--mauve);color:#fff;text-align:center;border-radius:7px;font-size:0.74rem;font-weight:600;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:background 0.2s}
+.mpop-btn:hover{background:var(--mauve-l)}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;z-index:9000;background:rgba(9,9,13,0.9);backdrop-filter:blur(12px);align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+@media(min-width:641px){.modal-overlay{align-items:center;padding:1rem}}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  html,body{height:100%;overflow:hidden}
+  .deco-main{flex-direction:column;flex:1;overflow:hidden;min-height:0}
+  #map-el{flex:1;height:auto;min-height:0}
+  .deco-sidebar{width:100% !important;opacity:1 !important;flex-shrink:0;max-height:40%;border-left:none;border-top:1px solid var(--border)}
+  .deco-sidebar.closed{max-height:0;overflow:hidden;opacity:0}
+  .map-fab{display:none}
+  .res-count{display:none}
+}
+@media(max-width:480px){
+  .vpill{padding:0.32rem 0.6rem;font-size:0.7rem}
+  .fpill{font-size:0.64rem;padding:0.22rem 0.48rem}
+  .tile-toggle{display:flex}
+}
+</style>
+</head>
+<body>
+
+<nav id="main-nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-badge"><img src="assets/logo.png" alt="Logo" onerror="this.outerHTML='<span class=nav-badge-txt>24<br>/7</span>'"></div>
+    <div class="nav-name">Club <em>AutoMoto</em> 24/7</div>
+  </a>
+  <div class="nav-right">
+    <a href="https://www.instagram.com/club.automoto.247" target="_blank" rel="noopener" class="nav-insta">📷 Instagram</a>
+  </div>
+</nav>
+
+<div class="cat-nav" id="cat-nav">
+  <a href="index.html" class="cat-nav-item"><span class="cat-nav-dot" style="background:var(--orange)"></span>🏠 Accueil</a>
+  <a href="decouvrir.html" class="cat-nav-item active-deco"><span class="cat-nav-dot" style="background:var(--mauve-l)"></span>🗺️ Découvrir</a>
+  <a href="rassemblements.html" class="cat-nav-item"><span class="cat-nav-dot rasso"></span>🏁 Rassemblements</a>
+  <a href="musees.html" class="cat-nav-item"><span class="cat-nav-dot musee"></span>🏛️ Musées</a>
+  <a href="loisirs.html" class="cat-nav-item"><span class="cat-nav-dot loisir"></span>🎯 Loisirs</a>
+  <span class="cat-nav-hint" id="cat-nav-hint">›</span>
+</div>
+
+<div class="deco-topbar">
+  <div class="view-pills">
+    <button class="vpill on" id="vpill-map" onclick="switchView('map')">🗺️ Carte</button>
+    <button class="vpill" id="vpill-list" onclick="switchView('list')">☰ Liste</button>
+    <button class="vpill" id="vpill-favs" onclick="switchView('favs')">❤️ Favoris</button>
+  </div>
+  <div class="fg-sep"></div>
+  <div class="fg">
+    <button class="fpill on" data-f="cat" data-v="all" onclick="setF('cat','all',this)">Tout</button>
+    <button class="fpill cat-rasso" data-f="cat" data-v="rassemblement" onclick="setF('cat','rassemblement',this)">🏁 Rasso.</button>
+    <button class="fpill cat-musee" data-f="cat" data-v="musee" onclick="setF('cat','musee',this)">🏛️ Musées</button>
+    <button class="fpill cat-loisir" data-f="cat" data-v="loisir" onclick="setF('cat','loisir',this)">🎯 Loisirs</button>
+    <button class="fpill fav-f" id="btn-fav-filter" onclick="toggleFavFilter(this)" title="Favoris uniquement">❤️ Favoris</button>
+  </div>
+  <div class="fg-sep"></div>
+  <div class="fg">
+    <button class="fpill on" data-f="dept" data-v="all" onclick="setF('dept','all',this)">Tous</button>
+    <button class="fpill" data-f="dept" data-v="68" onclick="setF('dept','68',this)">68</button>
+    <button class="fpill" data-f="dept" data-v="67" onclick="setF('dept','67',this)">67</button>
+    <button class="fpill" data-f="dept" data-v="90" onclick="setF('dept','90',this)">90</button>
+    <button class="fpill" data-f="dept" data-v="88" onclick="setF('dept','88',this)">88</button>
+  </div>
+  <div class="fg-sep" id="sep-tarif" style="display:none"></div>
+  <div class="fg" id="fg-tarif" style="display:none">
+    <button class="fpill on" data-f="tarif" data-v="all" onclick="setF('tarif','all',this)">Tarif</button>
+    <button class="fpill" data-f="tarif" data-v="gratuit" onclick="setF('tarif','gratuit',this)">Gratuit</button>
+    <button class="fpill" data-f="tarif" data-v="payant" onclick="setF('tarif','payant',this)">Payant</button>
+  </div>
+  <div class="fg-sep" id="sep-veh" style="display:none"></div>
+  <div class="fg" id="fg-veh" style="display:none">
+    <button class="fpill on" data-f="veh" data-v="all" onclick="setF('veh','all',this)">Véh.</button>
+    <button class="fpill" data-f="veh" data-v="Voitures" onclick="setF('veh','Voitures',this)">🚗 Voitures</button>
+    <button class="fpill" data-f="veh" data-v="Motos" onclick="setF('veh','Motos',this)">🏍 Motos</button>
+  </div>
+  <div class="fg-sep"></div>
+  <div class="tile-toggle">
+    <button class="tile-btn" id="tile-day" onclick="setTile('day')">☀️</button>
+    <button class="tile-btn on" id="tile-night" onclick="setTile('night')">🌙</button>
+  </div>
+  <button class="btn-geo" id="btn-geo" onclick="locateMe()">📍 Autour de moi</button>
+  <span class="res-count" id="res-count"></span>
+  <span class="topbar-hint" id="topbar-hint">›</span>
+</div>
+
+<div class="deco-main">
+  <div id="map-el"></div>
+
+  <div class="map-fab">
+    <button class="fab-btn" id="fab-sb" onclick="toggleSidebar()" title="Liste des lieux">☰</button>
+  </div>
+
+  <div class="deco-sidebar closed" id="sidebar">
+    <div class="sb-head">
+      <span class="sb-head-title" id="sb-title">Tous les lieux</span>
+      <button class="sb-close" onclick="toggleSidebar()">✕</button>
+    </div>
+    <div class="sb-list" id="sb-list"><div class="sb-empty">Chargement...</div></div>
+  </div>
+
+  <div class="geo-toast" id="geo-toast"></div>
+
+  <div class="alt-view" id="list-view">
+    <div class="alt-inner">
+      <div class="alt-grid" id="list-grid"><div class="loading-txt">Chargement...</div></div>
+    </div>
+  </div>
+
+  <div class="alt-view" id="favs-view">
+    <div class="alt-inner" id="favs-inner"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal"><button class="modal-close" onclick="closeModal()">✕</button><div id="modal-content"></div></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="assets/data.js"></script>
+<script>
+let allEvents=[],leafletMap,userMarker,mapMarkers=[],geoCache={};
+let userLat=null,userLng=null,currentView='map',tileMode='day',tileLayers={};
+let showFavsOnly=false;
+let filters={cat:'all',dept:'all',tarif:'all',veh:'all'};
+const ALSACE=[47.95,7.42];
+const TILES={
+  day:{
+    base:'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
+    lbl:'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png',
+    attr:'© <a href="https://openstreetmap.org">OSM</a> © <a href="https://carto.com">CARTO</a>',
+    bg:'#f0ebe3'
+  },
+  night:{
+    base:'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
+    lbl:'https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png',
+    attr:'© <a href="https://openstreetmap.org">OSM</a> © <a href="https://carto.com">CARTO</a>',
+    bg:'#0a0a0f'
+  }
+};
+
+async function initMap(){
+  leafletMap=L.map('map-el',{center:ALSACE,zoom:9,zoomControl:true});
+  applyTile('night');
+  allEvents=await loadData();
+  updateRassoFilters();
+  await refreshMarkers();
+  updateCount();
+  renderSidebar();
+}
+initMap();
+
+function applyTile(mode){
+  tileMode=mode;
+  if(tileLayers.base)leafletMap.removeLayer(tileLayers.base);
+  if(tileLayers.lbl)leafletMap.removeLayer(tileLayers.lbl);
+  const t=TILES[mode];
+  document.getElementById('map-el').style.background=t.bg;
+  tileLayers.base=L.tileLayer(t.base,{attribution:t.attr,subdomains:'abcd',maxZoom:19}).addTo(leafletMap);
+  tileLayers.lbl=L.tileLayer(t.lbl,{subdomains:'abcd',maxZoom:19}).addTo(leafletMap);
+  document.getElementById('tile-day').classList.toggle('on',mode==='day');
+  document.getElementById('tile-night').classList.toggle('on',mode==='night');
+}
+function setTile(m){applyTile(m);}
+
+function setF(key,val,btn){
+  filters[key]=val;
+  document.querySelectorAll(`[data-f="${key}"]`).forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  updateRassoFilters();refresh();
+}
+function toggleFavFilter(btn){
+  showFavsOnly=!showFavsOnly;
+  btn.classList.toggle('on',showFavsOnly);
+  refresh();
+}
+function updateRassoFilters(){
+  const r=filters.cat==='rassemblement';
+  ['fg-tarif','fg-veh','sep-tarif','sep-veh'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.display=r?'':'none';
+  });
+}
+function getFiltered(){
+  let res=allEvents.filter(e=>e.publie!==false);
+  if(showFavsOnly){const f=getFavs();res=res.filter(e=>f.includes(e.id));}
+  if(filters.cat!=='all')res=res.filter(e=>e.type===filters.cat);
+  if(filters.dept!=='all')res=res.filter(e=>e.departement===filters.dept);
+  if(filters.cat==='rassemblement'){
+    if(filters.tarif!=='all'){
+      res=res.filter(e=>{
+        const t=(e.tarif||'').toLowerCase();
+        return t==='mixte'||(t.includes('gratuit')&&t.includes('payant'))||e.tarif===filters.tarif;
+      });
+    }
+    if(filters.veh==='Voitures')res=res.filter(e=>(e.vehicules||[]).includes('Voitures'));
+    else if(filters.veh==='Motos')res=res.filter(e=>(e.vehicules||[]).includes('Motos'));
+  }
+  return res;
+}
+function refresh(){refreshMarkers();renderSidebar();updateCount();if(currentView==='list')renderList();if(currentView==='favs')renderFavs();}
+function updateCount(){const f=getFiltered();document.getElementById('res-count').textContent=f.length+' lieu'+(f.length>1?'x':'');}
+
+async function refreshMarkers(){
+  if(!leafletMap)return;
+  mapMarkers.forEach(m=>leafletMap.removeLayer(m));mapMarkers=[];
+  for(const e of getFiltered()){
+    try{const c=await geocode(e);const m=buildMarker(e,c);m.addTo(leafletMap);mapMarkers.push(m);}catch{}
+  }
+}
+const PC={rassemblement:'rasso',musee:'musee',loisir:'loisir'};
+const PE={rassemblement:'🏁',musee:'🏛️',loisir:'🎯'};
+const TL={rassemblement:'Rassemblement',musee:'Musée',loisir:'Loisir'};
+const BC={rassemblement:'#5a3f8a',musee:'#1a5c8a',loisir:'#1a6b3a'};
+function buildMarker(e,coords){
+  const icon=L.divIcon({
+    html:`<div class="map-pin pin-${PC[e.type]||'rasso'}"><span class="pin-inner">${PE[e.type]||'📍'}</span></div>`,
+    className:'',iconSize:[34,34],iconAnchor:[17,34],popupAnchor:[0,-36]
+  });
+  const exp=e.type==='rassemblement'?expandEvents([e]):[];
+  const dateHtml=exp.length?`<div class="mpop-date">📅 ${fmtFull(exp[0]._str)}</div>`:'';
+  const distHtml=userLat!==null?`<div class="mpop-dist">📍 ${haversine(userLat,userLng,coords.lat,coords.lng).toFixed(0)} km</div>`:'';
+  const openFn=e.type==='rassemblement'?`openModal(${e.id},'${exp[0]?._str||''}')`
+    :e.type==='musee'?`openMuseeModal(${e.id})`:`openLoisirModal(${e.id})`;
+  const popup=`<div class="mpop">
+    <span class="mpop-type" style="color:#fff;background:${BC[e.type]};border-color:${BC[e.type]}">${TL[e.type]}</span>
+    <div class="mpop-title">${e.titre}</div>
+    <div class="mpop-loc">📍 ${e.ville||''} · ${e.departement||''}</div>
+    ${dateHtml}${distHtml}
+    <button class="mpop-btn" onclick="${openFn}">Voir la fiche →</button>
+  </div>`;
+  return L.marker([coords.lat,coords.lng],{icon}).bindPopup(popup,{maxWidth:245});
+}
+
+async function geocode(e){
+  if(geoCache[e.id])return geoCache[e.id];
+  const ss=sessionStorage.getItem('geo_'+e.id);
+  if(ss){geoCache[e.id]=JSON.parse(ss);return geoCache[e.id];}
+  const q=e.adresse||`${e.ville||''} ${e.departement||''}`;
+  try{
+    const r=await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=1`);
+    const d=await r.json();const f=d.features?.[0];if(!f)throw 0;
+    const[lng,lat]=f.geometry.coordinates;
+    geoCache[e.id]={lat,lng};sessionStorage.setItem('geo_'+e.id,JSON.stringify({lat,lng}));
+    return geoCache[e.id];
+  }catch{
+    const fb={'67':[48.57,7.75],'68':[47.90,7.36],'90':[47.64,6.86],'88':[48.20,6.45]};
+    const[lat,lng]=fb[e.departement]||[48.0,7.4];
+    geoCache[e.id]={lat,lng};return geoCache[e.id];
+  }
+}
+function haversine(a,b,c,d){
+  const R=6371,dL=(c-a)*Math.PI/180,dG=(d-b)*Math.PI/180;
+  const x=Math.sin(dL/2)**2+Math.cos(a*Math.PI/180)*Math.cos(c*Math.PI/180)*Math.sin(dG/2)**2;
+  return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
+}
+
+function renderSidebar(){
+  const body=document.getElementById('sb-list');
+  const clrs={rassemblement:'#c4a8f0',musee:'#4a9fd4',loisir:'#4ad47a'};
+  const filtered=getFiltered();
+  let sorted=filtered.map(e=>{const g=geoCache[e.id];return{e,dist:userLat!==null&&g?haversine(userLat,userLng,g.lat,g.lng):null};});
+  if(userLat!==null)sorted.sort((a,b)=>(a.dist||9999)-(b.dist||9999));
+  document.getElementById('sb-title').textContent=userLat!==null?'Autour de moi':'Tous les lieux';
+  if(!sorted.length){body.innerHTML='<div class="sb-empty">Aucun résultat</div>';return;}
+  body.innerHTML=sorted.map(({e,dist})=>{
+    const exp=e.type==='rassemblement'?expandEvents([e]):[];
+    const dtxt=exp.length?' · '+fmtFull(exp[0]._str):'';
+    const km=dist!==null?`<div class="sb-km">📍 ${dist<1?'<1':dist.toFixed(0)} km</div>`:'';
+    return `<div class="sb-row" onclick="focusEvent(${e.id})">
+      <div class="sb-name"><span class="sb-dot" style="background:${clrs[e.type]}"></span>${e.titre}</div>
+      <div class="sb-sub">📍 ${e.ville||''} · ${e.departement||''}${dtxt}</div>${km}
+    </div>`;
+  }).join('');
+}
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  const btn=document.getElementById('fab-sb');
+  sb.classList.toggle('closed');
+  btn.classList.toggle('on',!sb.classList.contains('closed'));
+}
+function focusEvent(id){
+  const g=geoCache[id];if(!g||!leafletMap)return;
+  leafletMap.setView([g.lat,g.lng],13,{animate:true});
+  const m=mapMarkers.find(mk=>{const p=mk.getLatLng();return Math.abs(p.lat-g.lat)<0.001&&Math.abs(p.lng-g.lng)<0.001;});
+  if(m)setTimeout(()=>m.openPopup(),350);
+}
+
+function locateMe(){
+  const btn=document.getElementById('btn-geo');
+  if(!navigator.geolocation){showToast('Géolocalisation non disponible.');return;}
+  btn.disabled=true;btn.textContent='⏳ Localisation...';
+  navigator.geolocation.getCurrentPosition(
+    async pos=>{
+      userLat=pos.coords.latitude;userLng=pos.coords.longitude;
+      btn.disabled=false;btn.textContent='📍 Autour de moi';
+      if(typeof plausible==='function')plausible('Geolocation used');
+      leafletMap.setView([userLat,userLng],11,{animate:true});
+      if(userMarker)leafletMap.removeLayer(userMarker);
+      userMarker=L.circleMarker([userLat,userLng],{
+        radius:10,color:'#dc2626',fillColor:'#ef4444',fillOpacity:0.9,weight:2.5
+      }).addTo(leafletMap).bindPopup('<b style="color:var(--txt)">📍 Vous êtes ici</b>').openPopup();
+      await refreshMarkers();renderSidebar();updateCount();
+      showToast('Position trouvée · résultats triés par distance');
+    },
+    err=>{
+      btn.disabled=false;btn.textContent='📍 Autour de moi';
+      const m={1:'Géolocalisation refusée.',2:'Position indisponible.',3:'Délai dépassé.'};
+      showToast(m[err.code]||'Erreur de géolocalisation.');
+    },
+    {enableHighAccuracy:true,timeout:10000}
+  );
+}
+function showToast(msg,dur=3500){
+  const t=document.getElementById('geo-toast');
+  t.textContent=msg;t.style.display='block';
+  clearTimeout(t._t);t._t=setTimeout(()=>t.style.display='none',dur);
+}
+
+function switchView(v){
+  currentView=v;
+  ['map','list','favs'].forEach(n=>document.getElementById('vpill-'+n).classList.toggle('on',n===v));
+  const mapEl=document.getElementById('map-el');
+  mapEl.style.visibility=v==='map'?'':'hidden';
+  mapEl.style.pointerEvents=v==='map'?'':'none';
+  document.querySelector('.map-fab').style.display=v==='map'?'':'none';
+  document.getElementById('sidebar').style.display=v==='map'?'':'none';
+  document.getElementById('list-view').classList.toggle('on',v==='list');
+  document.getElementById('favs-view').classList.toggle('on',v==='favs');
+  if(v==='list')renderList();
+  if(v==='favs')renderFavs();
+  if(v==='map'&&leafletMap)setTimeout(()=>leafletMap.invalidateSize(),50);
+}
+
+function renderList(){
+  const grid=document.getElementById('list-grid');
+  const f=getFiltered();
+  if(!f.length){grid.innerHTML='<div class="empty-msg" style="grid-column:1/-1">Aucun résultat.</div>';return;}
+  grid.innerHTML=f.map(e=>{
+    if(e.type==='rassemblement'){const ex=expandEvents([e]);return ex.length?evCardHTML(ex[0]):'';}
+    if(e.type==='musee')return museeCardHTML(e);
+    if(e.type==='loisir')return loisirCardHTML(e);
+    return '';
+  }).filter(Boolean).join('');
+}
+function renderFavSection(){if(currentView==='favs')renderFavs();}
+function renderFavs(){
+  const inner=document.getElementById('favs-inner');
+  const favs=getFavs();
+  if(!favs.length){
+    inner.innerHTML='<div class="alt-empty"><span class="alt-empty-icon">🤍</span><div>Aucun favori.<br>Clique sur ❤ sur une fiche.</div></div>';
+    return;
+  }
+  const cards=favs.map(id=>{
+    const e=allEvents.find(x=>x.id===id);if(!e)return'';
+    if(e.type==='rassemblement'){const ex=expandEvents([e]);return ex.length?evCardHTML(ex[0]):'';}
+    if(e.type==='musee')return museeCardHTML(e);
+    if(e.type==='loisir')return loisirCardHTML(e);
+    return'';
+  }).filter(Boolean);
+  inner.innerHTML=`<h2 class="s-title" style="margin-bottom:1.2rem">Mes favoris</h2><div class="alt-grid">${cards.join('')}</div>`;
+}
+
+function openModal(id,ds){document.getElementById('modal-content').innerHTML=buildModal(id,ds,allEvents);document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function openMuseeModal(id){document.getElementById('modal-content').innerHTML=buildMuseeModal(id,allEvents);document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function openLoisirModal(id){document.getElementById('modal-content').innerHTML=buildLoisirModal(id,allEvents);document.getElementById('modal-overlay').classList.add('open');document.body.style.overflow='hidden';}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// Topbar scroll hint
+(function(){
+  const bar = document.querySelector('.deco-topbar');
+  const hint = document.getElementById('topbar-hint');
+  if(!bar || !hint) return;
+  function check(){
+    const canScroll = bar.scrollWidth > bar.clientWidth + 4;
+    const atEnd = bar.scrollLeft + bar.clientWidth >= bar.scrollWidth - 8;
+    hint.classList.toggle('show', canScroll && !atEnd);
+  }
+  check();
+  bar.addEventListener('scroll', check, {passive:true});
+  window.addEventListener('resize', check, {passive:true});
+  hint.addEventListener('click', () => bar.scrollBy({left:120, behavior:'smooth'}));
+})();
+
+</script>
+
+<div style="padding:0.6rem 1rem;background:rgba(255,170,0,0.06);border-top:1px solid rgba(255,170,0,0.2);display:flex;gap:0.5rem;align-items:flex-start;font-size:0.7rem;color:var(--txt-m);line-height:1.5">
+  <span style="flex-shrink:0">⚠️</span>
+  <p style="margin:0">Club AutoMoto 24/7 ne pourra être tenu responsable en cas de modification, report ou annulation d'une manifestation. Veuillez vérifier ces informations auprès des organisateurs avant de vous déplacer.</p>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+</body>
+</html>

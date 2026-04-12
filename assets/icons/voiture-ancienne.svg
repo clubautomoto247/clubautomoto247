@@ -1,0 +1,8 @@
+<!-- © 2026 Club AutoMoto 24/7 | ThomsFR --><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 24" fill="white">
+  <path d="M5 17c0-4 2-7 5-9 2-1 5-2 8-2h8c3 0 6 1 8 3l6 4 2 4H5v-2z"/>
+  <circle cx="13" cy="19" r="4" fill="none" stroke="white" stroke-width="2"/>
+  <circle cx="13" cy="19" r="1.5"/>
+  <circle cx="36" cy="19" r="4" fill="none" stroke="white" stroke-width="2"/>
+  <circle cx="36" cy="19" r="1.5"/>
+  <circle cx="7" cy="15" r="2" fill="none" stroke="white" stroke-width="1.5"/>
+</svg>

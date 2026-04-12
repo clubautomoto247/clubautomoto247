@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<!-- © 2026 Club AutoMoto 24/7 | Created by ThomsFR | Unauthorized copying prohibited -->
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin — Club AutoMoto 24/7</title>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-53BBKQ68');</script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--mauve:#8B6BB5;--mauve-l:#A888D4;--mauve-d:#6A4F94;--mauve-glow:rgba(139,107,181,0.2);--mauve-sub:rgba(139,107,181,0.08);--mauve-b:rgba(139,107,181,0.2);--mauve-b2:rgba(139,107,181,0.35);--bg:#09090d;--bg2:#0e0e14;--surf:#13131a;--surf2:#1a1a24;--surf3:#20202e;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.11);--txt:#f0eef8;--txt-d:#9b94b8;--txt-m:#514d68;--green:#4ade80;--green-s:rgba(74,222,128,0.12);--red:#f87171;--red-s:rgba(248,113,113,0.12);--orange:#fb923c;}
+html{scroll-behavior:smooth}body{background:var(--bg);color:var(--txt);font-family:'Outfit',sans-serif;min-height:100vh}
+a{text-decoration:none;color:inherit}button{font-family:'Outfit',sans-serif;cursor:pointer;border:none;background:none}input,textarea,select{font-family:'Outfit',sans-serif}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--mauve-d);border-radius:2px}
+
+/* LOGIN */
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:1rem;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(139,107,181,0.1),transparent);}
+.login-box{background:var(--surf);border:1px solid var(--mauve-b2);border-radius:16px;padding:2.5rem;width:100%;max-width:380px;text-align:center;}
+.login-badge{width:60px;height:70px;background:var(--mauve);border-radius:12px;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 0 32px var(--mauve-glow);border:2px solid rgba(255,255,255,0.2);}
+.login-badge img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.login-badge-txt{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:#fff;line-height:1.2}
+.login-box h1{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;margin-bottom:0.3rem}
+.login-box p{font-size:0.82rem;color:var(--txt-d);margin-bottom:2rem}
+.login-field{margin-bottom:1rem;text-align:left}
+.login-field label{display:block;font-size:0.72rem;color:var(--txt-m);letter-spacing:0.15em;text-transform:uppercase;font-weight:600;margin-bottom:0.4rem}
+.login-field input{width:100%;background:var(--surf2);border:1px solid var(--border2);color:var(--txt);padding:0.75rem 1rem;border-radius:8px;font-size:0.9rem;outline:none;transition:border-color 0.2s;}
+.login-field input:focus{border-color:var(--mauve)}
+.login-error{color:var(--red);font-size:0.78rem;margin-bottom:0.8rem;min-height:1.2em}
+.btn-login{width:100%;background:var(--mauve);color:#fff;padding:0.85rem;border-radius:8px;font-size:0.9rem;font-weight:600;transition:background 0.2s;box-shadow:0 4px 20px var(--mauve-glow);}
+.btn-login:hover{background:var(--mauve-l)}
+
+/* APP NAV */
+#app{display:none}
+.app-nav{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 1.2rem;background:rgba(9,9,13,0.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--mauve-b);}
+.app-nav-logo{display:flex;align-items:center;gap:0.6rem}
+.app-badge{width:30px;height:36px;background:var(--mauve);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;}
+.app-badge img{width:100%;height:100%;object-fit:cover;border-radius:5px}
+.app-badge-txt{font-family:'Syne',sans-serif;font-weight:800;font-size:0.58rem;color:#fff;line-height:1.2;text-align:center}
+.app-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem}
+.app-title span{color:var(--mauve-l)}
+.app-nav-right{display:flex;align-items:center;gap:0.6rem}
+.app-tag{font-size:0.6rem;color:var(--green);letter-spacing:0.12em;text-transform:uppercase;background:var(--green-s);border:1px solid rgba(74,222,128,0.25);padding:0.2rem 0.6rem;border-radius:8px;font-weight:600;}
+.btn-logout{font-size:0.72rem;color:var(--txt-m);border:1px solid var(--border2);padding:0.3rem 0.8rem;border-radius:6px;transition:all 0.2s;}
+.btn-logout:hover{border-color:var(--red);color:var(--red)}
+.btn-visit{font-size:0.72rem;color:var(--mauve-l);border:1px solid var(--mauve-b2);padding:0.3rem 0.8rem;border-radius:6px;transition:all 0.2s;}
+.btn-visit:hover{background:var(--mauve-sub)}
+
+/* LAYOUT */
+.app-layout{display:flex;min-height:100vh;padding-top:56px}
+.sidebar{width:190px;flex-shrink:0;background:var(--surf);border-right:1px solid var(--border);padding:1.2rem 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+.sb-section{padding:0 0.7rem;margin-bottom:1.2rem}
+.sb-label{font-size:0.58rem;color:var(--txt-m);letter-spacing:0.2em;text-transform:uppercase;font-weight:600;padding:0 0.5rem;margin-bottom:0.4rem}
+.sb-btn{display:flex;align-items:center;gap:0.55rem;width:100%;padding:0.55rem 0.7rem;border-radius:7px;font-size:0.8rem;font-weight:500;color:var(--txt-d);transition:all 0.18s;text-align:left;}
+.sb-btn:hover{background:var(--surf2);color:var(--txt)}
+.sb-btn.active{background:var(--mauve-sub);color:var(--mauve-l);border:1px solid var(--mauve-b)}
+.sb-icon{font-size:0.95rem;width:18px;text-align:center;flex-shrink:0}
+
+.main{flex:1;padding:1.8rem 1.5rem;overflow-x:hidden;min-width:0}
+.page-tab{display:none}.page-tab.active{display:block}
+
+/* PAGE HEADER */
+.pg-header{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--border);}
+.pg-header h2{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:-0.02em}
+.pg-sub{font-size:0.78rem;color:var(--txt-d);margin-top:0.12rem}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;margin-bottom:1.5rem}
+.stat-card{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;transition:border-color 0.2s;}
+.stat-card:hover{border-color:var(--mauve-b2)}
+.stat-n{font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:var(--mauve-l);line-height:1;letter-spacing:-0.03em}
+.stat-l{font-size:0.68rem;color:var(--txt-m);margin-top:0.3rem;font-weight:500}
+
+/* TABLE */
+.tbl-toolbar{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:0.6rem;align-items:center;margin-bottom:1rem;padding-bottom:0.2rem;-webkit-overflow-scrolling:touch}
+.tbl-search{display:flex;align-items:center;gap:0.5rem;background:var(--surf2);border:1px solid var(--border2);border-radius:7px;padding:0.38rem 0.8rem;flex-shrink:0;min-width:160px;}
+.tbl-search input{background:none;border:none;outline:none;color:var(--txt);font-size:0.8rem;width:100%}
+.tbl-search input::placeholder{color:var(--txt-m)}
+.tbl-filter{padding:0.38rem 0.85rem;border-radius:7px;border:1px solid var(--border2);color:var(--txt-d);font-size:0.76rem;background:var(--surf2);transition:all 0.18s;white-space:nowrap;flex-shrink:0;}
+.tbl-filter.on{background:var(--mauve-sub);border-color:var(--mauve);color:var(--mauve-l)}
+.tbl-filter:hover:not(.on){color:var(--txt)}
+.btn-add{display:flex;align-items:center;gap:0.4rem;background:var(--mauve);color:#fff;padding:0.48rem 1.1rem;border-radius:7px;font-size:0.8rem;font-weight:600;transition:background 0.2s;box-shadow:0 2px 12px var(--mauve-glow);white-space:nowrap;flex-shrink:0;}
+.btn-add:hover{background:var(--mauve-l)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:500px}
+thead{background:var(--surf2)}
+thead th{padding:0.65rem 0.85rem;text-align:left;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--txt-m);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;}
+thead th:hover{color:var(--mauve-l)}
+tbody tr{border-bottom:1px solid var(--border);transition:background 0.15s;cursor:pointer}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surf2)}
+td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
+.td-name{font-weight:600;color:var(--txt);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.td-date{font-family:'Syne',sans-serif;font-size:0.76rem;color:var(--mauve-l);font-weight:600;white-space:nowrap}
+.td-past{opacity:0.4}
+.badge{display:inline-block;font-size:0.58rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:10px;border:1px solid;white-space:nowrap}
+.b-r{color:#A888D4;border-color:rgba(168,136,212,0.35);background:rgba(139,107,181,0.12)}
+.b-gratuit{color:#fff;border-color:#1a7a3a;background:#1a7a3a}
+.b-payant{color:#fff;border-color:#a04a00;background:#a04a00}
+.b-mixte{color:#fff;border-color:#555;background:linear-gradient(90deg,#1a7a3a 50%,#a04a00 50%)}
+.b-ok{color:#4ade80;border-color:rgba(74,222,128,0.3);background:rgba(74,222,128,0.08)}
+.b-no{color:#f87171;border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.08)}
+.act-btn{padding:0.22rem 0.55rem;border-radius:5px;font-size:0.68rem;font-weight:500;transition:all 0.15s}
+.act-edit{border:1px solid var(--mauve-b2);color:var(--mauve-l)}.act-edit:hover{background:var(--mauve-sub)}
+.act-del{border:1px solid rgba(248,113,113,0.25);color:var(--red)}.act-del:hover{background:var(--red-s)}
+
+/* FORM */
+.form-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(9,9,13,0.88);backdrop-filter:blur(10px);padding:0;overflow-y:auto;}
+.form-overlay.open{display:flex;align-items:flex-end;justify-content:center}
+.form-panel{background:var(--surf);border:1px solid var(--mauve-b2);border-radius:20px 20px 0 0;width:100%;max-width:680px;max-height:94vh;display:flex;flex-direction:column;animation:slideUp 0.25s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.form-head{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);flex-shrink:0;}
+.form-head h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem}
+.form-close{width:28px;height:28px;border-radius:50%;background:var(--surf2);border:1px solid var(--border2);color:var(--txt-d);font-size:0.85rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.form-close:hover{background:var(--surf3);color:var(--txt);border-color:var(--mauve)}
+.form-body{padding:1.2rem;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.f-section{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--mauve-l);margin:1.3rem 0 0.7rem;padding-bottom:0.35rem;border-bottom:1px solid var(--mauve-b);}
+.f-section:first-child{margin-top:0}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;margin-bottom:0.85rem}
+.f-row.full{grid-template-columns:1fr}.f-row.three{grid-template-columns:1fr 1fr 1fr}
+.f-field label{display:block;font-size:0.66rem;color:var(--txt-m);letter-spacing:0.14em;text-transform:uppercase;font-weight:600;margin-bottom:0.3rem}
+.f-field label .req{color:var(--mauve-l)}
+.f-input,.f-select,.f-textarea{width:100%;background:var(--surf2);border:1px solid var(--border2);color:var(--txt);padding:0.62rem 0.85rem;border-radius:7px;font-size:0.85rem;outline:none;transition:border-color 0.2s;}
+.f-input:focus,.f-select:focus,.f-textarea:focus{border-color:var(--mauve)}
+.f-select option{background:var(--surf2)}
+.f-textarea{resize:vertical;min-height:72px;line-height:1.5}
+
+/* FLYER — compact */
+.flyer-row{display:flex;align-items:center;gap:0.7rem;background:var(--surf2);border:1px solid var(--border2);border-radius:8px;padding:0.65rem 0.9rem;transition:border-color 0.2s;margin-bottom:0.85rem}
+.flyer-row:hover{border-color:var(--mauve-b)}
+.flyer-thumb{width:44px;height:44px;border-radius:6px;background:var(--surf3);display:flex;align-items:center;justify-content:center;font-size:1.2rem;overflow:hidden;flex-shrink:0}
+.flyer-thumb img{width:100%;height:100%;object-fit:cover}
+.flyer-info{flex:1;min-width:0}
+.flyer-name{font-size:0.78rem;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.flyer-sub{font-size:0.68rem;color:var(--txt-m)}
+.flyer-actions{display:flex;gap:0.35rem;flex-shrink:0}
+.btn-flyer-pick{padding:0.32rem 0.75rem;border-radius:6px;border:1px solid var(--mauve-b2);color:var(--mauve-l);font-size:0.72rem;font-weight:500;transition:all 0.2s;position:relative;overflow:hidden;}
+.btn-flyer-pick:hover{background:var(--mauve-sub)}
+.btn-flyer-pick input{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:100px}
+.btn-flyer-del{padding:0.32rem 0.55rem;border-radius:6px;border:1px solid rgba(248,113,113,0.25);color:var(--red);font-size:0.72rem;transition:all 0.2s;}
+.btn-flyer-del:hover{background:var(--red-s)}
+
+/* PHOTOS (3 slots) */
+.photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.5rem}
+.photo-slot{aspect-ratio:4/3;background:var(--surf3);border:1px dashed var(--border2);border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--txt-m);transition:border-color 0.2s;}
+.photo-slot:hover{border-color:var(--mauve)}
+.photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.photo-slot input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.photo-slot-del{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(248,113,113,0.8);color:#fff;font-size:0.65rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2}
+
+/* DATE ROWS */
+.date-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:0.4rem;align-items:start;background:var(--surf2);border:1px solid var(--border2);border-radius:8px;padding:0.55rem 0.65rem;transition:border-color 0.2s;margin-bottom:0.35rem}
+.date-row:hover{border-color:var(--mauve-b)}
+.date-row input{background:none;border:none;outline:none;color:var(--txt);font-family:'Outfit',sans-serif;font-size:0.82rem;width:100%;padding:0.15rem 0}
+.date-row input[type=date]::-webkit-calendar-picker-indicator,.date-row input[type=time]::-webkit-calendar-picker-indicator{filter:invert(0.6);cursor:pointer}
+.dr-label{font-size:0.58rem;color:var(--txt-m);letter-spacing:0.12em;text-transform:uppercase;font-weight:600;display:block;margin-bottom:2px}
+.dr-btns{display:flex;gap:0.25rem;align-items:center}
+.dr-copy{width:26px;height:26px;border-radius:5px;border:1px solid var(--mauve-b2);color:var(--mauve-l);display:flex;align-items:center;justify-content:center;font-size:0.82rem;transition:all 0.15s;flex-shrink:0}
+.dr-copy:hover{background:var(--mauve-sub)}
+.dr-del{width:26px;height:26px;border-radius:5px;border:1px solid rgba(248,113,113,0.2);color:var(--txt-m);display:flex;align-items:center;justify-content:center;font-size:0.72rem;transition:all 0.15s;flex-shrink:0}
+.dr-del:hover{background:var(--red-s);color:var(--red);border-color:rgba(248,113,113,0.4)}
+.btn-add-date{display:flex;align-items:center;gap:0.4rem;padding:0.45rem 1rem;border-radius:7px;border:1px dashed var(--mauve-b2);color:var(--mauve-l);font-size:0.78rem;font-weight:600;transition:all 0.2s;width:100%;justify-content:center;margin-top:0.2rem}
+.btn-add-date:hover{background:var(--mauve-sub)}
+
+/* HORAIRES TABLE */
+.horaires-grid{display:grid;grid-template-columns:1fr;gap:0.3rem;margin-bottom:0.5rem}
+.horaire-row{display:grid;grid-template-columns:110px 1fr 1fr auto;gap:0.4rem;align-items:center;background:var(--surf2);border:1px solid var(--border2);border-radius:7px;padding:0.5rem 0.65rem;}
+.horaire-row input[type=text]{background:none;border:none;outline:none;color:var(--txt-d);font-family:'Outfit',sans-serif;font-size:0.72rem;font-weight:600;width:100%}
+.horaire-row input[type=time]{background:none;border:none;outline:none;color:var(--txt);font-family:'Outfit',sans-serif;font-size:0.82rem;width:100%}
+.horaire-row input[type=time]::-webkit-calendar-picker-indicator{filter:invert(0.6);cursor:pointer}
+.h-ferme-label{display:flex;align-items:center;gap:0.3rem;font-size:0.7rem;color:var(--txt-m);cursor:pointer;user-select:none;flex-shrink:0}
+.h-ferme-label input{width:14px;height:14px;cursor:pointer;accent-color:var(--mauve)}
+
+/* ANIMATIONS */
+.anim-check{display:flex;flex-direction:column;gap:0.5rem;margin-bottom:0.5rem}
+.anim-item{background:var(--surf2);border:1px solid var(--border2);border-radius:8px;overflow:hidden;transition:border-color 0.2s;}
+.anim-item.checked{border-color:var(--mauve-b)}
+.anim-toggle{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.9rem;cursor:pointer;user-select:none}
+.anim-toggle input[type=checkbox]{display:none}
+.anim-check-box{width:18px;height:18px;border-radius:4px;border:1px solid var(--border2);background:var(--surf3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.15s;}
+.anim-item.checked .anim-check-box{background:var(--mauve);border-color:var(--mauve)}
+.anim-check-box::after{content:'✓';color:#fff;font-size:0.7rem;display:none}
+.anim-item.checked .anim-check-box::after{display:block}
+.anim-label{font-size:0.82rem;font-weight:500;color:var(--txt-d)}
+.anim-item.checked .anim-label{color:var(--txt)}
+.anim-detail{display:none;padding:0 0.9rem 0.65rem}
+.anim-item.checked .anim-detail{display:block}
+.anim-detail input{width:100%;background:var(--surf3);border:1px solid var(--border2);color:var(--txt);padding:0.5rem 0.75rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:0.8rem;outline:none;transition:border-color 0.2s;}
+.anim-detail input:focus{border-color:var(--mauve)}
+
+/* TARIF ROWS */
+.tarif-row{display:grid;grid-template-columns:1fr auto auto;gap:0.4rem;align-items:center;background:var(--surf2);border:1px solid var(--border2);border-radius:7px;padding:0.45rem 0.65rem;margin-bottom:0.35rem}
+.tarif-row input{background:none;border:none;outline:none;color:var(--txt);font-family:'Outfit',sans-serif;font-size:0.82rem;width:100%}
+.tarif-row input:first-child{flex:1}
+.tarif-row input:nth-child(2){width:70px;text-align:right;color:var(--mauve-l);font-weight:600}
+
+/* CHECKS (vehicules) */
+.f-checks{display:flex;flex-wrap:wrap;gap:0.5rem}
+.f-check{display:flex;align-items:center;gap:0.4rem;cursor:pointer;padding:0.35rem 0.75rem;border-radius:6px;border:1px solid var(--border2);color:var(--txt-d);font-size:0.76rem;transition:all 0.18s;user-select:none}
+.f-check input{display:none}
+.f-check.on{background:var(--mauve-sub);border-color:var(--mauve);color:var(--mauve-l)}
+
+/* FORM FOOTER */
+.form-foot{display:flex;justify-content:flex-end;gap:0.7rem;padding:1rem 1.2rem;padding-bottom:calc(1rem + env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);flex-shrink:0;}
+.btn-cancel{padding:0.6rem 1.3rem;border-radius:7px;border:1px solid var(--border2);color:var(--txt-d);font-size:0.83rem;transition:all 0.2s}
+.btn-cancel:hover{color:var(--txt);background:var(--surf2)}
+.btn-save{padding:0.6rem 1.7rem;border-radius:7px;background:var(--mauve);color:#fff;font-size:0.83rem;font-weight:600;box-shadow:0 2px 16px var(--mauve-glow);transition:background 0.2s}
+.btn-save:hover{background:var(--mauve-l)}
+
+/* CONFIRM */
+.confirm-overlay{display:none;position:fixed;inset:0;z-index:1100;background:rgba(9,9,13,0.92);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:1rem}
+.confirm-overlay.open{display:flex}
+.confirm-box{background:var(--surf);border:1px solid rgba(248,113,113,0.3);border-radius:14px;padding:1.8rem;max-width:340px;width:100%;text-align:center;animation:slideUp 0.2s ease}
+.confirm-box h3{font-family:'Syne',sans-serif;font-size:1.05rem;margin-bottom:0.6rem}
+.confirm-box p{font-size:0.8rem;color:var(--txt-d);line-height:1.6;margin-bottom:1.4rem}
+.btn-cdel{padding:0.6rem 1.4rem;border-radius:7px;background:var(--red);color:#fff;font-size:0.83rem;font-weight:600}
+.btn-cdel:hover{background:#fc8a8a}
+.btn-ccancel{padding:0.6rem 1.4rem;border-radius:7px;border:1px solid var(--border2);color:var(--txt-d);font-size:0.83rem}
+
+/* SETTINGS */
+.settings-card{background:var(--surf);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.2rem;max-width:460px}
+.sc-head{padding:1rem 1.2rem;border-bottom:1px solid var(--border);background:var(--surf2)}
+.sc-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.92rem}
+.sc-sub{font-size:0.73rem;color:var(--txt-d);margin-top:0.18rem}
+.sc-body{padding:1.2rem}
+.gh-status{display:flex;align-items:center;gap:0.5rem;padding:0.55rem 0.75rem;border-radius:7px;font-size:0.76rem;margin-bottom:0.9rem}
+.gh-status.ok{background:var(--green-s);border:1px solid rgba(74,222,128,0.25);color:#4ade80}
+.gh-status.err{background:var(--red-s);border:1px solid rgba(248,113,113,0.25);color:var(--red)}
+.gh-status.none{background:var(--surf2);border:1px solid var(--border2);color:var(--txt-m)}
+.settings-msg{margin-top:0.6rem;font-size:0.76rem;min-height:1.1em;text-align:center}
+.btn-test{padding:0.55rem 1.1rem;border-radius:7px;border:1px solid var(--mauve-b2);color:var(--mauve-l);font-size:0.8rem;font-weight:500;transition:all 0.2s}
+.btn-test:hover{background:var(--mauve-sub)}
+.btn-save-s{padding:0.6rem 1.7rem;border-radius:7px;background:var(--mauve);color:#fff;font-size:0.83rem;font-weight:600;transition:background 0.2s;box-shadow:0 2px 16px var(--mauve-glow)}
+.btn-save-s:hover{background:var(--mauve-l)}
+
+
+/* CITY AUTOCOMPLETE */
+.autocomplete-wrap{position:relative}
+.autocomplete-list{position:absolute;top:100%;left:0;right:0;z-index:200;background:var(--surf2);border:1px solid var(--mauve-b2);border-radius:0 0 8px 8px;max-height:180px;overflow-y:auto;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.autocomplete-list.open{display:block}
+.autocomplete-item{padding:0.55rem 0.85rem;font-size:0.82rem;cursor:pointer;color:var(--txt-d);border-bottom:1px solid var(--border);transition:background 0.15s;}
+.autocomplete-item:last-child{border-bottom:none}
+.autocomplete-item:hover,.autocomplete-item.selected{background:var(--mauve-sub);color:var(--txt)}
+.autocomplete-item strong{color:var(--mauve-l);font-weight:600}
+
+/* MOBILE TABS */
+.mobile-tabs{display:none;position:fixed;bottom:0;left:0;right:0;z-index:600;background:rgba(9,9,13,0.97);backdrop-filter:blur(24px);border-top:1px solid var(--mauve-b);padding:0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom,0px));}
+.mobile-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:0.2rem;padding:0.3rem 0;color:var(--txt-m);font-size:0.56rem;letter-spacing:0.04em;text-transform:uppercase;font-weight:600;transition:color 0.2s;cursor:pointer;background:none;border:none;font-family:'Outfit',sans-serif;}
+.mobile-tab.active{color:var(--mauve-l)}
+.mobile-tab-icon{font-size:1.2rem;line-height:1}
+
+/* TOAST */
+.toast-wrap{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;display:flex;flex-direction:column;gap:0.5rem}
+.toast{display:flex;align-items:center;gap:0.7rem;padding:0.75rem 1.1rem;border-radius:10px;font-size:0.8rem;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,0.4);animation:toastIn 0.3s ease;min-width:220px}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.ok{background:#1a2e1a;border:1px solid rgba(74,222,128,0.3);color:var(--green)}
+.toast.err{background:#2e1a1a;border:1px solid rgba(248,113,113,0.3);color:var(--red)}
+.toast.info{background:#1a1a2e;border:1px solid var(--mauve-b2);color:var(--mauve-l)}
+
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--txt-m)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{display:none}
+  .mobile-tabs{display:flex!important}
+  .app-layout{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .stats-row{grid-template-columns:1fr 1fr;gap:0.7rem}
+  .pg-header{flex-direction:column;align-items:flex-start;gap:0.7rem}
+  .btn-add{width:100%;justify-content:center}
+  table{min-width:400px}
+  td,thead th{padding:0.55rem 0.7rem;font-size:0.76rem}
+  .td-name{max-width:130px}
+  .toast-wrap{left:0.8rem;right:0.8rem;bottom:calc(68px + env(safe-area-inset-bottom,0px) + 0.5rem)}
+  .toast{min-width:unset;width:100%}
+  .settings-card{max-width:100%}
+  .horaire-row{grid-template-columns:90px 1fr 1fr auto;gap:0.3rem}
+  .f-row.three{grid-template-columns:1fr 1fr}
+  .date-row{grid-template-columns:1fr 1fr 1fr 1fr auto;gap:0.3rem;padding:0.5rem 0.55rem}
+}
+@media(max-width:480px){
+  .stats-row{grid-template-columns:1fr 1fr}
+  .app-tag{display:none}
+  .f-row{grid-template-columns:1fr}
+  .f-row.three{grid-template-columns:1fr}
+  .horaire-row{grid-template-columns:80px 1fr 1fr auto;gap:0.25rem;padding:0.45rem 0.5rem;font-size:0.75rem}
+  .photos-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53BBKQ68" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-badge"><img src="../assets/logo.png" alt="Logo" onerror="this.outerHTML='<span class=login-badge-txt>24<br>/7</span>'"></div>
+    <h1>Panel Admin</h1><p>Club AutoMoto 24/7 — Accès réservé</p>
+    <div class="login-field"><label>Mot de passe</label><input type="password" id="pwd-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="login-error" id="login-error"></div>
+    <button class="btn-login" id="btn-login-main" onclick="doLogin()">Connexion →</button>
+    <div id="reset-section" style="display:none;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);text-align:left">
+      <label style="display:block;font-size:0.68rem;color:var(--txt-m);letter-spacing:0.14em;text-transform:uppercase;font-weight:600;margin-bottom:0.35rem">Mot de passe de secours</label>
+      <input type="password" id="reset-input" placeholder="••••••••" class="f-input" style="margin-bottom:0.6rem" onkeydown="if(event.key==='Enter')doReset()">
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn-login" onclick="doReset()" style="flex:1">Réinitialiser →</button>
+        <button onclick="toggleReset(false)" style="padding:0.65rem 0.9rem;border-radius:8px;border:1px solid var(--border2);color:var(--txt-d);font-size:0.82rem;background:none;cursor:pointer;font-family:'Outfit',sans-serif">Annuler</button>
+      </div>
+      <div class="login-error" id="reset-error" style="margin-top:0.5rem"></div>
+    </div>
+    <div id="reset-toggle-wrap" style="margin-top:0.9rem;text-align:center">
+      <button onclick="toggleReset(true)" style="font-size:0.7rem;color:var(--txt-m);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:'Outfit',sans-serif;opacity:0.7">Mot de passe oublié ?</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- FORCE PASSWORD CHANGE SCREEN -->
+<div id="force-change-screen" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--bg);align-items:center;justify-content:center;padding:1.5rem">
+  <div class="login-box" style="max-width:420px">
+    <div style="font-size:2rem;text-align:center;margin-bottom:0.5rem">🔐</div>
+    <h1 style="font-size:1.3rem;margin-bottom:0.3rem">Sécurisez votre accès</h1>
+    <p style="font-size:0.8rem;color:var(--txt-d);margin-bottom:1.2rem;line-height:1.6">Le mot de passe par défaut est trop simple. Définissez un mot de passe personnel — jamais stocké sur GitHub.</p>
+    <div class="login-field">
+      <label>Nouveau mot de passe <span style="color:var(--red)">*</span></label>
+      <input type="password" id="fc-new" placeholder="Minimum 8 caractères" onkeyup="checkStrength()">
+      <div id="strength-bar" style="height:3px;border-radius:2px;margin-top:0.35rem;background:var(--surf3);overflow:hidden"><div id="strength-fill" style="height:100%;width:0;transition:width 0.3s,background 0.3s;border-radius:2px"></div></div>
+      <div id="strength-label" style="font-size:0.65rem;color:var(--txt-m);margin-top:0.2rem"></div>
+    </div>
+    <div class="login-field" style="margin-top:0.7rem">
+      <label>Confirmer</label>
+      <input type="password" id="fc-confirm" placeholder="Répétez le mot de passe">
+    </div>
+    <div class="login-field" style="margin-top:0.7rem">
+      <label>Mot de passe de secours <span style="color:var(--txt-m);font-weight:400">(recommandé)</span></label>
+      <input type="password" id="fc-backup" placeholder="Différent du principal, min. 6 caractères">
+    </div>
+    <div class="login-error" id="fc-error" style="margin-top:0.6rem"></div>
+    <button class="btn-login" onclick="forceChangePwd()" style="margin-top:1rem">Définir mon mot de passe →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <nav class="app-nav">
+    <div class="app-nav-logo">
+      <div class="app-badge"><img src="../assets/logo.png" alt="Logo" onerror="this.outerHTML='<span class=app-badge-txt>24<br>/7</span>'"></div>
+      <div class="app-title">Club <span>AutoMoto</span> 24/7 <span style="color:var(--txt-m);font-weight:400">/ Admin</span></div>
+    </div>
+    <div class="app-nav-right">
+      <span class="app-tag" id="sync-tag">● Connecté</span>
+      <button id="token-warn-btn" onclick="switchTab('settings',null);syncMobileTabs('settings')" style="display:none;font-size:0.68rem;color:var(--orange);background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.3);padding:0.28rem 0.75rem;border-radius:5px;cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600">⚠️ Token</button>
+      <button onclick="const l=document.getElementById('sync-log');l.style.display=l.style.display==='none'?'block':'none'" style="font-size:0.68rem;color:var(--txt-m);border:1px solid var(--border2);padding:0.28rem 0.65rem;border-radius:5px;background:none;cursor:pointer">📋 Log</button>
+      <a href="../index.html" target="_blank" class="btn-visit">Site →</a>
+      <button class="btn-logout" onclick="doLogout()">Déco.</button>
+    </div>
+  </nav>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sb-section">
+        <div class="sb-label">Navigation</div>
+        <button class="sb-btn active" onclick="switchTab('dashboard',this)"><span class="sb-icon">📊</span> Dashboard</button>
+        <button class="sb-btn" onclick="switchTab('rasso',this)"><span class="sb-icon">🏁</span> Rassemblements</button>
+        <button class="sb-btn" onclick="switchTab('musees',this)"><span class="sb-icon">🏛️</span> Musées</button>
+        <button class="sb-btn" onclick="switchTab('loisirs',this)"><span class="sb-icon">🎯</span> Loisirs</button>
+        <button class="sb-btn" onclick="switchTab('settings',this)"><span class="sb-icon">⚙️</span> Paramètres</button>
+      </div>
+    </aside>
+    <main class="main">
+      <!-- DASHBOARD -->
+      <div class="page-tab active" id="tab-dashboard">
+        <div class="pg-header"><div><h2>Dashboard</h2><div class="pg-sub">Vue d'ensemble</div></div>
+<button class="btn-add" style="background:var(--surf2);color:var(--mauve-l);border:1px solid var(--mauve-b2);box-shadow:none" onclick="reloadFromGitHub()">🔄 Recharger depuis GitHub</button></div>
+        <div class="stats-row" id="dash-stats"></div>
+        <div id="dash-upcoming"></div>
+      <!-- SYNC STATUS CARD -->
+      <div class="settings-card" style="margin-top:1.5rem" id="sync-status-card">
+        <div class="sc-head">
+          <div class="sc-title">🔗 État de la synchronisation GitHub</div>
+          <div class="sc-sub">Vérifie que ton token est actif avant de créer des fiches</div>
+        </div>
+        <div class="sc-body">
+          <div id="sync-status-display" style="padding:0.6rem 0.9rem;border-radius:8px;background:var(--surf2);border:1px solid var(--border);font-size:0.8rem;margin-bottom:0.75rem">
+            <span id="sync-status-icon">⏳</span> <span id="sync-status-text">Vérification en cours...</span>
+          </div>
+          <button class="btn-save-s" onclick="checkSyncStatus()">🔄 Tester la connexion GitHub</button>
+        </div>
+      </div>
+      <!-- BACKUP CARD -->
+      <div class="settings-card" style="margin-top:1rem">
+        <div class="sc-head">
+          <div class="sc-title">💾 Sauvegarde des fiches</div>
+          <div class="sc-sub">Télécharge un fichier JSON avec toutes tes fiches — garde-le précieusement</div>
+        </div>
+        <div class="sc-body">
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;align-items:flex-start">
+            <div>
+              <button class="btn-save-s" onclick="backupData()" style="font-size:0.82rem;padding:0.5rem 1.1rem">⬇️ Télécharger la sauvegarde JSON</button>
+              <div style="font-size:0.68rem;color:var(--txt-m);margin-top:0.35rem">Fichier : clubautomoto247-backup-YYYY-MM-DD.json</div>
+            </div>
+            <div style="flex:1;min-width:220px">
+              <label style="font-size:0.68rem;color:var(--txt-m);letter-spacing:0.12em;text-transform:uppercase;font-weight:600;display:block;margin-bottom:0.35rem">Restaurer depuis un fichier</label>
+              <input type="file" accept=".json" id="restore-file" onchange="restoreData(this)" style="font-size:0.75rem;color:var(--txt-d);width:100%">
+              <div style="font-size:0.67rem;color:var(--orange);margin-top:0.3rem">⚠️ Remplace TOUTES les fiches actuelles</div>
+            </div>
+          </div>
+          <div class="settings-msg" id="backup-msg" style="margin-top:0.5rem"></div>
+        </div>
+      </div>
+      </div>
+      <!-- RASSEMBLEMENTS -->
+      <div class="page-tab" id="tab-rasso">
+        <div class="pg-header"><div><h2>Rassemblements</h2><div class="pg-sub">Fiches et événements</div></div><button class="btn-add" onclick="openRassoForm(null)">+ Nouveau</button></div>
+        <div class="tbl-toolbar">
+          <div class="tbl-search"><span>🔍</span><input type="text" placeholder="Rechercher..." id="tbl-q" oninput="renderRasso()"></div>
+          <button class="tbl-filter on" data-f="upcoming" onclick="setTblF('upcoming',this)">À venir</button>
+          <button class="tbl-filter" data-f="all" onclick="setTblF('all',this)">Tous</button>
+          <button class="tbl-filter" data-f="past" onclick="setTblF('past',this)">Passés</button>
+          <button class="tbl-filter" data-f="draft" onclick="setTblF('draft',this)">Brouillons</button>
+        </div>
+        <div class="tbl-wrap"><table><thead><tr><th onclick="sortBy('titre')">Nom ↕</th><th onclick="sortBy('date')">Prochaine date ↕</th><th>Dept</th><th>Tarif</th><th>Statut</th><th>Actions</th></tr></thead><tbody id="tbl-body"></tbody></table></div>
+      </div>
+      <!-- MUSÉES -->
+      <div class="page-tab" id="tab-musees">
+        <div class="pg-header"><div><h2>Musées</h2><div class="pg-sub">Collections & expositions</div></div><button class="btn-add" onclick="openMuseeForm(null)">+ Nouveau</button></div>
+        <div id="musees-list"></div>
+      </div>
+      <!-- LOISIRS -->
+      <div class="page-tab" id="tab-loisirs">
+        <div class="pg-header"><div><h2>Loisirs</h2><div class="pg-sub">Circuits, karting, stages...</div></div><button class="btn-add" onclick="openLoisirForm(null)">+ Nouveau</button></div>
+        <div id="loisirs-list"></div>
+      </div>
+      <!-- SETTINGS -->
+      <div class="page-tab" id="tab-settings">
+        <div class="pg-header"><div><h2>Paramètres</h2><div class="pg-sub">Configuration et sécurité</div></div></div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">🔗 Connexion GitHub</div><div class="sc-sub">Synchronise les données avec le site — le token est stocké uniquement dans ce navigateur</div></div>
+          <div class="sc-body">
+            <div class="gh-status none" id="gh-status">⚪ Token non configuré</div>
+            <div class="f-field" style="margin-bottom:0.8rem"><label>Token GitHub</label><input class="f-input" type="password" id="s-token" placeholder="ghp_..." autocomplete="off"></div>
+            <div class="f-field" style="margin-bottom:1rem"><label>Repo</label><input class="f-input" type="text" id="s-repo" value="clubautomoto247/clubautomoto247" readonly style="opacity:0.6"></div>
+            <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+              <button class="btn-test" onclick="testGitHub()">🔍 Tester</button>
+              <button class="btn-save-s" onclick="saveGitHub()">💾 Enregistrer</button>
+            </div>
+            <div class="settings-msg" id="gh-msg"></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">🔐 Changer le mot de passe</div><div class="sc-sub">Stocké en SHA-256 — une fois changé, l'ancien ne fonctionne plus nulle part</div></div>
+          <div class="sc-body">
+            <div class="f-field" style="margin-bottom:0.8rem"><label>Mot de passe actuel</label><input class="f-input" type="password" id="s-pwd-cur"></div>
+            <div class="f-field" style="margin-bottom:0.8rem"><label>Nouveau mot de passe <span style="font-size:0.68rem;color:var(--txt-m)">(min. 6 caractères)</span></label><input class="f-input" type="password" id="s-pwd-new"></div>
+            <div class="f-field" style="margin-bottom:1rem"><label>Confirmer</label><input class="f-input" type="password" id="s-pwd-cf"></div>
+            <button class="btn-save-s" onclick="changePwd()">🔐 Mettre à jour</button>
+            <div class="settings-msg" id="pwd-msg"></div>
+          </div>
+        </div>
+        <!-- Backup password -->
+        <div class="settings-card">
+          <div class="sc-head">
+            <div class="sc-title">🔑 Mot de passe de secours</div>
+            <div class="sc-sub">Permet de réinitialiser l'accès si vous oubliez le mot de passe principal — stocké en SHA-256</div>
+          </div>
+          <div class="sc-body">
+            <div class="gh-status none" id="backup-status">⚪ Aucun mot de passe de secours configuré</div>
+            <div class="f-field" style="margin-bottom:0.8rem"><label>Nouveau mot de passe de secours</label><input class="f-input" type="password" id="s-backup-new" placeholder="••••••••"></div>
+            <div class="f-field" style="margin-bottom:1rem"><label>Confirmer</label><input class="f-input" type="password" id="s-backup-cf" placeholder="••••••••"></div>
+            <button class="btn-save-s" onclick="saveBackupPwd()">🔑 Enregistrer le mot de passe de secours</button>
+            <div class="settings-msg" id="backup-msg"></div>
+          </div>
+        </div>
+        <!-- Sync password across browsers -->
+        <div class="settings-card">
+          <div class="sc-head">
+            <div class="sc-title">🔄 Synchroniser sur un autre navigateur</div>
+            <div class="sc-sub">Copiez votre configuration et collez-la sur un autre navigateur pour avoir le même mot de passe partout — aucune donnée sensible transmise</div>
+          </div>
+          <div class="sc-body">
+            <div style="display:flex;gap:0.5rem;margin-bottom:0.8rem">
+              <button class="btn-save-s" onclick="exportConfig()">📋 Copier ma config</button>
+              <div class="settings-msg" id="export-msg" style="display:inline-flex;align-items:center"></div>
+            </div>
+            <label style="display:block;font-size:0.68rem;color:var(--txt-m);letter-spacing:0.14em;text-transform:uppercase;font-weight:600;margin-bottom:0.35rem">Coller une config importée</label>
+            <input class="f-input" type="text" id="import-input" placeholder="Collez ici la config copiée sur l'autre navigateur...">
+            <button class="btn-save-s" onclick="importConfig()" style="margin-top:0.5rem">📥 Appliquer cette config</button>
+            <div class="settings-msg" id="import-msg"></div>
+          </div>
+        </div>
+        <div style="background:var(--mauve-sub);border:1px solid var(--mauve-b2);border-radius:10px;padding:1rem 1.1rem;font-size:0.76rem;color:var(--txt-d);line-height:1.7;max-width:460px">
+          💡 <strong style="color:var(--mauve-l)">Mot de passe oublié ?</strong> Supprimez les données du site dans les réglages de votre navigateur et utilisez <code style="background:var(--surf2);padding:0.1rem 0.4rem;border-radius:3px;font-size:0.72rem">automoto247</code> pour vous reconnecter.
+        </div>
+      </div>
+    </main>
+  </div>
+  <!-- MOBILE BOTTOM TABS -->
+  <div class="mobile-tabs" id="mobile-tabs">
+    <button class="mobile-tab active" id="mtab-dashboard" onclick="switchTab('dashboard',this);syncMobileTabs('dashboard')"><span class="mobile-tab-icon">📊</span>Accueil</button>
+    <button class="mobile-tab" id="mtab-rasso" onclick="switchTab('rasso',this);syncMobileTabs('rasso')"><span class="mobile-tab-icon">🏁</span>Rasso.</button>
+    <button class="mobile-tab" id="mtab-musees" onclick="switchTab('musees',this);syncMobileTabs('musees')"><span class="mobile-tab-icon">🏛️</span>Musées</button>
+    <button class="mobile-tab" id="mtab-loisirs" onclick="switchTab('loisirs',this);syncMobileTabs('loisirs')"><span class="mobile-tab-icon">🎯</span>Loisirs</button>
+    <button class="mobile-tab" id="mtab-settings" onclick="switchTab('settings',this);syncMobileTabs('settings')"><span class="mobile-tab-icon">⚙️</span>Réglages</button>
+  </div>
+</div>
+
+<!-- RASSEMBLEMENT FORM -->
+<div class="form-overlay" id="rasso-overlay">
+  <div class="form-panel">
+    <div class="form-head"><h3 id="rasso-form-title">Nouveau rassemblement</h3><button class="form-close" onclick="closeRassoForm()">✕</button></div>
+    <div class="form-body">
+      <div class="f-section" style="margin-top:0">🖼️ Flyer</div>
+      <div class="flyer-row"><div class="flyer-thumb" id="rf-thumb">🏁</div><div class="flyer-info"><div class="flyer-name" id="rf-name">Aucun flyer</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('rf',this)"></label><button class="btn-flyer-del" id="rf-del" onclick="clearFlyer('rf')" style="display:none">✕</button></div></div>
+      <input type="hidden" id="rf-flyer">
+      <div class="f-section">📋 Informations</div>
+      <div class="f-row full"><div class="f-field"><label>Nom <span class="req">*</span></label><input class="f-input" id="rf-titre"></div></div>
+      <div class="f-row">
+        <div class="f-field"><label>Département <span class="req">*</span></label><select class="f-select" id="rf-dept"><option value="">—</option><option value="68">68 — Haut-Rhin</option><option value="67">67 — Bas-Rhin</option><option value="90">90 — Belfort</option><option value="88">88 — Vosges</option></select></div>
+        <div class="f-field"><label>Ville <span class="req">*</span></label><input class="f-input" id="rf-ville"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Tarif</label><select class="f-select" id="rf-tarif"><option value="gratuit">Gratuit</option><option value="payant">Payant</option><option value="mixte">Gratuit &amp; Payant</option></select></div>
+        <div class="f-field"><label>Organisateur</label><input class="f-input" id="rf-orga"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Récurrence</label><input class="f-input" id="rf-recur"></div>
+        <div class="f-field"></div>
+      </div>
+      <div class="f-section">📅 Dates & Horaires</div>
+      <div id="rf-dates"></div>
+      <button type="button" class="btn-add-date" onclick="addDR('rf')">+ Ajouter une date</button>
+      <div class="f-section">🚗 Véhicules</div>
+      <div class="f-row full"><div class="f-field"><label>Types</label>
+        <div class="f-checks" id="rf-veh-checks">
+          <label class="f-check"><input type="checkbox" value="Voitures" onchange="toggleCheck(this)"> 🚗 Voitures</label>
+          <label class="f-check"><input type="checkbox" value="Motos" onchange="toggleCheck(this)">  🏍 Motos</label>
+        </div>
+      </div></div>
+      <div class="f-row full"><div class="f-field"><label>Ancienneté</label>
+        <div class="f-checks">
+          <label class="f-check"><input type="checkbox" id="rf-anciens" onchange="toggleCheck(this)"> 🏆 Anciennes</label>
+          <label class="f-check"><input type="checkbox" id="rf-modernes" onchange="toggleCheck(this)"> 🚀 Modernes</label>
+        </div>
+      </div></div>
+      <div class="f-row full"><div class="f-field"><label>Détail</label><input class="f-input" id="rf-veh-detail"></div></div>
+      <div class="f-section">📍 Lieu & Contact</div>
+      <div class="f-row full"><div class="f-field"><label>Adresse / Lieu</label><input class="f-input" id="rf-lieu"></div></div>
+      <div class="f-row">
+        <div class="f-field"><label>Waze / Maps</label><input class="f-input" id="rf-waze" type="url"></div>
+        <div class="f-field"><label>Site web</label><input class="f-input" id="rf-site" type="url"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Email</label><input class="f-input" id="rf-mail" type="email"></div>
+        <div class="f-field"><label>Téléphone</label><input class="f-input" id="rf-tel" type="tel"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Instagram</label><input class="f-input" id="rf-insta" type="url"></div>
+        <div class="f-field"><label>Facebook</label><input class="f-input" id="rf-fb" type="url"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Instagram 2 <span style="font-size:0.62rem;color:var(--txt-m)">(collaboration)</span></label><input class="f-input" id="rf-insta2" type="url"></div>
+        <div class="f-field"><label>Facebook 2 <span style="font-size:0.62rem;color:var(--txt-m)">(collaboration)</span></label><input class="f-input" id="rf-fb2" type="url"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Nom affiché Instagram <span style="font-size:0.62rem;color:var(--txt-m)">(ex: @club.automoto.247)</span></label><input class="f-input" id="rf-insta-label" type="text" placeholder="Laisser vide = @nom auto-détecté"></div>
+        <div class="f-field"><label>Nom affiché Facebook</label><input class="f-input" id="rf-fb-label" type="text" placeholder="Laisser vide = nom auto-détecté"></div>
+      </div>
+      <div class="f-section">✨ Animations & Services</div>
+      <div class="anim-check" id="rf-anims">
+        <div class="anim-item" id="anim-restauration"><div class="anim-toggle" onclick="toggleAnim('restauration')"><input type="checkbox" id="rf-restauration"><div class="anim-check-box"></div><span class="anim-label">🍔 Restauration & buvette</span></div><div class="anim-detail"><input type="text" id="rf-restauration-detail" placeholder="Préciser..."></div></div>
+        <div class="anim-item" id="anim-show"><div class="anim-toggle" onclick="toggleAnim('show')"><input type="checkbox" id="rf-show"><div class="anim-check-box"></div><span class="anim-label">🔥 Show</span></div><div class="anim-detail"><input type="text" id="rf-show-detail" placeholder="Préciser..."></div></div>
+        <div class="anim-item" id="anim-afterwork_dj"><div class="anim-toggle" onclick="toggleAnim('afterwork_dj')"><input type="checkbox" id="rf-afterwork_dj"><div class="anim-check-box"></div><span class="anim-label">🎧 Afterwork / DJ</span></div><div class="anim-detail"><input type="text" id="rf-afterwork_dj-detail" placeholder="Préciser..."></div></div>
+        <div class="anim-item" id="anim-animations"><div class="anim-toggle" onclick="toggleAnim('animations')"><input type="checkbox" id="rf-animations"><div class="anim-check-box"></div><span class="anim-label">🎉 Animations</span></div><div class="anim-detail"><input type="text" id="rf-animations-detail" placeholder="Préciser..."></div></div>
+        <div class="anim-item" id="anim-balade"><div class="anim-toggle" onclick="toggleAnim('balade')"><input type="checkbox" id="rf-balade"><div class="anim-check-box"></div><span class="anim-label">🗺️ Balade</span></div><div class="anim-detail"><input type="text" id="rf-balade-detail" placeholder="Préciser..."></div></div>
+      </div>
+      <div class="f-row full"><div class="f-field" style="margin-top:0.8rem"><label>⚠️ Important</label><input class="f-input" id="rf-important"></div></div>
+      <div class="f-row full"><div class="f-field"><label>🔖 Notes</label><textarea class="f-textarea" id="rf-focus"></textarea></div></div>
+      <div class="f-section">📷 Photos supplémentaires</div>
+      <div class="photos-grid">
+        <div class="photo-slot" id="rp-slot-0"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('rf',0,this)"></div>
+        <div class="photo-slot" id="rp-slot-1"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('rf',1,this)"></div>
+        <div class="photo-slot" id="rp-slot-2"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('rf',2,this)"></div>
+      </div>
+      <input type="hidden" id="rf-photo-0"><input type="hidden" id="rf-photo-1"><input type="hidden" id="rf-photo-2">
+      <div class="f-section">⚙️ Statut</div>
+      <div class="f-row">
+        <div class="f-field"><label>Publié</label><select class="f-select" id="rf-publie"><option value="true">✅ Publié</option><option value="false">📝 Brouillon</option></select></div>
+        <div class="f-field"><label>Vérifié</label><select class="f-select" id="rf-visite"><option value="false">🔴 Non visité</option><option value="true">✅ Visité</option></select></div>
+      </div>
+    </div>
+    <div class="form-foot"><button class="btn-cancel" onclick="closeRassoForm()">Annuler</button><button class="btn-save" onclick="saveRasso()">💾 Enregistrer</button></div>
+  </div>
+</div>
+
+<!-- MUSÉE FORM -->
+<div class="form-overlay" id="musee-overlay">
+  <div class="form-panel">
+    <div class="form-head"><h3 id="musee-form-title">Nouveau musée</h3><button class="form-close" onclick="closeMuseeForm()">✕</button></div>
+    <div class="form-body">
+      <div class="f-section" style="margin-top:0">🖼️ Image principale</div>
+      <div class="flyer-row"><div class="flyer-thumb" id="mf-thumb">🏛️</div><div class="flyer-info"><div class="flyer-name" id="mf-name">Aucune image</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('mf',this)"></label><button class="btn-flyer-del" id="mf-del" onclick="clearFlyer('mf')" style="display:none">✕</button></div></div>
+      <input type="hidden" id="mf-flyer">
+      <div class="f-section">📋 Informations</div>
+      <div class="f-row full"><div class="f-field"><label>Nom <span class="req">*</span></label><input class="f-input" id="mf-titre"></div></div>
+      <div class="f-row">
+        <div class="f-field"><label>Département <span class="req">*</span></label><select class="f-select" id="mf-dept"><option value="">—</option><option value="68">68 — Haut-Rhin</option><option value="67">67 — Bas-Rhin</option><option value="90">90 — Belfort</option><option value="88">88 — Vosges</option></select></div>
+        <div class="f-field"><label>Ville <span class="req">*</span></label><input class="f-input" id="mf-ville"></div>
+      </div>
+      <div class="f-row full"><div class="f-field"><label>Accroche</label><input class="f-input" id="mf-accroche"></div></div>
+      <div class="f-row full"><div class="f-field"><label>Description</label><textarea class="f-textarea" id="mf-desc"></textarea></div></div>
+      <div class="f-row full"><div class="f-field"><label>Crédit photos</label><input class="f-input" id="mf-credit"></div></div>
+      <div class="f-section">📍 Lieu & Contact</div>
+      <div class="f-row full"><div class="f-field"><label>Adresse</label><input class="f-input" id="mf-adresse"></div></div>
+      <div class="f-row">
+        <div class="f-field"><label>Site web</label><input class="f-input" id="mf-site" type="url"></div>
+        <div class="f-field"><label>Waze / Maps</label><input class="f-input" id="mf-waze" type="url"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Téléphone</label><input class="f-input" id="mf-tel" type="tel"></div>
+        <div class="f-field"><label>Email</label><input class="f-input" id="mf-mail" type="email"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Instagram</label><input class="f-input" id="mf-insta" type="url"></div>
+        <div class="f-field"><label>Facebook</label><input class="f-input" id="mf-fb" type="url"></div>
+      </div>
+      <div class="f-section">🕐 Horaires d'ouverture</div>
+      <div class="horaires-grid" id="mf-horaires-grid"></div>
+      <div class="f-row full"><div class="f-field"><label>Lien horaires complets</label><input class="f-input" id="mf-horaires-lien" type="url"></div></div>
+      <div class="f-row full"><div class="f-field"><label>Lien agenda des événements</label><input class="f-input" id="mf-agenda-lien" type="url"></div></div>
+      <div class="f-section">💰 Tarifs</div>
+      <div id="mf-tarifs"></div>
+      <button type="button" class="btn-add-date" onclick="addTarif('mf')">+ Ajouter un tarif</button>
+      <div class="f-section">📷 Photos supplémentaires</div>
+      <div class="photos-grid">
+        <div class="photo-slot" id="mp-slot-0"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('mf',0,this)"></div>
+        <div class="photo-slot" id="mp-slot-1"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('mf',1,this)"></div>
+        <div class="photo-slot" id="mp-slot-2"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('mf',2,this)"></div>
+      </div>
+      <input type="hidden" id="mf-photo-0"><input type="hidden" id="mf-photo-1"><input type="hidden" id="mf-photo-2">
+      <div class="f-section">⚙️ Statut</div>
+      <div class="f-row">
+        <div class="f-field"><label>Publié</label><select class="f-select" id="mf-publie"><option value="true">✅ Publié</option><option value="false">📝 Brouillon</option></select></div>
+        <div class="f-field"><label>Vérifié</label><select class="f-select" id="mf-visite"><option value="false">🔴 Non vérifié</option><option value="true">✅ Vérifié</option></select></div>
+      </div>
+    </div>
+    <div class="form-foot"><button class="btn-cancel" onclick="closeMuseeForm()">Annuler</button><button class="btn-save" onclick="saveMusee()">💾 Enregistrer</button></div>
+  </div>
+</div>
+
+<!-- LOISIR FORM -->
+<div class="form-overlay" id="loisir-overlay">
+  <div class="form-panel">
+    <div class="form-head"><h3 id="loisir-form-title">Nouveau loisir</h3><button class="form-close" onclick="closeLoisirForm()">✕</button></div>
+    <div class="form-body">
+      <div class="f-section" style="margin-top:0">🖼️ Image principale</div>
+      <div class="flyer-row"><div class="flyer-thumb" id="lf-thumb">🎯</div><div class="flyer-info"><div class="flyer-name" id="lf-name">Aucune image</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('lf',this)"></label><button class="btn-flyer-del" id="lf-del" onclick="clearFlyer('lf')" style="display:none">✕</button></div></div>
+      <input type="hidden" id="lf-flyer">
+      <div class="f-section">📋 Informations</div>
+      <div class="f-row full"><div class="f-field"><label>Nom <span class="req">*</span></label><input class="f-input" id="lf-titre"></div></div>
+      <div class="f-row">
+        <div class="f-field"><label>Département <span class="req">*</span></label><select class="f-select" id="lf-dept"><option value="">—</option><option value="68">68 — Haut-Rhin</option><option value="67">67 — Bas-Rhin</option><option value="90">90 — Belfort</option><option value="88">88 — Vosges</option></select></div>
+        <div class="f-field"><label>Ville <span class="req">*</span></label><input class="f-input" id="lf-ville"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Type</label><select class="f-select" id="lf-type"><option value="Karting">Karting</option><option value="Circuit">Circuit</option><option value="Stage">Stage de conduite</option><option value="Restaurant">Restaurant</option><option value="Balade">Balade</option><option value="Autre">Autre</option></select></div>
+        <div class="f-field"></div>
+      </div>
+      <div class="f-row full"><div class="f-field"><label>Accroche</label><input class="f-input" id="lf-accroche"></div></div>
+      <div class="f-row full"><div class="f-field"><label>Description</label><textarea class="f-textarea" id="lf-desc"></textarea></div></div>
+      <div class="f-section">📍 Lieu & Contact</div>
+      <div class="f-row full"><div class="f-field"><label>Adresse</label><input class="f-input" id="lf-adresse"></div></div>
+      <div class="f-row">
+        <div class="f-field"><label>Téléphone</label><input class="f-input" id="lf-tel" type="tel"></div>
+        <div class="f-field"><label>Site web</label><input class="f-input" id="lf-site" type="url"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Waze / Maps</label><input class="f-input" id="lf-waze" type="url"></div>
+        <div class="f-field"><label>Email</label><input class="f-input" id="lf-mail" type="email"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-field"><label>Instagram</label><input class="f-input" id="lf-insta" type="url"></div>
+        <div class="f-field"><label>Facebook</label><input class="f-input" id="lf-fb" type="url"></div>
+      </div>
+      <div class="f-section">🕐 Horaires d'ouverture</div>
+      <div class="horaires-grid" id="lf-horaires-grid"></div>
+      <div class="f-section">💰 Tarifs</div>
+      <div id="lf-tarifs"></div>
+      <button type="button" class="btn-add-date" onclick="addTarif('lf')">+ Ajouter un tarif</button>
+      <div class="f-section">📷 Photos supplémentaires</div>
+      <div class="photos-grid">
+        <div class="photo-slot" id="lp-slot-0"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('lf',0,this)"></div>
+        <div class="photo-slot" id="lp-slot-1"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('lf',1,this)"></div>
+        <div class="photo-slot" id="lp-slot-2"><span>+</span><input type="file" accept="image/*" onchange="handlePhoto('lf',2,this)"></div>
+      </div>
+      <input type="hidden" id="lf-photo-0"><input type="hidden" id="lf-photo-1"><input type="hidden" id="lf-photo-2">
+      <div class="f-section">⚙️ Statut</div>
+      <div class="f-row">
+        <div class="f-field"><label>Publié</label><select class="f-select" id="lf-publie"><option value="true">✅ Publié</option><option value="false">📝 Brouillon</option></select></div>
+        <div class="f-field"><label>Vérifié</label><select class="f-select" id="lf-visite"><option value="false">🔴 Non vérifié</option><option value="true">✅ Vérifié</option></select></div>
+      </div>
+    </div>
+    <div class="form-foot"><button class="btn-cancel" onclick="closeLoisirForm()">Annuler</button><button class="btn-save" onclick="saveLoisir()">💾 Enregistrer</button></div>
+  </div>
+</div>
+
+<!-- CONFIRM -->
+<div class="confirm-overlay" id="confirm-overlay">
+  <div class="confirm-box">
+    <h3>Supprimer ?</h3><p id="confirm-txt"></p>
+    <div style="display:flex;gap:0.7rem;justify-content:center">
+      <button class="btn-ccancel" onclick="closeConfirm()">Annuler</button>
+      <button class="btn-cdel" onclick="confirmDel()">Supprimer</button>
+    </div>
+  </div>
+</div>
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// -- AUTH ------------------------------------------------------
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+// NO hardcoded hash - first login writes the hash, no fallback in code
+function getHash(){return localStorage.getItem('admin_pass_hash');}
+let isAuth=sessionStorage.getItem('admin_auth')==='1';
+if(isAuth)showApp();
+
+
+
+
+
+
+// -- FORCE PASSWORD CHANGE --
+function checkStrength(){
+  const v=document.getElementById('fc-new').value;
+  const fill=document.getElementById('strength-fill');
+  const lbl=document.getElementById('strength-label');
+  let s=0;
+  if(v.length>=8)s++;if(v.length>=12)s++;
+  if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
+  const cols=['#f87171','#fb923c','#facc15','#4ade80','#22c55e'];
+  const labs=['Tres faible','Faible','Moyen','Fort','Tres fort'];
+  fill.style.width=(s*20)+'%';fill.style.background=cols[s-1]||'#f87171';
+  lbl.textContent=v.length?(labs[s-1]||'Tres faible'):'';
+}
+function showForceChange(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('force-change-screen').style.display='flex';
+  setTimeout(()=>document.getElementById('fc-new').focus(),100);
+}
+async function forceChangePwd(){
+  const nw=document.getElementById('fc-new').value;
+  const cf=document.getElementById('fc-confirm').value;
+  const bk=document.getElementById('fc-backup').value;
+  const err=document.getElementById('fc-error');
+  if(nw.length<8){err.textContent='Minimum 8 caracteres';return;}
+  if(nw==='automoto247'){err.textContent='Choisissez un mot de passe different';return;}
+  if(nw!==cf){err.textContent='Les mots de passe ne correspondent pas';return;}
+  const nh=await sha256(nw);
+  localStorage.setItem('admin_pass_hash',nh);
+  localStorage.setItem('pwd_changed','1');
+  if(bk&&bk.length>=6&&bk!==nw){const bh=await sha256(bk);localStorage.setItem('admin_backup_hash',bh);}
+  document.getElementById('force-change-screen').style.display='none';
+  showApp();
+  toast('Mot de passe defini','ok');
+}
+
+// -- RESET PASSWORD --------------------------------------------
+function toggleReset(show){
+  document.getElementById('reset-section').style.display = show ? 'block' : 'none';
+  document.getElementById('reset-toggle-wrap').style.display = show ? 'none' : 'block';
+  document.getElementById('btn-login-main').style.display = show ? 'none' : 'block';
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('reset-error').textContent = '';
+  if(show) setTimeout(()=>document.getElementById('reset-input').focus(), 50);
+}
+
+async function doReset(){
+  const v = document.getElementById('reset-input').value.trim();
+  const errEl = document.getElementById('reset-error');
+  if(!v){ errEl.textContent='Entrez le mot de passe de secours'; return; }
+  const inputHash = await sha256(v);
+  // Check backup password (configured by user)
+  const storedBackup = localStorage.getItem('admin_backup_hash');
+  if(!storedBackup){ errEl.textContent='Aucun mot de passe de secours configure'; return; }
+  if(inputHash !== storedBackup){
+    errEl.textContent = 'Mot de passe de secours incorrect';
+    document.getElementById('reset-input').value = '';
+    return;
+  }
+  const defaultHash = await sha256('automoto247');
+  localStorage.setItem('admin_pass_hash', defaultHash);
+  toggleReset(false);
+  document.getElementById('login-error').style.color = 'var(--green)';
+  document.getElementById('login-error').textContent = 'Réinitialisé - connectez-vous avec automoto247';
+  document.getElementById('pwd-input').value = '';
+  document.getElementById('pwd-input').focus();
+}
+
+async function doLogin(){
+  const v = document.getElementById('pwd-input').value;
+  if(!v) return;
+  const h = await sha256(v);
+  const stored = getHash();
+  const defaultHash = await sha256('automoto247');
+  if(!stored){
+    // First ever login - only automoto247 works
+    if(h === defaultHash){
+      localStorage.setItem('admin_pass_hash', defaultHash);
+      sessionStorage.setItem('admin_auth','1');
+      // Force password change immediately
+      if(!localStorage.getItem('pwd_changed')){
+        showForceChange();
+      } else {
+        showApp();
+      }
+    } else {
+      document.getElementById('login-error').textContent = 'Mot de passe incorrect';
+      document.getElementById('pwd-input').value = '';
+      document.getElementById('pwd-input').focus();
+    }
+    return;
+  }
+  if(h === stored){
+    sessionStorage.setItem('admin_auth','1');
+    // If still using default password, force change
+    if(h === defaultHash && !localStorage.getItem('pwd_changed')){
+      showForceChange();
+    } else {
+      showApp();
+    }
+  } else {
+    document.getElementById('login-error').textContent = 'Mot de passe incorrect';
+    document.getElementById('pwd-input').value = '';
+    document.getElementById('pwd-input').focus();
+  }
+}
+function doLogout(){sessionStorage.removeItem('admin_auth');location.reload();}
+function showApp(){document.getElementById('login-screen').style.display='none';document.getElementById('app').style.display='block';initApp();}
+
+// -- GITHUB API ------------------------------------------------
+const REPO='clubautomoto247/clubautomoto247',DATA_PATH='data/events.json';
+let events=[];let tblFilter='all';let sortKey='date';let sortAsc=true;let deletingId=null;
+let editingRassoId=null;let editingMuseeId=null;let editingLoisirId=null;
+const TODAY=new Date();TODAY.setHours(0,0,0,0);
+
+function saveLocal(){try{localStorage.setItem('cam247_events',JSON.stringify(events));}catch(e){console.warn('saveLocal:',e);}}
+function setSyncTag(state){const el=document.getElementById('sync-tag');if(!el)return;const map={ok:'● Sync OK',err:'● Erreur sync',syncing:'● Sync...'};el.textContent=map[state]||'● Connecté';el.style.color=state==='ok'?'var(--green)':state==='err'?'var(--red)':'var(--orange)';}
+function getToken(){return localStorage.getItem('gh_token')||'';}
+
+function ghLog(msg, type='info'){
+  const box = document.getElementById('sync-log');
+  if(!box) return;
+  box.style.display = 'block';
+  const body = box.querySelector('.sync-log-body');
+  if(!body) return;
+  const line = document.createElement('div');
+  const t = new Date().toLocaleTimeString('fr-FR');
+  line.style.cssText = `padding:0.18rem 0;font-size:0.7rem;border-bottom:1px solid var(--border);color:${type==='err'?'var(--red)':type==='ok'?'var(--green)':'var(--txt-d)'}`;
+  line.textContent = `[${t}] ${msg}`;
+  body.prepend(line);
+}
+
+function getGHHeaders(token){
+  return {
+    'Accept': 'application/vnd.github.v3+json',
+    'Authorization': `token ${token||getToken()}`,
+  };
+}
+
+async function saveToGitHub(evts){
+  const token = getToken();
+  if(!token){
+    toast('Token non configure - donnees sauvegardees localement','info');
+    return false;
+  }
+  setSyncTag('syncing');
+  ghLog('Synchronisation en cours...');
+  try{
+    // GET with unique timestamp to bypass any CDN cache
+    const ts = Date.now();
+    const getUrl = `https://api.github.com/repos/${REPO}/contents/${DATA_PATH}?ts=${ts}`;
+    ghLog(`GET SHA (ts=${ts})...`);
+    const gr = await fetch(getUrl, {
+      headers: getGHHeaders(token),
+      mode: 'cors',
+      credentials: 'omit',
+    });
+    if(!gr.ok) throw new Error(`GET ${gr.status} - verifiez le token`);
+    const gj = await gr.json();
+    const sha = gj.sha;
+    ghLog(`SHA obtenu: ${sha.slice(0,10)}`);
+
+    // Small delay to ensure GitHub has processed any previous write
+    await new Promise(r => setTimeout(r, 300));
+
+    // PUT with the fresh SHA
+    const content = JSON.stringify(evts, null, 2);
+    const putUrl = `https://api.github.com/repos/${REPO}/contents/${DATA_PATH}`;
+    ghLog(`PUT (${evts.length} événements)...`);
+    const pr = await fetch(putUrl, {
+      method: 'PUT',
+      headers: {...getGHHeaders(token), 'Content-Type': 'application/json'},
+      mode: 'cors',
+      credentials: 'omit',
+      body: JSON.stringify({
+        message: `Admin: màj ${new Date().toLocaleDateString('fr-FR')} ${new Date().toLocaleTimeString('fr-FR')}`,
+        content: btoa(unescape(encodeURIComponent(content))),
+        sha,
+      }),
+    });
+    if(!pr.ok){
+      const pe = await pr.json();
+      throw new Error(pe.message || `PUT ${pr.status}`);
+    }
+    // Wait for GitHub to process before next possible save
+    await new Promise(r => setTimeout(r, 600));
+    setSyncTag('ok');
+    ghLog(`✅ Synchronisé (${evts.length} fiches)`, 'ok');
+    return true;
+  }catch(e){
+    setSyncTag('err');
+    ghLog(`❌ ${e.message}`, 'err');
+    toast('Erreur GitHub: ' + e.message, 'err');
+    return false;
+  }
+}
+
+async function ghGet(p){
+  const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${p}?ts=${Date.now()}`,{
+    headers: getGHHeaders(),
+    mode: 'cors',
+    credentials: 'omit',
+  });
+  if(!r.ok) throw new Error(`GitHub ${r.status}`);
+  return r.json();
+}
+
+async function testGitHub(){
+  const t = document.getElementById('s-token').value.trim() || getToken();
+  const m = document.getElementById('gh-msg');
+  const s = document.getElementById('gh-status');
+  if(!t){m.style.color='var(--red)';m.textContent='Entrez un token';return;}
+  m.style.color='var(--txt-d)';m.textContent='Test en cours...';
+  try{
+    // Step 1: test repo access
+    const r1 = await fetch(`https://api.github.com/repos/${REPO}?ts=${Date.now()}`,{
+      headers:getGHHeaders(t), mode:'cors', credentials:'omit'
+    });
+    if(r1.status===401) throw new Error('Token invalide ou expiré (401)');
+    if(r1.status===403) throw new Error('Accès refusé — vérifie les permissions du token (403)');
+    if(r1.status===404) throw new Error(`Repo "${REPO}" introuvable — vérifie le nom du repo (404)`);
+    if(!r1.ok) throw new Error(`Erreur ${r1.status}`);
+    // Step 2: test file access
+    const r2 = await fetch(`https://api.github.com/repos/${REPO}/contents/${DATA_PATH}?ts=${Date.now()}`,{
+      headers:getGHHeaders(t), mode:'cors', credentials:'omit'
+    });
+    if(r2.status===404) throw new Error(`Fichier "${DATA_PATH}" introuvable dans le repo (404)`);
+    if(!r2.ok) throw new Error(`Erreur accès fichier ${r2.status}`);
+    // Save token if typed manually
+    if(document.getElementById('s-token').value.trim()){
+      localStorage.setItem('gh_token', t);
+      m.textContent='✅ Token valide et sauvegardé !';
+    } else {
+      m.textContent='✅ Token valide !';
+    }
+    s.className='gh-status ok'; s.textContent='✅ Connexion réussie';
+    m.style.color='var(--green)';
+    ghLog('Token testé avec succès','ok');
+  }catch(e){
+    s.className='gh-status err'; s.textContent='❌ '+e.message;
+    m.style.color='var(--red)'; m.textContent=e.message;
+    ghLog('Échec du test token: '+e.message,'err');
+  }
+}
+async function loadEvents(){
+  const t = getToken();
+  if(t){
+    ghLog('Chargement depuis GitHub...');
+    try{
+      const r = await fetch(
+        `https://api.github.com/repos/${REPO}/contents/${DATA_PATH}?ts=${Date.now()}`,
+        { headers: getGHHeaders(t), mode:'cors', credentials:'omit' }
+      );
+      if(!r.ok){ ghLog(`GitHub GET: erreur ${r.status}`, 'err'); }
+      else {
+        const j = await r.json();
+        // Case 1: content in base64 (standard)
+        if(j.content){
+          events = JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g,'')))));
+          saveLocal();
+          ghLog(`✅ ${events.length} fiches chargées depuis GitHub`, 'ok');
+          return;
+        }
+        // Case 2: file too large — GitHub returns download_url instead
+        if(j.download_url){
+          ghLog('Fichier volumineux — téléchargement direct...');
+          const r2 = await fetch(j.download_url + '?ts=' + Date.now());
+          if(r2.ok){
+            events = await r2.json();
+            saveLocal();
+            ghLog(`✅ ${events.length} fiches chargées (download_url)`, 'ok');
+            return;
+          }
+        }
+        ghLog('Réponse GitHub inattendue — utilisation des données locales', 'err');
+      }
+    }catch(e){
+      ghLog(`Erreur chargement: ${e.message}`, 'err');
+    }
+  } else {
+    ghLog('Token absent - lecture locale uniquement', 'err');
+  }
+  // Fallback: localStorage
+  const loc = localStorage.getItem('cam247_events');
+  if(loc){
+    try {
+      events = JSON.parse(loc);
+      ghLog(`Données locales utilisées (${events.length} fiches)`);
+    } catch(e) {
+      ghLog('Erreur lecture locale: ' + e.message, 'err');
+      events = [];
+    }
+  } else {
+    events = [];
+    ghLog('Aucune donnée disponible', 'err');
+  }
+}
+
+// -- UTILS -----------------------------------------------------
+function parseDate(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function fmtDate(s){const d=parseDate(s);const M=['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];return `${d.getDate()} ${M[d.getMonth()]} ${d.getFullYear()}`;}
+function nextDate(e){const dates=(e.dates&&e.dates.length)?e.dates:[{date:e.date}];const f=dates.map(d=>({...d,obj:parseDate(d.date)})).filter(d=>d.obj>=TODAY).sort((a,b)=>a.obj-b.obj);return f[0]||null;}
+function badge(cls,txt){return `<span class="badge ${cls}">${txt}</span>`;}
+function tarifBadge(t){return t==='gratuit'?badge('b-gratuit','Gratuit'):t==='payant'?badge('b-payant','Payant'):badge('b-mixte','Grat.+Pay.');}
+
+// -- INIT ------------------------------------------------------
+async function initApp(){
+  await loadEvents();
+  renderDashboard();
+  renderRasso();
+  renderMusees();
+  renderLoisirs();
+  initSettings();
+  updateCounts();
+  setTimeout(initAllAutocompletes,300);
+  setTimeout(checkSyncStatus,800);
+}
+function updateCounts(){}
+
+function exportConfig(){
+  const ph = localStorage.getItem('admin_pass_hash');
+  const bh = localStorage.getItem('admin_backup_hash');
+  if(!ph){ document.getElementById('export-msg').textContent='Configurez dabord un mot de passe'; return; }
+  // Encode as base64 - no sensitive data, just hashes
+  const config = btoa(JSON.stringify({ph, bh: bh||''}));
+  navigator.clipboard.writeText(config).then(()=>{
+    const el = document.getElementById('export-msg');
+    el.style.color='var(--green)'; el.textContent='✅ Copié !';
+    setTimeout(()=>el.textContent='',2500);
+  });
+}
+function importConfig(){
+  const raw = document.getElementById('import-input').value.trim();
+  const msg = document.getElementById('import-msg');
+  if(!raw){msg.style.color='var(--red)';msg.textContent='Collez une config valide';return;}
+  try{
+    const obj = JSON.parse(atob(raw));
+    if(!obj.ph||obj.ph.length!==64){msg.style.color='var(--red)';msg.textContent='Config invalide';return;}
+    localStorage.setItem('admin_pass_hash', obj.ph);
+    if(obj.bh&&obj.bh.length===64) localStorage.setItem('admin_backup_hash', obj.bh);
+    document.getElementById('import-input').value='';
+    msg.style.color='var(--green)';msg.textContent='✅ Config appliquée - rechargez la page pour tester';
+    toast('Config importée avec succès','ok');
+  }catch(e){msg.style.color='var(--red)';msg.textContent='Config invalide: '+e.message;}
+}
+
+
+// -- TAB -------------------------------------------------------
+function switchTab(name,btn){
+  document.querySelectorAll('.page-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sb-btn').forEach(b=>b.classList.remove('active'));
+  const tab=document.getElementById('tab-'+name);if(tab)tab.classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(name==='rasso')renderRasso();
+  if(name==='musees')renderMusees();
+  if(name==='loisirs')renderLoisirs();
+  if(name==='dashboard'){renderDashboard();setTimeout(checkSyncStatus,500);}
+}
+function syncMobileTabs(name){
+  document.querySelectorAll('.mobile-tab').forEach(t=>t.classList.remove('active'));
+  const el=document.getElementById('mtab-'+name);if(el)el.classList.add('active');
+}
+
+// -- DASHBOARD -------------------------------------------------
+function renderDashboard(){
+  const future=events.filter(e=>e.type==='rassemblement'&&nextDate(e));
+  const thisM=future.filter(e=>{const nd=nextDate(e);return nd&&nd.obj.getMonth()===TODAY.getMonth()&&nd.obj.getFullYear()===TODAY.getFullYear();});
+  const musees=events.filter(e=>e.type==='musee');
+  const loisirs=events.filter(e=>e.type==='loisir');
+  document.getElementById('dash-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-n" style="color:var(--green)">${future.length}</div><div class="stat-l">Rassemblements à venir</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:#4a9fd4">${musees.length}</div><div class="stat-l">Musées</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:#4ad47a">${loisirs.length}</div><div class="stat-l">Loisirs</div></div>
+    <div class="stat-card"><div class="stat-n" style="color:var(--orange)">${thisM.length}</div><div class="stat-l">Rasso. ce mois</div></div>`;
+  const upcoming=future.sort((a,b)=>nextDate(a).obj-nextDate(b).obj).slice(0,5);
+  document.getElementById('dash-upcoming').innerHTML=upcoming.length?`
+    <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:1rem">Prochains rassemblements</div>
+    <div class="tbl-wrap"><table><thead><tr><th>Nom</th><th>Date</th><th>Horaires</th><th>Actions</th></tr></thead>
+    <tbody>${upcoming.map(e=>{const nd=nextDate(e);const totDates=((e.dates&&e.dates.length)?e.dates:[]).length;return `<tr onclick="openRassoForm(${e.id})"><td class="td-name">${e.titre}${totDates>1?` <span style="font-size:0.6rem;color:var(--mauve-l);background:var(--mauve-sub);border:1px solid var(--mauve-b);padding:0.1rem 0.4rem;border-radius:8px;margin-left:0.3rem">×${totDates}</span>`:''}</td><td class="td-date">${fmtDate(nd.date)}</td><td style="font-size:0.76rem;color:var(--txt-d)">${nd.heureDebut?(nd.heureDebut.replace(':','h')+(nd.heureFin?' - '+nd.heureFin.replace(':','h'):'')):''}</td><td><div style="display:flex;gap:0.35rem" onclick="event.stopPropagation()"><button class="act-btn act-edit" onclick="openRassoForm(${e.id})">Éditer</button><button class="act-btn act-del" onclick="askDel(${e.id})">✕</button></div></td></tr>`;}).join('')}</tbody></table></div>`
+    :'<div class="empty"><div style="font-size:2rem;margin-bottom:0.5rem">📭</div><p>Aucun rassemblement à venir</p></div>';
+}
+
+// -- RASSO TABLE -----------------------------------------------
+function setTblF(f,btn){tblFilter=f;document.querySelectorAll('.tbl-filter').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderRasso();}
+function sortBy(key){if(sortKey===key)sortAsc=!sortAsc;else{sortKey=key;sortAsc=true;}renderRasso();}
+function renderRasso(){
+  const q=(document.getElementById('tbl-q')?.value||'').toLowerCase();
+  const td=TODAY;
+  let filtered=events.filter(e=>e.type==='rassemblement').filter(e=>{
+    if(tblFilter==='upcoming'){const nd=nextDate(e);return nd&&nd.obj>=td;}
+    if(tblFilter==='past'){const nd=nextDate(e);return !nd||nd.obj<td;}
+    if(tblFilter==='draft')return !e.publie;
+    return true;
+  }).filter(e=>!q||e.titre.toLowerCase().includes(q)||e.ville.toLowerCase().includes(q));
+  filtered.sort((a,b)=>{if(sortKey==='date'){const na=nextDate(a),nb=nextDate(b);const va=na?na.obj:new Date(9999,0,1);const vb=nb?nb.obj:new Date(9999,0,1);return sortAsc?va-vb:vb-va;}return sortAsc?a.titre.localeCompare(b.titre):b.titre.localeCompare(a.titre);});
+  document.getElementById('tbl-body').innerHTML=filtered.length===0?'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--txt-m)">Aucun rassemblement</td></tr>':filtered.map(e=>{const nd=nextDate(e);const tot=(e.dates&&e.dates.length)?e.dates.length:1;const isPast=!nd||nd.obj<td;return `<tr class="${isPast?'td-past':''}" onclick="openRassoForm(${e.id})"><td class="td-name">${e.titre}${tot>1?` <span style="font-size:0.58rem;background:var(--surf3);padding:0.08rem 0.4rem;border-radius:4px;color:var(--txt-m);margin-left:0.3rem">×${tot}</span>`:''}</td><td class="td-date">${nd?fmtDate(nd.date):'-'}</td><td>${badge('b-r',e.departement||'?')}</td><td>${tarifBadge(e.tarif)}</td><td>${badge(e.publie!==false?'b-ok':'b-no',e.publie!==false?'Publié':'Brouillon')}</td><td><div style="display:flex;gap:0.35rem" onclick="event.stopPropagation()"><button class="act-btn act-edit" onclick="openRassoForm(${e.id})">Éditer</button><button class="act-btn act-del" onclick="askDel(${e.id})">✕</button></div></td></tr>`;}).join('');
+  updateCounts();
+}
+
+// -- MUSEE TABLE -----------------------------------------------
+function renderMusees(){
+  const m=events.filter(e=>e.type==='musee');
+  document.getElementById('musees-list').innerHTML=m.length?`<div class="tbl-wrap"><table><thead><tr><th>Nom</th><th>Dept</th><th>Vérifié</th><th>Statut</th><th>Actions</th></tr></thead><tbody>${m.map(e=>`<tr onclick="openMuseeForm(${e.id})"><td class="td-name">${e.titre}</td><td>${badge('b-r',e.departement||'?')}</td><td>${badge(e.visite?'b-ok':'b-no',e.visite?'Vérifié':'Non vérifié')}</td><td>${badge(e.publie!==false?'b-ok':'b-no',e.publie!==false?'Publié':'Brouillon')}</td><td><div style="display:flex;gap:0.35rem" onclick="event.stopPropagation()"><button class="act-btn act-edit" onclick="openMuseeForm(${e.id})">Éditer</button><button class="act-btn act-del" onclick="askDel(${e.id})">✕</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty"><div style="font-size:2rem;margin-bottom:0.5rem">🏛️</div><p>Aucun musée ajouté</p></div>';
+  updateCounts();
+}
+
+// -- LOISIR TABLE ----------------------------------------------
+function renderLoisirs(){
+  const l=events.filter(e=>e.type==='loisir');
+  document.getElementById('loisirs-list').innerHTML=l.length?`<div class="tbl-wrap"><table><thead><tr><th>Nom</th><th>Type</th><th>Dept</th><th>Vérifié</th><th>Statut</th><th>Actions</th></tr></thead><tbody>${l.map(e=>`<tr onclick="openLoisirForm(${e.id})"><td class="td-name">${e.titre}</td><td style="font-size:0.76rem;color:var(--txt-d)">${e.type_loisir||'-'}</td><td>${badge('b-r',e.departement||'?')}</td><td>${badge(e.visite?'b-ok':'b-no',e.visite?'Vérifié':'Non vérifié')}</td><td>${badge(e.publie!==false?'b-ok':'b-no',e.publie!==false?'Publié':'Brouillon')}</td><td><div style="display:flex;gap:0.35rem" onclick="event.stopPropagation()"><button class="act-btn act-edit" onclick="openLoisirForm(${e.id})">Éditer</button><button class="act-btn act-del" onclick="askDel(${e.id})">✕</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty"><div style="font-size:2rem;margin-bottom:0.5rem">🎯</div><p>Aucun loisir ajouté</p></div>';
+  updateCounts();
+}
+
+// -- DATE ROWS -------------------------------------------------
+function buildDR(pid,id,date,hd,hf,df=''){return `<div class="date-row" id="${id}"><div><div class="dr-label">Date *</div><input type="date" class="dr-d" value="${date||''}" style="cursor:pointer"></div><div><div class="dr-label">Début</div><input type="time" class="dr-s" value="${hd||''}" style="cursor:pointer"></div><div><div class="dr-label">Fin</div><input type="time" class="dr-e" value="${hf||''}" style="cursor:pointer"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Fin (multi-jours)</div><input type="date" class="dr-df" value="${df||''}" style="cursor:pointer;font-size:0.72rem" title="Laisser vide si 1 seul jour"></div><div class="dr-btns"><button type="button" class="dr-copy" onclick="copyDR('${pid}','${id}')" title="Copier les heures">⧉</button><button type="button" class="dr-del" onclick="removeDR('${pid}','${id}')" title="Supprimer">✕</button></div></div>`;}
+function addDR(pid,date,hd,hf,df){const id='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,id,date,hd,hf,df||''));updateDRBtns(pid);if(!date)setTimeout(()=>document.getElementById(id)?.querySelector('.dr-d')?.focus(),50);}
+function copyDR(pid,id){const r=document.getElementById(id);if(!r)return;const hd=r.querySelector('.dr-s').value,hf=r.querySelector('.dr-e').value;const nid='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,nid,'',hd,hf));updateDRBtns(pid);setTimeout(()=>document.getElementById(nid)?.querySelector('.dr-d')?.focus(),50);toast('Heures copiées','info');}
+function removeDR(pid,id){document.getElementById(id)?.remove();updateDRBtns(pid);}
+function updateDRBtns(pid){const rows=document.querySelectorAll(`#${pid}-dates .date-row`);rows.forEach(r=>{const b=r.querySelector('.dr-del');if(b){b.style.opacity=rows.length<=1?'0.25':'1';b.style.pointerEvents=rows.length<=1?'none':'auto';}});}
+function getDRs(pid){return[...document.querySelectorAll(`#${pid}-dates .date-row`)].map(r=>({date:r.querySelector('.dr-d').value,heureDebut:r.querySelector('.dr-s').value,heureFin:r.querySelector('.dr-e').value,dateFin:r.querySelector('.dr-df')?.value||''})).filter(r=>r.date);}
+function clearDRs(pid){document.getElementById(pid+'-dates').innerHTML='';}
+
+// -- HORAIRES TABLE --------------------------------------------
+const JOURS=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+function renderHoraires(pid,data){
+  const grid=document.getElementById(pid+'-horaires-grid');
+  if(!grid)return;
+  const rows=data&&data.length?data:JOURS.map(j=>({jour:j,ouverture:'',fermeture:'',ferme:false}));
+  grid.innerHTML=rows.map((h,i)=>`<div class="horaire-row" id="${pid}-hr-${i}"><input type="text" value="${h.jour}" style="color:var(--txt-d);font-weight:600;font-size:0.72rem"><input type="time" class="hr-ouv" value="${h.ouverture||''}" style="cursor:pointer;${h.ferme?'opacity:0.3;pointer-events:none':''}"><input type="time" class="hr-ferm" value="${h.fermeture||''}" style="cursor:pointer;${h.ferme?'opacity:0.3;pointer-events:none':''}"><label class="h-ferme-label"><input type="checkbox" ${h.ferme?'checked':''} onchange="toggleFerme('${pid}',${i},this)"> Fermé</label></div>`).join('');
+}
+function toggleFerme(pid,i,cb){const row=document.getElementById(`${pid}-hr-${i}`);if(!row)return;const inputs=row.querySelectorAll('input[type=time]');inputs.forEach(inp=>{inp.style.opacity=cb.checked?'0.3':'1';inp.style.pointerEvents=cb.checked?'none':'auto';});}
+function getHoraires(pid){return JOURS.map((j,i)=>{const row=document.getElementById(`${pid}-hr-${i}`);if(!row)return{jour:j,ouverture:'',fermeture:'',ferme:false};const ferme=row.querySelector('input[type=checkbox]').checked;return{jour:row.querySelector('input[type=text]').value||j,ouverture:ferme?'':row.querySelector('.hr-ouv').value,fermeture:ferme?'':row.querySelector('.hr-ferm').value,ferme};});}
+
+// -- TARIF ROWS ------------------------------------------------
+function addTarif(pid,label,prix){const id=`${pid}-tarif-${Date.now()}`;const list=document.getElementById(pid+'-tarifs');const div=document.createElement('div');div.id=id;div.className='tarif-row';div.innerHTML=`<input type="text" placeholder="Tarif" value="${label||''}"><input type="text" placeholder="Prix" value="${prix||''}" style="width:70px;text-align:right;color:var(--mauve-l);font-weight:600"><button type="button" class="dr-del" onclick="document.getElementById('${id}').remove()" style="flex-shrink:0">✕</button>`;list.appendChild(div);}
+function getTarifs(pid){return[...document.querySelectorAll(`#${pid}-tarifs .tarif-row`)].map(r=>{const inputs=r.querySelectorAll('input');return{label:inputs[0].value.trim(),prix:inputs[1].value.trim()};}).filter(t=>t.label||t.prix);}
+function setTarifs(pid,tarifs){document.getElementById(pid+'-tarifs').innerHTML='';(tarifs||[]).forEach(t=>addTarif(pid,t.label,t.prix));}
+
+// -- FLYER / PHOTOS --------------------------------------------
+function compressImage(file,maxW,maxH,quality,cb){
+  const r=new FileReader();r.onload=e=>{
+    const img=new Image();img.onload=()=>{
+      let w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      if(h>maxH){w=Math.round(w*maxH/h);h=maxH;}
+      const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+      cv.getContext('2d').drawImage(img,0,0,w,h);
+      cb(cv.toDataURL('image/jpeg',quality));
+    };img.src=e.target.result;
+  };r.readAsDataURL(file);
+}
+function handleFlyer(pid,input){
+  const f=input.files[0];if(!f)return;
+  if(f.size>8*1024*1024){toast('Image trop lourde (max 8MB)','err');return;}
+  compressImage(f,1200,675,0.82,b=>{
+    document.getElementById(pid+'-flyer').value=b;
+    document.getElementById(pid+'-thumb').innerHTML=`<img src="${b}" alt="">`;
+    document.getElementById(pid+'-name').textContent=f.name;
+    document.getElementById(pid+'-del').style.display='';
+  });
+}
+function clearFlyer(pid){document.getElementById(pid+'-flyer').value='';document.getElementById(pid+'-thumb').innerHTML=pid==='rf'?'🏁':pid==='mf'?'🏛️':'🎯';document.getElementById(pid+'-name').textContent='Aucune image';document.getElementById(pid+'-del').style.display='none';}
+function setFlyer(pid,url){if(!url){clearFlyer(pid);return;}document.getElementById(pid+'-flyer').value=url;document.getElementById(pid+'-thumb').innerHTML=`<img src="${url}" alt="">`;document.getElementById(pid+'-name').textContent='Image existante';document.getElementById(pid+'-del').style.display='';}
+function handlePhoto(pid,idx,input){
+  const f=input.files[0];if(!f)return;
+  if(f.size>8*1024*1024){toast('Image trop lourde (max 8MB)','err');return;}
+  compressImage(f,1200,900,0.80,b=>{
+    document.getElementById(pid+'-photo-'+idx).value=b;
+    const slot=document.getElementById(pid[0]+'p-slot-'+idx);
+    slot.innerHTML=`<img src="${b}" alt=""><div class="photo-slot-del" onclick="clearPhoto('${pid}',${idx})">✕</div><input type="file" accept="image/*" onchange="handlePhoto('${pid}',${idx},this)">`;
+  });
+}
+function clearPhoto(pid,idx){document.getElementById(pid+'-photo-'+idx).value='';const slot=document.getElementById(pid[0]+'p-slot-'+idx);slot.innerHTML=`<span>+</span><input type="file" accept="image/*" onchange="handlePhoto('${pid}',${idx},this)">`;}
+function setPhotos(pid,photos){(photos||[]).forEach((url,i)=>{if(!url)return;document.getElementById(pid+'-photo-'+i).value=url;const slot=document.getElementById(pid[0]+'p-slot-'+i);slot.innerHTML=`<img src="${url}" alt=""><div class="photo-slot-del" onclick="clearPhoto('${pid}',${i})">✕</div><input type="file" accept="image/*" onchange="handlePhoto('${pid}',${i},this)">`;});}
+function clearPhotos(pid){[0,1,2].forEach(i=>{document.getElementById(pid+'-photo-'+i).value='';const slot=document.getElementById(pid[0]+'p-slot-'+i);if(slot)slot.innerHTML=`<span>+</span><input type="file" accept="image/*" onchange="handlePhoto('${pid}',${i},this)">`; });}
+function getPhotos(pid){return[0,1,2].map(i=>document.getElementById(pid+'-photo-'+i)?.value||'').filter(Boolean);}
+
+// -- ANIMATIONS ------------------------------------------------
+function toggleAnim(key){const item=document.getElementById('anim-'+key);if(!item)return;const cb=document.getElementById('rf-'+key);cb.checked=!cb.checked;item.classList.toggle('checked',cb.checked);}
+function resetAnims(){['restauration','show','afterwork_dj','animations','balade'].forEach(k=>{const item=document.getElementById('anim-'+k);if(!item)return;const cb=document.getElementById('rf-'+k);cb.checked=false;item.classList.remove('checked');const det=document.getElementById('rf-'+k+'-detail');if(det)det.value='';});}
+function setAnims(e){['restauration','show','afterwork_dj','animations','balade'].forEach(k=>{const item=document.getElementById('anim-'+k);if(!item)return;const cb=document.getElementById('rf-'+k);cb.checked=!!e[k];item.classList.toggle('checked',!!e[k]);const det=document.getElementById('rf-'+k+'-detail');if(det)det.value=e[k+'_detail']||'';});}
+
+// -- TOGGLE CHECK ----------------------------------------------
+function toggleCheck(cb){cb.closest('.f-check').classList.toggle('on',cb.checked);}
+
+// -- RASSO FORM ------------------------------------------------
+function openRassoForm(id){
+  editingRassoId=id;const e=id?events.find(x=>x.id===id):null;
+  document.getElementById('rasso-form-title').textContent=id?'Modifier le rassemblement':'Nouveau rassemblement';
+  clearFlyer('rf');clearDRs('rf');resetAnims();clearPhotos('rf');
+  document.querySelectorAll('#rf-veh-checks .f-check').forEach(l=>{l.classList.remove('on');l.querySelector('input').checked=false;});
+  ['rf-anciens','rf-modernes'].forEach(fid=>{const el=document.getElementById(fid);if(el){el.checked=false;el.closest('.f-check').classList.remove('on');}});
+  const fields={titre:'rf-titre',ville:'rf-ville',vehicules_detail:'rf-veh-detail',localisation_detail:'rf-lieu',waze:'rf-waze',site:'rf-site',mail:'rf-mail',tel:'rf-tel',organisateur:'rf-orga',recurrence:'rf-recur',instagram:'rf-insta',facebook:'rf-fb',important:'rf-important',focus:'rf-focus'};
+  Object.entries(fields).forEach(([k,fid])=>{const el=document.getElementById(fid);if(el)el.value=e?e[k]||'':'';});
+  if(e){document.getElementById('rf-dept').value=e.departement||'';document.getElementById('rf-tarif').value=e.tarif||'gratuit';document.getElementById('rf-publie').value=String(e.publie!==false);document.getElementById('rf-visite').value=String(e.visite||false);setFlyer('rf',e.flyer||'');setAnims(e);setPhotos('rf',e.photos);(e.vehicules||[]).forEach(v=>{const cb=document.querySelector(`#rf-veh-checks input[value="${v}"]`);if(cb){cb.checked=true;cb.closest('.f-check').classList.add('on');}});if(e.vehicules_anciens){const el=document.getElementById('rf-anciens');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}if(e.vehicules_modernes){const el=document.getElementById('rf-modernes');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}const dates=(e.dates&&e.dates.length)?e.dates:[{date:e.date||'',heureDebut:e.heureDebut||'',heureFin:e.heureFin||''}];
+        // Populate collaboration fields
+        if(Array.isArray(e.instagram)&&e.instagram.length>1){const el2=document.getElementById('rf-insta2');if(el2)el2.value=e.instagram[1]||'';}
+        if(Array.isArray(e.facebook)&&e.facebook.length>1){const el2=document.getElementById('rf-fb2');if(el2)el2.value=e.facebook[1]||'';}
+        const il=document.getElementById('rf-insta-label');if(il)il.value=e.instagram_label||'';
+        const fl=document.getElementById('rf-fb-label');if(fl)fl.value=e.facebook_label||'';dates.forEach(d=>addDR('rf',d.date,d.heureDebut,d.heureFin,d.dateFin||''));}
+  else{document.getElementById('rf-dept').value='68';document.getElementById('rf-tarif').value='gratuit';document.getElementById('rf-publie').value='true';document.getElementById('rf-visite').value='false';addDR('rf');}
+  document.getElementById('rasso-overlay').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>initCityAutocomplete('rf-ville','rf-dept'),50);
+}
+function closeRassoForm(){document.getElementById('rasso-overlay').classList.remove('open');document.body.style.overflow='';}
+async function saveRasso(){
+  const titre=document.getElementById('rf-titre').value.trim();const dept=document.getElementById('rf-dept').value;const ville=document.getElementById('rf-ville').value.trim();const dates=getDRs('rf');
+  if(!titre||!dept||!ville){toast('Remplissez les champs obligatoires','err');return;}if(!dates.length){toast('Ajoutez au moins une date','err');return;}
+  const vehicules=[...document.querySelectorAll('#rf-veh-checks input:checked')].map(cb=>cb.value);
+  const animKeys=['restauration','show','afterwork_dj','animations','balade'];
+  const animData={};animKeys.forEach(k=>{animData[k]=document.getElementById('rf-'+k)?.checked||false;animData[k+'_detail']=document.getElementById('rf-'+k+'-detail')?.value||'';});
+  const data={type:'rassemblement',titre,departement:dept,ville,tarif:document.getElementById('rf-tarif').value,dates,date:dates[0].date,heureDebut:dates[0].heureDebut,heureFin:dates[0].heureFin,vehicules,vehicules_anciens:document.getElementById('rf-anciens')?.checked||false,vehicules_modernes:document.getElementById('rf-modernes')?.checked||false,vehicules_detail:document.getElementById('rf-veh-detail').value,localisation_detail:document.getElementById('rf-lieu').value,waze:document.getElementById('rf-waze').value,site:document.getElementById('rf-site').value,mail:document.getElementById('rf-mail').value,tel:document.getElementById('rf-tel').value,organisateur:document.getElementById('rf-orga').value,organisateurs:document.getElementById('rf-orga').value.includes('|')?document.getElementById('rf-orga').value.split('|').map(s=>s.trim()).filter(Boolean):undefined,recurrence:document.getElementById('rf-recur').value,instagram:document.getElementById('rf-insta2')?.value?[document.getElementById('rf-insta').value,document.getElementById('rf-insta2').value].filter(Boolean):document.getElementById('rf-insta').value,facebook:document.getElementById('rf-fb2')?.value?[document.getElementById('rf-fb').value,document.getElementById('rf-fb2').value].filter(Boolean):document.getElementById('rf-fb').value,instagram_label:document.getElementById('rf-insta-label')?.value||undefined,facebook_label:document.getElementById('rf-fb-label')?.value||undefined,important:document.getElementById('rf-important').value,focus:document.getElementById('rf-focus').value,...animData,publie:document.getElementById('rf-publie').value==='true',visite:document.getElementById('rf-visite').value==='true',flyer:document.getElementById('rf-flyer').value,photos:getPhotos('rf')};
+  if(editingRassoId){const idx=events.findIndex(e=>e.id===editingRassoId);events[idx]={...events[idx],...data};}else{data.id=Date.now();events.push(data);}
+  saveLocal();const synced=await saveToGitHub(events);closeRassoForm();renderRasso();renderDashboard();toast(synced?'✅ Enregistré et synchronisé':'💾 Enregistré localement','ok');
+}
+
+// -- MUSEE FORM ------------------------------------------------
+function openMuseeForm(id){
+  editingMuseeId=id;const e=id?events.find(x=>x.id===id):null;
+  document.getElementById('musee-form-title').textContent=id?'Modifier le musée':'Nouveau musée';
+  clearFlyer('mf');setTarifs('mf',[]);clearPhotos('mf');
+  const fields={titre:'mf-titre',ville:'mf-ville',accroche:'mf-accroche',description:'mf-desc',credit_photos:'mf-credit',adresse:'mf-adresse',site:'mf-site',waze:'mf-waze',tel:'mf-tel',mail:'mf-mail',instagram:'mf-insta',facebook:'mf-fb',horaires_lien:'mf-horaires-lien',agenda_lien:'mf-agenda-lien'};
+  Object.entries(fields).forEach(([k,fid])=>{const el=document.getElementById(fid);if(el)el.value=e?e[k]||'':'';});
+  if(e){document.getElementById('mf-dept').value=e.departement||'';document.getElementById('mf-publie').value=String(e.publie!==false);document.getElementById('mf-visite').value=String(e.visite||false);setFlyer('mf',e.flyer||'');setTarifs('mf',e.tarifs);renderHoraires('mf',e.horaires);setPhotos('mf',e.photos);}
+  else{document.getElementById('mf-dept').value='68';document.getElementById('mf-publie').value='true';document.getElementById('mf-visite').value='false';renderHoraires('mf',null);}
+  document.getElementById('musee-overlay').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>initCityAutocomplete('mf-ville','mf-dept'),50);
+}
+function closeMuseeForm(){document.getElementById('musee-overlay').classList.remove('open');document.body.style.overflow='';}
+async function saveMusee(){
+  const titre=document.getElementById('mf-titre').value.trim();const dept=document.getElementById('mf-dept').value;const ville=document.getElementById('mf-ville').value.trim();
+  if(!titre||!dept||!ville){toast('Remplissez les champs obligatoires','err');return;}
+  const data={type:'musee',titre,departement:dept,ville,accroche:document.getElementById('mf-accroche').value,description:document.getElementById('mf-desc').value,credit_photos:document.getElementById('mf-credit').value,adresse:document.getElementById('mf-adresse').value,site:document.getElementById('mf-site').value,waze:document.getElementById('mf-waze').value,tel:document.getElementById('mf-tel').value,mail:document.getElementById('mf-mail').value,instagram:document.getElementById('mf-insta').value,facebook:document.getElementById('mf-fb').value,horaires_lien:document.getElementById('mf-horaires-lien').value,agenda_lien:document.getElementById('mf-agenda-lien').value,horaires:getHoraires('mf'),tarifs:getTarifs('mf'),publie:document.getElementById('mf-publie').value==='true',visite:document.getElementById('mf-visite').value==='true',flyer:document.getElementById('mf-flyer').value,photos:getPhotos('mf')};
+  if(editingMuseeId){const idx=events.findIndex(e=>e.id===editingMuseeId);events[idx]={...events[idx],...data};}else{data.id=Date.now();events.push(data);}
+  saveLocal();const synced=await saveToGitHub(events);closeMuseeForm();renderMusees();renderDashboard();toast(synced?'✅ Enregistré et synchronisé':'💾 Enregistré localement','ok');
+}
+
+// -- LOISIR FORM -----------------------------------------------
+function openLoisirForm(id){
+  editingLoisirId=id;const e=id?events.find(x=>x.id===id):null;
+  document.getElementById('loisir-form-title').textContent=id?'Modifier le loisir':'Nouveau loisir';
+  clearFlyer('lf');setTarifs('lf',[]);clearPhotos('lf');
+  const fields={titre:'lf-titre',ville:'lf-ville',accroche:'lf-accroche',description:'lf-desc',adresse:'lf-adresse',tel:'lf-tel',site:'lf-site',waze:'lf-waze',mail:'lf-mail',instagram:'lf-insta',facebook:'lf-fb'};
+  Object.entries(fields).forEach(([k,fid])=>{const el=document.getElementById(fid);if(el)el.value=e?e[k]||'':'';});
+  if(e){document.getElementById('lf-dept').value=e.departement||'';document.getElementById('lf-type').value=e.type_loisir||'Karting';document.getElementById('lf-publie').value=String(e.publie!==false);document.getElementById('lf-visite').value=String(e.visite||false);setFlyer('lf',e.flyer||'');setTarifs('lf',e.tarifs);renderHoraires('lf',e.horaires);setPhotos('lf',e.photos);}
+  else{document.getElementById('lf-dept').value='68';document.getElementById('lf-type').value='Karting';document.getElementById('lf-publie').value='true';document.getElementById('lf-visite').value='false';renderHoraires('lf',null);}
+  document.getElementById('loisir-overlay').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>initCityAutocomplete('lf-ville','lf-dept'),50);
+}
+function closeLoisirForm(){document.getElementById('loisir-overlay').classList.remove('open');document.body.style.overflow='';}
+async function saveLoisir(){
+  const titre=document.getElementById('lf-titre').value.trim();const dept=document.getElementById('lf-dept').value;const ville=document.getElementById('lf-ville').value.trim();
+  if(!titre||!dept||!ville){toast('Remplissez les champs obligatoires','err');return;}
+  const data={type:'loisir',titre,departement:dept,ville,type_loisir:document.getElementById('lf-type').value,accroche:document.getElementById('lf-accroche').value,description:document.getElementById('lf-desc').value,adresse:document.getElementById('lf-adresse').value,tel:document.getElementById('lf-tel').value,site:document.getElementById('lf-site').value,waze:document.getElementById('lf-waze').value,mail:document.getElementById('lf-mail').value,instagram:document.getElementById('lf-insta').value,facebook:document.getElementById('lf-fb').value,horaires:getHoraires('lf'),tarifs:getTarifs('lf'),publie:document.getElementById('lf-publie').value==='true',visite:document.getElementById('lf-visite').value==='true',flyer:document.getElementById('lf-flyer').value,photos:getPhotos('lf')};
+  if(editingLoisirId){const idx=events.findIndex(e=>e.id===editingLoisirId);events[idx]={...events[idx],...data};}else{data.id=Date.now();events.push(data);}
+  saveLocal();const synced=await saveToGitHub(events);closeLoisirForm();renderLoisirs();renderDashboard();toast(synced?'✅ Enregistré et synchronisé':'💾 Enregistré localement','ok');
+}
+
+// -- DELETE ----------------------------------------------------
+function askDel(id){deletingId=id;const e=events.find(x=>x.id===id);document.getElementById('confirm-txt').textContent=`Supprimer "${e?.titre}" ? Cette action est irréversible.`;document.getElementById('confirm-overlay').classList.add('open');}
+function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('open');deletingId=null;}
+async function confirmDel(){events=events.filter(e=>e.id!==deletingId);saveLocal();const s=await saveToGitHub(events);closeConfirm();renderRasso();renderMusees();renderLoisirs();renderDashboard();toast(s?'🗑️ Supprimé et synchronisé':'🗑️ Supprimé localement','info');}
+
+
+
+// -- SYNC STATUS CHECK -----------------------------------------
+async function checkSyncStatus(){
+  const icon = document.getElementById('sync-status-icon');
+  const text = document.getElementById('sync-status-text');
+  const display = document.getElementById('sync-status-display');
+  if(!icon) return;
+
+  const token = getToken();
+  if(!token){
+    icon.textContent = '❌';
+    text.textContent = 'Token GitHub non configuré — tes fiches ne seront PAS sauvegardées. Configure le token dans Paramètres.';
+    display.style.borderColor = 'var(--red)';
+    display.style.background = 'rgba(248,113,113,0.08)';
+    return;
+  }
+
+  icon.textContent = '⏳';
+  text.textContent = 'Test en cours...';
+  display.style.borderColor = 'var(--border)';
+  display.style.background = '';
+
+  try {
+    // Just check the repo is accessible — no content parsing
+    const r = await fetch(
+      `https://api.github.com/repos/${REPO}?ts=${Date.now()}`,
+      { headers: getGHHeaders(token), mode:'cors', credentials:'omit' }
+    );
+    if(!r.ok) throw new Error(`Erreur ${r.status}`);
+    const j = await r.json();
+    // Use events count from memory (already loaded)
+    const count = events.length;
+    icon.textContent = '✅';
+    text.textContent = `Connexion GitHub OK — token actif sur "${j.full_name}". ${count > 0 ? count + ' fiche(s) chargée(s).' : ''} Tes sauvegardes fonctionnent.`;
+    display.style.borderColor = 'var(--green)';
+    display.style.background = 'rgba(74,222,128,0.06)';
+  } catch(e) {
+    icon.textContent = '❌';
+    text.textContent = `Connexion GitHub échouée : ${e.message}. Vérifie ton token dans Paramètres.`;
+    display.style.borderColor = 'var(--red)';
+    display.style.background = 'rgba(248,113,113,0.08)';
+  }
+}
+
+// -- BACKUP / RESTORE ------------------------------------------
+function backupData(){
+  const date = new Date().toISOString().split('T')[0];
+  const filename = `clubautomoto247-backup-${date}.json`;
+  const content = JSON.stringify(events, null, 2);
+  const blob = new Blob([content], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }, 300);
+  const msg = document.getElementById('backup-msg');
+  if(msg){ msg.style.color='var(--green)'; msg.textContent=`✅ ${events.length} fiches sauvegardées`; }
+  toast(`✅ Sauvegarde téléchargée : ${filename}`, 'ok');
+  ghLog(`Sauvegarde locale : ${events.length} fiches`, 'ok');
+}
+
+function restoreData(input){
+  const file = input.files[0];
+  if(!file) return;
+  const msg = document.getElementById('backup-msg');
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if(!Array.isArray(data)) throw new Error('Format invalide');
+      const confirm = window.confirm(
+        `Restaurer ${data.length} fiches depuis "${file.name}" ?\n\nCela remplacera TOUTES les fiches actuelles. Cette action est irréversible.`
+      );
+      if(!confirm){ input.value=''; return; }
+      events = data;
+      saveLocal();
+      const synced = await saveToGitHub(events);
+      renderDashboard(); renderRasso(); renderMusees(); renderLoisirs();
+      msg.style.color = 'var(--green)';
+      msg.textContent = `✅ ${data.length} fiches restaurées${synced?' et synchronisées':''}`;
+      toast(`✅ Restauration réussie (${data.length} fiches)`, 'ok');
+      input.value = '';
+    } catch(err) {
+      msg.style.color = 'var(--red)';
+      msg.textContent = '❌ Fichier invalide : ' + err.message;
+      input.value = '';
+    }
+  };
+  reader.readAsText(file);
+}
+
+// -- TOAST -----------------------------------------------------
+function toast(msg,type='info'){const el=document.createElement('div');el.className=`toast ${type}`;el.textContent=msg;document.getElementById('toast-wrap').appendChild(el);setTimeout(()=>el.remove(),3500);}
+
+
+// -- CITY AUTOCOMPLETE ------------------------------------------
+let cityAbortCtrl = null;
+let cityDebounce = null;
+
+function initCityAutocomplete(inputId, deptSelectId){
+  const input = document.getElementById(inputId);
+  const wrap = input?.parentElement;
+  if(!input || !wrap) return;
+
+  // Wrap input if not already wrapped
+  if(!wrap.classList.contains('autocomplete-wrap')){
+    const newWrap = document.createElement('div');
+    newWrap.className = 'autocomplete-wrap';
+    input.parentNode.insertBefore(newWrap, input);
+    newWrap.appendChild(input);
+    const list = document.createElement('div');
+    list.className = 'autocomplete-list';
+    list.id = inputId + '-list';
+    newWrap.appendChild(list);
+  } else {
+    if(!document.getElementById(inputId + '-list')){
+      const list = document.createElement('div');
+      list.className = 'autocomplete-list';
+      list.id = inputId + '-list';
+      wrap.appendChild(list);
+    }
+  }
+
+  input.addEventListener('input', () => {
+    clearTimeout(cityDebounce);
+    cityDebounce = setTimeout(() => searchCities(inputId, deptSelectId), 280);
+  });
+  input.addEventListener('keydown', e => {
+    const list = document.getElementById(inputId + '-list');
+    const items = list?.querySelectorAll('.autocomplete-item');
+    if(!items?.length) return;
+    const sel = list.querySelector('.selected');
+    if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      const next = sel ? (sel.nextElementSibling || items[0]) : items[0];
+      sel?.classList.remove('selected'); next?.classList.add('selected');
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      const prev = sel ? (sel.previousElementSibling || items[items.length-1]) : items[items.length-1];
+      sel?.classList.remove('selected'); prev?.classList.add('selected');
+    } else if(e.key === 'Enter' && sel){
+      e.preventDefault();
+      input.value = sel.dataset.nom;
+      closeCityList(inputId);
+    } else if(e.key === 'Escape'){
+      closeCityList(inputId);
+    }
+  });
+  document.addEventListener('click', e => {
+    if(!e.target.closest('#'+inputId) && !e.target.closest('#'+inputId+'-list'))
+      closeCityList(inputId);
+  });
+}
+
+async function searchCities(inputId, deptSelectId){
+  const input = document.getElementById(inputId);
+  const list = document.getElementById(inputId + '-list');
+  const q = (input?.value || '').trim();
+  if(!list) return;
+  if(q.length < 2){ list.classList.remove('open'); return; }
+
+  // Build API query
+  const dept = document.getElementById(deptSelectId)?.value || '';
+  let url = `https://geo.api.gouv.fr/communes?nom=${encodeURIComponent(q)}&fields=nom,codesPostaux,departement&boost=population&limit=8`;
+  if(dept) url += `&codeDepartement=${dept}`;
+
+  if(cityAbortCtrl) cityAbortCtrl.abort();
+  cityAbortCtrl = new AbortController();
+
+  try{
+    const r = await fetch(url, {signal: cityAbortCtrl.signal});
+    if(!r.ok) return;
+    const data = await r.json();
+    if(!data.length){ list.innerHTML='<div class="autocomplete-item" style="opacity:0.5">Aucun résultat</div>'; list.classList.add('open'); return; }
+    list.innerHTML = data.map(c => {
+      const cp = (c.codesPostaux||[])[0] || '';
+      const dep = c.departement?.code || '';
+      const highlight = c.nom.replace(new RegExp(`(${q})`, 'i'), '<strong>$1</strong>');
+      return `<div class="autocomplete-item" data-nom="${c.nom}" onclick="selectCity('${inputId}','${c.nom}')">
+        ${highlight} <span style="font-size:0.68rem;color:var(--txt-m);margin-left:0.3rem">${cp}${dep?' · '+dep:''}</span>
+      </div>`;
+    }).join('');
+    list.classList.add('open');
+  }catch(e){
+    if(e.name !== 'AbortError') console.warn('City search error:', e);
+  }
+}
+
+function selectCity(inputId, nom){
+  const input = document.getElementById(inputId);
+  if(input) input.value = nom;
+  closeCityList(inputId);
+}
+function closeCityList(inputId){
+  const list = document.getElementById(inputId + '-list');
+  if(list){ list.classList.remove('open'); list.innerHTML = ''; }
+}
+
+// Init autocompletes when forms open - called from form open functions
+function initAllAutocompletes(){
+  initCityAutocomplete('rf-ville','rf-dept');
+  initCityAutocomplete('mf-ville','mf-dept');
+  initCityAutocomplete('lf-ville','lf-dept');
+}
+
+
+
+function toggleLog(){
+  const l = document.getElementById('sync-log');
+  if(!l) return;
+  l.style.display = l.style.display === 'none' || l.style.display === '' ? 'block' : 'none';
+}
+
+function reloadFromGitHub(){
+  ghLog('Rechargement forcé depuis GitHub...');
+  loadEvents().then(()=>{
+    renderDashboard();renderRasso();renderMusees();renderLoisirs();updateCounts();
+    toast('✅ Données rechargées depuis GitHub','ok');
+  });
+}
+
+
+// -- SETTINGS -------------------------------------------------
+function initSettings(){
+  const t = getToken();
+  const el = document.getElementById('gh-status');
+  const warn = document.getElementById('token-warn-btn');
+  if(t){
+    el.className = 'gh-status ok';
+    el.textContent = '✅ Token configuré dans ce navigateur';
+    if(warn) warn.style.display = 'none';
+  } else {
+    el.className = 'gh-status none';
+    el.textContent = '⚪ Aucun token - les modifications ne seront PAS publiées sur le site';
+    if(warn) warn.style.display = '';
+  }
+  // Backup password status
+  const bel = document.getElementById('backup-status');
+  if(bel){
+    const hasBackup = !!localStorage.getItem('admin_backup_hash');
+    bel.className = 'gh-status ' + (hasBackup ? 'ok' : 'none');
+    bel.textContent = hasBackup ? '✅ Mot de passe de secours configuré' : '⚪ Aucun mot de passe de secours configuré';
+  }
+}
+
+function saveGitHub(){
+  const t = document.getElementById('s-token').value.trim();
+  const m = document.getElementById('gh-msg');
+  if(!t){ m.style.color='var(--red)'; m.textContent='Entrez un token'; return; }
+  localStorage.setItem('gh_token', t);
+  document.getElementById('s-token').value = '';
+  document.getElementById('gh-status').className = 'gh-status ok';
+  document.getElementById('gh-status').textContent = '✅ Token enregistré dans ce navigateur';
+  m.style.color = 'var(--green)';
+  m.textContent = '✅ Enregistré ! Testez la connexion pour confirmer.';
+  const warn = document.getElementById('token-warn-btn');
+  if(warn) warn.style.display = 'none';
+  toast('Token GitHub enregistré','ok');
+  ghLog('Token enregistré','ok');
+}
+
+
+async function saveBackupPwd(){
+  const nw = document.getElementById('s-backup-new').value;
+  const cf = document.getElementById('s-backup-cf').value;
+  const msg = document.getElementById('backup-msg');
+  if(!nw || !cf){ msg.style.color='var(--red)'; msg.textContent='Remplissez les deux champs'; return; }
+  if(nw.length < 6){ msg.style.color='var(--red)'; msg.textContent='Minimum 6 caractères'; return; }
+  if(nw !== cf){ msg.style.color='var(--red)'; msg.textContent='Ne correspondent pas'; return; }
+  const mainHash = getHash();
+  const backupHash = await sha256(nw);
+  if(mainHash && backupHash === mainHash){ msg.style.color='var(--red)'; msg.textContent='Doit être différent du mot de passe principal'; return; }
+  localStorage.setItem('admin_backup_hash', backupHash);
+  document.getElementById('s-backup-new').value = '';
+  document.getElementById('s-backup-cf').value = '';
+  msg.style.color = 'var(--green)';
+  msg.textContent = 'Mot de passe de secours enregistré';
+  const bel = document.getElementById('backup-status');
+  if(bel){ bel.className='gh-status ok'; bel.textContent='Mot de passe de secours configuré'; }
+  setTimeout(()=>{ if(msg) msg.textContent=''; }, 3000);
+  toast('Mot de passe de secours enregistré','ok');
+}
+
+// KEYBOARD
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeRassoForm();closeMuseeForm();closeLoisirForm();closeConfirm();}});
+</script>
+
+  <!-- SYNC LOG PANEL -->
+  <div id="sync-log" style="display:none;position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);z-index:9000;width:min(460px,calc(100vw - 2rem));background:var(--surf2);border:1px solid var(--mauve-b2);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.5);overflow:hidden">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0.85rem;background:var(--surf3);border-bottom:1px solid var(--border)">
+      <span style="font-size:0.7rem;font-weight:600;color:var(--mauve-l);letter-spacing:0.1em;text-transform:uppercase">Journal GitHub</span>
+      <button onclick="document.getElementById('sync-log').style.display='none'" style="font-size:0.72rem;color:var(--txt-m);padding:0.15rem 0.5rem;border-radius:4px;border:1px solid var(--border2);background:none;cursor:pointer;font-family:'Outfit',sans-serif">Fermer</button>
+    </div>
+    <div class="sync-log-body" style="padding:0.5rem 0.85rem;max-height:180px;overflow-y:auto;font-size:0.7rem;font-family:monospace;color:var(--txt-d)"></div>
+  </div>
+</body>
+</html>
