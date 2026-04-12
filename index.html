@@ -133,6 +133,16 @@
   <div class="preview-grid" id="favs-grid" style="margin-top:1.5rem"></div>
 </section>
 
+
+<!-- EN COURS -->
+<section class="preview-section" id="en-cours-section" style="display:none;padding-top:0">
+  <div style="margin-bottom:1.2rem">
+    <div class="s-tag" style="color:var(--red)">🔴 En ce moment</div>
+    <h2 class="s-title">Événements en cours</h2>
+  </div>
+  <div class="preview-grid" id="preview-en-cours"></div>
+</section>
+
 <!-- PREVIEW TABS -->
 <section class="preview-section">
   <div style="margin-bottom:0">
@@ -253,8 +263,15 @@ async function init(){
     document.getElementById('weekend-list').innerHTML = `<div class="weekend-list">${we.map(evListHTML).join('')}</div>`;
   }
 
-  // Tabs preview
-  const rassos = exp.slice(0,5);
+  // Événements en cours (multi-day, started but not finished)
+  const enCours = exp.filter(e => e._ongoing);
+  if (enCours.length) {
+    document.getElementById('en-cours-section').style.display = '';
+    document.getElementById('preview-en-cours').innerHTML = enCours.map(evCardHTML).join('');
+  }
+
+  // Tabs preview — exclude ongoing events from "à venir"
+  const rassos = exp.filter(e => !e._ongoing).slice(0,5);
   document.getElementById('preview-rasso').innerHTML = rassos.length ? rassos.map(evCardHTML).join('') : '<div class="empty-msg">Aucun rassemblement à venir.</div>';
 
   const musees = allEvents.filter(e=>e.type==='musee'&&e.publie!==false);
