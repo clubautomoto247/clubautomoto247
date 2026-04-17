@@ -328,11 +328,31 @@ function buildModal(id, ds, allEvents) {
       ${dates.length ? `
       <div style="margin:1rem 0">
         <div style="font-size:0.62rem;color:var(--mauve-l);letter-spacing:0.14em;text-transform:uppercase;font-weight:600;margin-bottom:0.5rem">📅 ${dates.length>1?'Prochaines dates':'Date'}</div>
-        <div class="modal-dates-list">${dates.map(d => {
-          const isToday = parseDate(d.date).getTime() === TODAY.getTime();
-          const h = fmtHours(d.heureDebut||'', d.heureFin||'', d.date, d.dateFin||'');
-          return `<div class="modal-date-row"><div><div class="modal-date-main">${fmtFull(d.date)}${d.dateFin && d.dateFin!==d.date ? ' → '+fmtFull(d.dateFin):''}</div>${h?`<div class="modal-date-time">⏰ ${h}</div>`:''}</div>${isToday?'<span class="modal-date-today">Aujourd\'hui</span>':''}</div>`;
-        }).join('')}</div>
+        <div class="modal-dates-list" id="dates-list-${e.id}">
+          ${dates.slice(0,5).map(d => {
+            const isToday = parseDate(d.date).getTime() === TODAY.getTime();
+            const h = fmtHours(d.heureDebut||'', d.heureFin||'', d.date, d.dateFin||'');
+            return `<div class="modal-date-row"><div><div class="modal-date-main">${fmtFull(d.date)}${d.dateFin && d.dateFin!==d.date ? ' → '+fmtFull(d.dateFin):''}</div>${h?`<div class="modal-date-time">⏰ ${h}</div>`:''}</div>${isToday?'<span class="modal-date-today">Aujourd\'hui</span>':''}</div>`;
+          }).join('')}
+        </div>
+        ${dates.length > 5 ? `
+        <div id="dates-more-${e.id}" style="display:none">
+          <div class="modal-dates-list">
+            ${dates.slice(5).map(d => {
+              const isToday = parseDate(d.date).getTime() === TODAY.getTime();
+              const h = fmtHours(d.heureDebut||'', d.heureFin||'', d.date, d.dateFin||'');
+              return `<div class="modal-date-row"><div><div class="modal-date-main">${fmtFull(d.date)}${d.dateFin && d.dateFin!==d.date ? ' → '+fmtFull(d.dateFin):''}</div>${h?`<div class="modal-date-time">⏰ ${h}</div>`:''}</div>${isToday?'<span class="modal-date-today">Aujourd\'hui</span>':''}</div>`;
+            }).join('')}
+          </div>
+        </div>
+        <button class="dates-toggle-btn" onclick="
+          const m=document.getElementById('dates-more-${e.id}');
+          const b=this;
+          const open=m.style.display==='block';
+          m.style.display=open?'none':'block';
+          b.textContent=open?'Voir les '+(${dates.length}-5)+' dates suivantes ▾':'Réduire ▴';
+        ">Voir les ${dates.length - 5} dates suivantes ▾</button>
+        ` : ''}
       </div>` : ''}
       <div class="modal-info">
         ${e.localisation_detail?`<div class="modal-row"><div class="modal-icon">📍</div><div class="modal-wrap"><div class="modal-label">Lieu · Dép. ${e.departement}</div><div class="modal-value">${e.localisation_detail}</div></div></div>`:''}
@@ -355,8 +375,6 @@ function buildModal(id, ds, allEvents) {
       <div class="modal-actions">
         ${e.waze?`<a href="${e.waze}" target="_blank" rel="noopener" class="btn-waze" onclick="track('Waze click',{event:'${e.titre.replace(/'/g,'')}'})">📍 Waze</a>`:''}
         ${e.site?`<a href="${e.site}" target="_blank" rel="noopener" class="btn-sec">🌐 Site</a>`:''}
-        ${e.instagram?`<a href="${e.instagram}" target="_blank" rel="noopener" class="btn-sec">📷 Instagram</a>`:''}
-        ${e.facebook?`<a href="${e.facebook}" target="_blank" rel="noopener" class="btn-sec">👥 Facebook</a>`:''}
       </div>
       <div style="margin-top:1rem;padding:0.75rem 1rem;background:var(--surf2);border-radius:var(--radius-sm);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem">
         <div style="font-size:0.78rem;color:var(--txt-d)">📷 Plus de photos de rassemblements sur Instagram</div>

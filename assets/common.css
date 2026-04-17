@@ -12,3 +12,6 @@
 .lightbox-close:hover{background:rgba(255,255,255,0.25)}
 .modal-img{cursor:zoom-in}
 .modal-photo{cursor:zoom-in}
+
+.dates-toggle-btn{width:100%;margin-top:0.5rem;padding:0.5rem;background:var(--surf2);border:1px solid var(--border2);border-radius:8px;color:var(--mauve-l);font-size:0.75rem;font-weight:600;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.2s}
+.dates-toggle-btn:hover{background:var(--mauve-sub);border-color:var(--mauve-b)}
