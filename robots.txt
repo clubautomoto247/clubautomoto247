@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://clubautomoto247.github.io/clubautomoto247/sitemap.xml
