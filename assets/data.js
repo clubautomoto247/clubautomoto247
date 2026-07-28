@@ -60,7 +60,12 @@ function fmtHours(hd, hf, dateDebut, dateFin) {
 // ── EXPAND RASSEMBLEMENTS ────────────────────────────────────
 function expandEvents(evts) {
   const out = [];
-  evts.filter(e => e.publie !== false && e.type === 'rassemblement').forEach(e => {
+  evts.filter(e => {
+    if (e.type !== 'rassemblement') return false;
+    if (e.publie === false) return false;
+    if (e.hidden === true) return false;  // Caché manuellement
+    return true;
+  }).forEach(e => {
     const dates = (e.dates && e.dates.length)
       ? e.dates
       : [{ date: e.date, heureDebut: e.heureDebut||'', heureFin: e.heureFin||'', dateFin: e.dateFin||'' }];
@@ -76,12 +81,16 @@ function expandEvents(evts) {
         const displayObj = obj < TODAY ? TODAY : obj;
         const hd = d.heureDebut||'', hf = d.heureFin||'';
         const h = fmtHours(hd, hf, d.date, df);
-        out.push({ ...e, _obj:displayObj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length, _ongoing: obj < TODAY });
+        const now = new Date();
+        const isCountdown = e.reveal_date && new Date(e.reveal_date) > now;
+        out.push({ ...e, _obj:displayObj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length, _ongoing: obj < TODAY, _countdown: isCountdown });
       } else {
         if (obj < TODAY) return;
         const hd = d.heureDebut||'', hf = d.heureFin||'';
         const h = fmtHours(hd, hf, d.date, df);
-        out.push({ ...e, _obj:obj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length });
+        const now2 = new Date();
+        const isCountdown2 = e.reveal_date && new Date(e.reveal_date) > now2;
+        out.push({ ...e, _obj:obj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length, _countdown: isCountdown2 });
       }
     });
   });
@@ -165,8 +174,62 @@ function vehChips(e) {
 // ── DISCLAIMER ───────────────────────────────────────────────
 const DISCLAIMER = `<div class="modal-disclaimer"><span class="modal-disclaimer-icon">⚠️</span><p><strong>Notification</strong> — Club AutoMoto 24/7 ne pourra être tenu responsable en cas de modification, report ou annulation d'une manifestation. Veuillez vérifier ces informations auprès des organisateurs avant de vous déplacer.</p></div>`;
 
+
+// ── COUNTDOWN CARD ───────────────────────────────────────────
+function countdownCardHTML(e) {
+  const chips = vehChips(e);
+  const revealDate = new Date(e.reveal_date);
+  const id = 'cd-' + e.id;
+
+  // Format: "Révélation dans X j HH:MM:SS"
+  function updateCountdown() {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const now = new Date();
+    const diff = revealDate - now;
+    if (diff <= 0) {
+      // Time's up — reload to show real card
+      window.location.reload();
+      return;
+    }
+    const days  = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins  = Math.floor((diff % 3600000) / 60000);
+    const secs  = Math.floor((diff % 60000) / 1000);
+    const pad = n => String(n).padStart(2,'0');
+    el.textContent = days > 0
+      ? `${days}j ${pad(hours)}:${pad(mins)}:${pad(secs)}`
+      : `${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+  }
+
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) { updateCountdown(); setInterval(updateCountdown, 1000); }
+  }, 100);
+
+  return `
+  <div class="ev-card ev-card-countdown">
+    <div class="ev-card-img ev-card-img-countdown">
+      <div class="countdown-mystery">
+        <div class="countdown-icon">⏳</div>
+        <div class="countdown-label">Révélation dans</div>
+        <div class="countdown-timer" id="${id}">--:--:--</div>
+        <div class="countdown-date">${revealDate.toLocaleDateString('fr-FR',{day:'numeric',month:'long'})}</div>
+      </div>
+      <span class="ev-card-badge tr b-rasso">Rasso.</span>
+    </div>
+    <div class="ev-card-body">
+      <div class="ev-card-date" style="color:var(--mauve-l);font-size:0.62rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.3rem">🔒 Événement mystère</div>
+      ${e.ville ? `<div class="ev-card-loc">📍 ${e.ville} · ${e.departement}</div>` : ''}
+      ${chips.length ? `<div style="display:flex;flex-wrap:wrap;gap:0.25rem;margin-top:0.4rem">${chips.join('')}</div>` : ''}
+      <div class="ev-card-footer"><span style="font-size:0.65rem;color:var(--txt-m);font-style:italic">Détails bientôt révélés</span></div>
+    </div>
+  </div>`;
+}
+
 // ── RASSO CARD ───────────────────────────────────────────────
 function evCardHTML(e) {
+  if (e._countdown) return countdownCardHTML(e);
   const chips = vehChips(e);
   return `
   <div class="ev-card" onclick="openModal(${e.id},'${e._str}');track('Fiche ouverte',{titre:'${e.titre.replace(/'/g,'')}'})" >
