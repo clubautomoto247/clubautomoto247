@@ -2491,7 +2491,7 @@
     ],
     "vehicules_anciens": true,
     "vehicules_modernes": true,
-    "vehicules_detail": "ne exposition de véhicules sportifs est prévue dans l'enceinte de SPOT 3C. Si vous désirez exposer le vôtre, vous pouvez faire une demande par écrit en fin de formulaire. Cette demande est soumise à vérification",
+    "vehicules_detail": "Une exposition de véhicules sportifs est prévue dans l'enceinte de SPOT 3C. Si vous désirez exposer le vôtre, vous pouvez faire une demande par écrit en fin de formulaire. Cette demande est soumise à vérification",
     "localisation_detail": "1 Rte de Bollwiller, 68360 Soultz-Haut-Rhin, France",
     "waze": "https://ul.waze.com/ul?place=ChIJu9E0otJ4kUcRaCMapJfSqaE&ll=47.88287950%2C7.23301380&navigate=yes&utm_campaign=default&utm_source=waze_website&utm_medium=lm_share_location",
     "site": "https://www.spot3c.com/",
@@ -2500,7 +2500,7 @@
     "organisateur": "Spot3C",
     "recurrence": "",
     "instagram": [
-      "https://www.instagram.com/spot3c/",
+      "https://www.instagram.com/spot3c/,https://www.instagram.com/americanxdesign/?locale=fr_FR",
       "https://www.instagram.com/americanxdesign/?locale=fr_FR"
     ],
     "facebook": "",
