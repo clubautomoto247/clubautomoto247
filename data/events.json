@@ -1660,43 +1660,50 @@
         "date": "2026-04-26",
         "heureDebut": "10:00",
         "heureFin": "12:00",
-        "dateFin": ""
+        "dateFin": "",
+        "theme": ""
       },
       {
         "date": "2026-05-31",
         "heureDebut": "10:00",
         "heureFin": "12:00",
-        "dateFin": ""
+        "dateFin": "",
+        "theme": ""
       },
       {
         "date": "2026-06-28",
         "heureDebut": "10:00",
         "heureFin": "12:00",
-        "dateFin": ""
+        "dateFin": "",
+        "theme": ""
       },
       {
         "date": "2026-07-26",
         "heureDebut": "10:00",
         "heureFin": "12:00",
-        "dateFin": ""
+        "dateFin": "",
+        "theme": ""
       },
       {
         "date": "2026-08-30",
         "heureDebut": "10:00",
         "heureFin": "12:00",
-        "dateFin": ""
+        "dateFin": "",
+        "theme": ""
       },
       {
         "date": "2026-09-27",
         "heureDebut": "10:00",
         "heureFin": "12:00",
-        "dateFin": ""
+        "dateFin": "",
+        "theme": ""
       },
       {
         "date": "2026-10-25",
         "heureDebut": "10:00",
         "heureFin": "12:00",
-        "dateFin": ""
+        "dateFin": "",
+        "theme": ""
       }
     ],
     "date": "2026-04-26",
@@ -1734,7 +1741,9 @@
     "visite": false,
     "flyer": "",
     "photos": [],
-    "id": 1776369198754
+    "id": 1776369198754,
+    "hidden": true,
+    "reveal_date": ""
   },
   {
     "type": "rassemblement",
