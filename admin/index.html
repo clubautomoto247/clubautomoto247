@@ -149,7 +149,7 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
 .photo-slot-del{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(248,113,113,0.8);color:#fff;font-size:0.65rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2}
 
 /* DATE ROWS */
-.date-row{display:grid;grid-template-columns:1.2fr 0.8fr 0.8fr 0.8fr 1fr auto;gap:0.4rem;align-items:start;background:var(--surf2);border:1px solid var(--border2);border-radius:8px;padding:0.55rem 0.65rem;transition:border-color 0.2s;margin-bottom:0.35rem}
+.date-row{display:grid;grid-template-columns:1.1fr 0.7fr 0.7fr 0.7fr 0.9fr auto auto;gap:0.4rem;align-items:start;background:var(--surf2);border:1px solid var(--border2);border-radius:8px;padding:0.55rem 0.65rem;transition:border-color 0.2s;margin-bottom:0.35rem}
 .date-row:hover{border-color:var(--mauve-b)}
 .date-row input{background:none;border:none;outline:none;color:var(--txt);font-family:'Outfit',sans-serif;font-size:0.82rem;width:100%;padding:0.15rem 0}
 .date-row input[type=date]::-webkit-calendar-picker-indicator,.date-row input[type=time]::-webkit-calendar-picker-indicator{filter:invert(0.6);cursor:pointer}
@@ -275,7 +275,7 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
   .settings-card{max-width:100%}
   .horaire-row{grid-template-columns:90px 1fr 1fr auto;gap:0.3rem}
   .f-row.three{grid-template-columns:1fr 1fr}
-  .date-row{grid-template-columns:1.2fr 0.8fr 0.8fr 0.8fr 1fr auto;gap:0.3rem;padding:0.5rem 0.55rem}
+  .date-row{grid-template-columns:1.1fr 0.7fr 0.7fr 0.7fr 0.9fr auto auto;gap:0.3rem;padding:0.5rem 0.55rem}
 }
 @media(max-width:480px){
   .stats-row{grid-template-columns:1fr 1fr}
@@ -286,8 +286,6 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
   .photos-grid{grid-template-columns:repeat(3,1fr)}
 }
 </style>
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 </head>
 <body>
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-53BBKQ68" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -602,20 +600,6 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
       <div class="f-row">
         <div class="f-field"><label>Publié</label><select class="f-select" id="rf-publie"><option value="true">✅ Publié</option><option value="false">📝 Brouillon</option></select></div>
         <div class="f-field"><label>Vérifié</label><select class="f-select" id="rf-visite"><option value="false">🔴 Non visité</option><option value="true">✅ Visité</option></select></div>
-      </div>
-      <!-- VISIBILITÉ & COMPTE À REBOURS -->
-      <div class="f-row">
-        <div class="f-field">
-          <label>👁️ Visibilité</label>
-          <select class="f-select" id="rf-hidden">
-            <option value="false">👁️ Visible</option>
-            <option value="true">🙈 Caché (admin uniquement)</option>
-          </select>
-        </div>
-        <div class="f-field">
-          <label>⏳ Révélation le <span style="font-size:0.62rem;color:var(--txt-m)">(compte à rebours)</span></label>
-          <input class="f-input" type="datetime-local" id="rf-reveal-date" title="Laisser vide = pas de compte à rebours. La fiche apparaîtra mystérieuse jusqu'à cette date.">
-        </div>
       </div>
     </div>
     <div class="form-foot"><button class="btn-cancel" onclick="closeRassoForm()">Annuler</button><button class="btn-save" onclick="saveRasso()">💾 Enregistrer</button></div>
@@ -1153,7 +1137,7 @@ function renderRasso(){
     return true;
   }).filter(e=>!q||e.titre.toLowerCase().includes(q)||e.ville.toLowerCase().includes(q));
   filtered.sort((a,b)=>{if(sortKey==='date'){const na=nextDate(a),nb=nextDate(b);const va=na?na.obj:new Date(9999,0,1);const vb=nb?nb.obj:new Date(9999,0,1);return sortAsc?va-vb:vb-va;}return sortAsc?a.titre.localeCompare(b.titre):b.titre.localeCompare(a.titre);});
-  document.getElementById('tbl-body').innerHTML=filtered.length===0?'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--txt-m)">Aucun rassemblement</td></tr>':filtered.map(e=>{const nd=nextDate(e);const tot=(e.dates&&e.dates.length)?e.dates.length:1;const isPast=!nd||nd.obj<td;return `<tr class="${isPast?'td-past':''}" onclick="openRassoForm(${e.id})"><td class="td-name">${e.titre}${tot>1?` <span style="font-size:0.58rem;background:var(--surf3);padding:0.08rem 0.4rem;border-radius:4px;color:var(--txt-m);margin-left:0.3rem">×${tot}</span>`:''}</td><td class="td-date">${nd?fmtDate(nd.date):'-'}</td><td>${badge('b-r',e.departement||'?')}</td><td>${tarifBadge(e.tarif)}</td><td>${e.hidden?badge('b-hidden','🙈 Caché'):e.reveal_date&&new Date(e.reveal_date)>new Date()?badge('b-countdown','⏳ Révélation'):badge(e.publie!==false?'b-ok':'b-no',e.publie!==false?'Publié':'Brouillon')}</td><td><div style="display:flex;gap:0.35rem" onclick="event.stopPropagation()"><button class="act-btn act-edit" onclick="openRassoForm(${e.id})">Éditer</button><button class="act-btn act-del" onclick="askDel(${e.id})">✕</button></div></td></tr>`;}).join('');
+  document.getElementById('tbl-body').innerHTML=filtered.length===0?'<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--txt-m)">Aucun rassemblement</td></tr>':filtered.map(e=>{const nd=nextDate(e);const tot=(e.dates&&e.dates.length)?e.dates.length:1;const isPast=!nd||nd.obj<td;return `<tr class="${isPast?'td-past':''}" onclick="openRassoForm(${e.id})"><td class="td-name">${e.titre}${tot>1?` <span style="font-size:0.58rem;background:var(--surf3);padding:0.08rem 0.4rem;border-radius:4px;color:var(--txt-m);margin-left:0.3rem">×${tot}</span>`:''}</td><td class="td-date">${nd?fmtDate(nd.date):'-'}</td><td>${badge('b-r',e.departement||'?')}</td><td>${tarifBadge(e.tarif)}</td><td>${badge(e.publie!==false?'b-ok':'b-no',e.publie!==false?'Publié':'Brouillon')}</td><td><div style="display:flex;gap:0.35rem" onclick="event.stopPropagation()"><button class="act-btn act-edit" onclick="openRassoForm(${e.id})">Éditer</button><button class="act-btn act-del" onclick="askDel(${e.id})">✕</button></div></td></tr>`;}).join('');
   updateCounts();
 }
 
@@ -1172,12 +1156,12 @@ function renderLoisirs(){
 }
 
 // -- DATE ROWS -------------------------------------------------
-function buildDR(pid,id,date,hd,hf,df='',theme=''){return `<div class="date-row" id="${id}"><div><div class="dr-label">Date *</div><input type="date" class="dr-d" value="${date||''}" style="cursor:pointer"></div><div><div class="dr-label">Début</div><input type="time" class="dr-s" value="${hd||''}" style="cursor:pointer"></div><div><div class="dr-label">Fin</div><input type="time" class="dr-e" value="${hf||''}" style="cursor:pointer"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Fin (multi-jours)</div><input type="date" class="dr-df" value="${df||''}" style="cursor:pointer;font-size:0.72rem" title="Laisser vide si 1 seul jour"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Thème (optionnel)</div><input type="text" class="dr-theme f-input" value="${theme||''}" placeholder="ex: Américain" style="font-size:0.72rem" title="Thème spécifique à cette date"></div><div class="dr-btns"><button type="button" class="dr-copy" onclick="copyDR('${pid}','${id}')" title="Copier les heures">⧉</button><button type="button" class="dr-del" onclick="removeDR('${pid}','${id}')" title="Supprimer">✕</button></div></div>`;}
-function addDR(pid,date,hd,hf,df,theme){const id='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,id,date,hd,hf,df||'',theme||''));updateDRBtns(pid);if(!date)setTimeout(()=>document.getElementById(id)?.querySelector('.dr-d')?.focus(),50);}
+function buildDR(pid,id,date,hd,hf,df='',theme='',themePhoto=''){return `<div class="date-row" id="${id}"><div><div class="dr-label">Date *</div><input type="date" class="dr-d" value="${date||''}" style="cursor:pointer"></div><div><div class="dr-label">Début</div><input type="time" class="dr-s" value="${hd||''}" style="cursor:pointer"></div><div><div class="dr-label">Fin</div><input type="time" class="dr-e" value="${hf||''}" style="cursor:pointer"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Fin (multi-jours)</div><input type="date" class="dr-df" value="${df||''}" style="cursor:pointer;font-size:0.72rem" title="Laisser vide si 1 seul jour"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Thème (optionnel)</div><input type="text" class="dr-theme f-input" value="${theme||''}" placeholder="ex: Américain" style="font-size:0.72rem" title="Thème spécifique à cette date"></div><div><div class="dr-label" style="font-size:0.6rem;color:var(--txt-m)">Photo thème</div><label style="display:flex;align-items:center;gap:0.3rem;cursor:pointer"><div class="dr-photo-thumb" id="${id}-thumb" style="width:32px;height:32px;border-radius:4px;background:var(--surf3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;overflow:hidden;flex-shrink:0">${themePhoto?`<img src="${themePhoto}" style="width:100%;height:100%;object-fit:cover">`:'📷'}</div><input type="file" accept="image/*" style="display:none" onchange="handleDRPhoto(this,'${id}')"><span style="font-size:0.58rem;color:var(--mauve-l)">${themePhoto?'✓':'+Photo'}</span></label><input type="hidden" class="dr-photo" value="${themePhoto||''}"></div><div class="dr-btns"><button type="button" class="dr-copy" onclick="copyDR('${pid}','${id}')" title="Copier les heures">⧉</button><button type="button" class="dr-del" onclick="removeDR('${pid}','${id}')" title="Supprimer">✕</button></div></div>`;}
+function addDR(pid,date,hd,hf,df,theme,themePhoto){const id='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,id,date,hd,hf,df||'',theme||'',themePhoto||''));updateDRBtns(pid);if(!date)setTimeout(()=>document.getElementById(id)?.querySelector('.dr-d')?.focus(),50);}
 function copyDR(pid,id){const r=document.getElementById(id);if(!r)return;const hd=r.querySelector('.dr-s').value,hf=r.querySelector('.dr-e').value;const nid='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,nid,'',hd,hf));updateDRBtns(pid);setTimeout(()=>document.getElementById(nid)?.querySelector('.dr-d')?.focus(),50);toast('Heures copiées','info');}
 function removeDR(pid,id){document.getElementById(id)?.remove();updateDRBtns(pid);}
 function updateDRBtns(pid){const rows=document.querySelectorAll(`#${pid}-dates .date-row`);rows.forEach(r=>{const b=r.querySelector('.dr-del');if(b){b.style.opacity=rows.length<=1?'0.25':'1';b.style.pointerEvents=rows.length<=1?'none':'auto';}});}
-function getDRs(pid){return[...document.querySelectorAll(`#${pid}-dates .date-row`)].map(r=>({date:r.querySelector('.dr-d').value,heureDebut:r.querySelector('.dr-s').value,heureFin:r.querySelector('.dr-e').value,dateFin:r.querySelector('.dr-df')?.value||'',theme:r.querySelector('.dr-theme')?.value||''})).filter(r=>r.date);}
+function getDRs(pid){return[...document.querySelectorAll(`#${pid}-dates .date-row`)].map(r=>({date:r.querySelector('.dr-d').value,heureDebut:r.querySelector('.dr-s').value,heureFin:r.querySelector('.dr-e').value,dateFin:r.querySelector('.dr-df')?.value||'',theme:r.querySelector('.dr-theme')?.value||'',theme_photo:r.querySelector('.dr-photo')?.value||''})).filter(r=>r.date);}
 function clearDRs(pid){document.getElementById(pid+'-dates').innerHTML='';}
 
 // -- HORAIRES TABLE --------------------------------------------
@@ -1220,6 +1204,36 @@ function handleFlyer(pid,input){
   });
 }
 function clearFlyer(pid){document.getElementById(pid+'-flyer').value='';document.getElementById(pid+'-thumb').innerHTML=pid==='rf'?'🏁':pid==='mf'?'🏛️':'🎯';document.getElementById(pid+'-name').textContent='Aucune image';document.getElementById(pid+'-del').style.display='none';}
+
+function handleDRPhoto(input, rowId) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 3 * 1024 * 1024) { toast('Photo max 3MB','err'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const row = document.getElementById(rowId);
+    if (!row) return;
+    // Compress to max 600px
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const maxW = 600;
+      const ratio = Math.min(1, maxW / img.width);
+      canvas.width = Math.round(img.width * ratio);
+      canvas.height = Math.round(img.height * ratio);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      const b64 = canvas.toDataURL('image/jpeg', 0.75);
+      row.querySelector('.dr-photo').value = b64;
+      const thumb = row.querySelector('.dr-photo-thumb');
+      if (thumb) thumb.innerHTML = `<img src="${b64}" style="width:100%;height:100%;object-fit:cover">`;
+      const label = thumb?.nextElementSibling?.nextElementSibling;
+      if (label) label.textContent = '✓ Photo';
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
 function setFlyer(pid,url){if(!url){clearFlyer(pid);return;}document.getElementById(pid+'-flyer').value=url;document.getElementById(pid+'-thumb').innerHTML=`<img src="${url}" alt="">`;document.getElementById(pid+'-name').textContent='Image existante';document.getElementById(pid+'-del').style.display='';}
 function handlePhoto(pid,idx,input){
   const f=input.files[0];if(!f)return;
@@ -1252,12 +1266,12 @@ function openRassoForm(id){
   ['rf-anciens','rf-modernes'].forEach(fid=>{const el=document.getElementById(fid);if(el){el.checked=false;el.closest('.f-check').classList.remove('on');}});
   const fields={titre:'rf-titre',ville:'rf-ville',vehicules_detail:'rf-veh-detail',localisation_detail:'rf-lieu',waze:'rf-waze',site:'rf-site',mail:'rf-mail',tel:'rf-tel',organisateur:'rf-orga',recurrence:'rf-recur',instagram:'rf-insta',facebook:'rf-fb',important:'rf-important',focus:'rf-focus'};
   Object.entries(fields).forEach(([k,fid])=>{const el=document.getElementById(fid);if(el)el.value=e?e[k]||'':'';});
-  if(e){document.getElementById('rf-dept').value=e.departement||'';document.getElementById('rf-tarif').value=e.tarif||'gratuit';document.getElementById('rf-publie').value=String(e.publie!==false);document.getElementById('rf-visite').value=String(e.visite||false);const elH=document.getElementById('rf-hidden');if(elH)elH.value=e.hidden?'true':'false';const elRD=document.getElementById('rf-reveal-date');if(elRD)elRD.value=e.reveal_date||'';setFlyer('rf',e.flyer||'');setAnims(e);setPhotos('rf',e.photos);(e.vehicules||[]).forEach(v=>{const cb=document.querySelector(`#rf-veh-checks input[value="${v}"]`);if(cb){cb.checked=true;cb.closest('.f-check').classList.add('on');}});if(e.vehicules_anciens){const el=document.getElementById('rf-anciens');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}if(e.vehicules_modernes){const el=document.getElementById('rf-modernes');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}const dates=(e.dates&&e.dates.length)?e.dates:[{date:e.date||'',heureDebut:e.heureDebut||'',heureFin:e.heureFin||''}];
+  if(e){document.getElementById('rf-dept').value=e.departement||'';document.getElementById('rf-tarif').value=e.tarif||'gratuit';document.getElementById('rf-publie').value=String(e.publie!==false);document.getElementById('rf-visite').value=String(e.visite||false);setFlyer('rf',e.flyer||'');setAnims(e);setPhotos('rf',e.photos);(e.vehicules||[]).forEach(v=>{const cb=document.querySelector(`#rf-veh-checks input[value="${v}"]`);if(cb){cb.checked=true;cb.closest('.f-check').classList.add('on');}});if(e.vehicules_anciens){const el=document.getElementById('rf-anciens');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}if(e.vehicules_modernes){const el=document.getElementById('rf-modernes');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}const dates=(e.dates&&e.dates.length)?e.dates:[{date:e.date||'',heureDebut:e.heureDebut||'',heureFin:e.heureFin||''}];
         // Populate collaboration fields
         if(Array.isArray(e.instagram)&&e.instagram.length>1){const el2=document.getElementById('rf-insta2');if(el2)el2.value=e.instagram[1]||'';}
         if(Array.isArray(e.facebook)&&e.facebook.length>1){const el2=document.getElementById('rf-fb2');if(el2)el2.value=e.facebook[1]||'';}
         const il=document.getElementById('rf-insta-label');if(il)il.value=e.instagram_label||'';
-        const fl=document.getElementById('rf-fb-label');if(fl)fl.value=e.facebook_label||'';dates.forEach(d=>addDR('rf',d.date,d.heureDebut,d.heureFin,d.dateFin||'',d.theme||''));}
+        const fl=document.getElementById('rf-fb-label');if(fl)fl.value=e.facebook_label||'';dates.forEach(d=>addDR('rf',d.date,d.heureDebut,d.heureFin,d.dateFin||'',d.theme||'',d.theme_photo||''));}
   else{document.getElementById('rf-dept').value='68';document.getElementById('rf-tarif').value='gratuit';document.getElementById('rf-publie').value='true';document.getElementById('rf-visite').value='false';addDR('rf');}
   document.getElementById('rasso-overlay').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>initCityAutocomplete('rf-ville','rf-dept'),50);
 }
@@ -1268,7 +1282,7 @@ async function saveRasso(){
   const vehicules=[...document.querySelectorAll('#rf-veh-checks input:checked')].map(cb=>cb.value);
   const animKeys=['restauration','show','afterwork_dj','animations','balade'];
   const animData={};animKeys.forEach(k=>{animData[k]=document.getElementById('rf-'+k)?.checked||false;animData[k+'_detail']=document.getElementById('rf-'+k+'-detail')?.value||'';});
-  const data={type:'rassemblement',titre,departement:dept,ville,tarif:document.getElementById('rf-tarif').value,dates,date:dates[0].date,heureDebut:dates[0].heureDebut,heureFin:dates[0].heureFin,vehicules,vehicules_anciens:document.getElementById('rf-anciens')?.checked||false,vehicules_modernes:document.getElementById('rf-modernes')?.checked||false,vehicules_detail:document.getElementById('rf-veh-detail').value,localisation_detail:document.getElementById('rf-lieu').value,waze:document.getElementById('rf-waze').value,site:document.getElementById('rf-site').value,mail:document.getElementById('rf-mail').value,tel:document.getElementById('rf-tel').value,organisateur:document.getElementById('rf-orga').value,organisateurs:document.getElementById('rf-orga').value.includes('|')?document.getElementById('rf-orga').value.split('|').map(s=>s.trim()).filter(Boolean):undefined,recurrence:document.getElementById('rf-recur').value,instagram:document.getElementById('rf-insta2')?.value?[document.getElementById('rf-insta').value,document.getElementById('rf-insta2').value].filter(Boolean):document.getElementById('rf-insta').value,facebook:document.getElementById('rf-fb2')?.value?[document.getElementById('rf-fb').value,document.getElementById('rf-fb2').value].filter(Boolean):document.getElementById('rf-fb').value,instagram_label:document.getElementById('rf-insta-label')?.value||undefined,facebook_label:document.getElementById('rf-fb-label')?.value||undefined,important:document.getElementById('rf-important').value,focus:document.getElementById('rf-focus').value,...animData,publie:document.getElementById('rf-publie').value==='true',hidden:document.getElementById('rf-hidden')?.value==='true'||false,reveal_date:document.getElementById('rf-reveal-date')?.value||'',visite:document.getElementById('rf-visite').value==='true',flyer:document.getElementById('rf-flyer').value,photos:getPhotos('rf')};
+  const data={type:'rassemblement',titre,departement:dept,ville,tarif:document.getElementById('rf-tarif').value,dates,date:dates[0].date,heureDebut:dates[0].heureDebut,heureFin:dates[0].heureFin,vehicules,vehicules_anciens:document.getElementById('rf-anciens')?.checked||false,vehicules_modernes:document.getElementById('rf-modernes')?.checked||false,vehicules_detail:document.getElementById('rf-veh-detail').value,localisation_detail:document.getElementById('rf-lieu').value,waze:document.getElementById('rf-waze').value,site:document.getElementById('rf-site').value,mail:document.getElementById('rf-mail').value,tel:document.getElementById('rf-tel').value,organisateur:document.getElementById('rf-orga').value,organisateurs:document.getElementById('rf-orga').value.includes('|')?document.getElementById('rf-orga').value.split('|').map(s=>s.trim()).filter(Boolean):undefined,recurrence:document.getElementById('rf-recur').value,instagram:document.getElementById('rf-insta2')?.value?[document.getElementById('rf-insta').value,document.getElementById('rf-insta2').value].filter(Boolean):document.getElementById('rf-insta').value,facebook:document.getElementById('rf-fb2')?.value?[document.getElementById('rf-fb').value,document.getElementById('rf-fb2').value].filter(Boolean):document.getElementById('rf-fb').value,instagram_label:document.getElementById('rf-insta-label')?.value||undefined,facebook_label:document.getElementById('rf-fb-label')?.value||undefined,important:document.getElementById('rf-important').value,focus:document.getElementById('rf-focus').value,...animData,publie:document.getElementById('rf-publie').value==='true',visite:document.getElementById('rf-visite').value==='true',flyer:document.getElementById('rf-flyer').value,photos:getPhotos('rf')};
   if(editingRassoId){const idx=events.findIndex(e=>e.id===editingRassoId);events[idx]={...events[idx],...data};}else{data.id=Date.now();events.push(data);}
   saveLocal();const synced=await saveToGitHub(events);closeRassoForm();renderRasso();renderDashboard();toast(synced?'✅ Enregistré et synchronisé':'💾 Enregistré localement','ok');
 }

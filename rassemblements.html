@@ -4,9 +4,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-
 <meta name="description" content="Tous les rassemblements auto et moto en Alsace — Club AutoMoto 24/7">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="apple-touch-icon" href="assets/logo.png">
@@ -273,7 +270,7 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close
 // Re-render on fav change
 function renderFavSection() { render(); }
 
-async function init() { allEvents = await loadData(); render(); }
+async function init() { allEvents = await loadData(); window._allEvents = allEvents; render(); }
 init();
 </script>
 

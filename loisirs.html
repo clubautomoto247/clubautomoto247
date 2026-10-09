@@ -2,9 +2,6 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-
 <meta name="description" content="Activités et loisirs auto moto en Alsace">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="apple-touch-icon" href="assets/logo.png">
@@ -110,7 +107,7 @@ function openLoisirModal(id){document.getElementById('modal-content').innerHTML=
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 async function init(){
-  allEvents=await loadData();
+  allEvents=await loadData(); window._allEvents = allEvents;
   const items=allEvents.filter(e=>e.type==='loisir'&&e.publie!==false);
   document.getElementById('loisirs-grid').innerHTML=items.length?items.map(loisirCardHTML).join(''):'<div class="empty-msg">Aucun loisir répertorié pour le moment.</div>';
 }

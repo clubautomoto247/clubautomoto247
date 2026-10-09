@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-
 <meta name="description" content="L'agenda auto & moto autour de chez toi — rassemblements, musées, loisirs en Alsace.">
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link rel="apple-touch-icon" href="assets/logo.png">
@@ -29,14 +26,14 @@
 <link rel="stylesheet" href="assets/common.css">
 <style>
 /* HERO */
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:clamp(4rem,12vw,5rem) clamp(1.2rem,5vw,4rem) clamp(2rem,6vw,3rem)}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:2.5rem clamp(1.5rem,5vw,4rem) 2.5rem}
 .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 55% 55% at 75% 30%,rgba(139,107,181,0.14),transparent),radial-gradient(ellipse 40% 50% at 15% 75%,rgba(139,107,181,0.07),transparent)}
 .hero-grid{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--mauve-b) 1px,transparent 1px),linear-gradient(90deg,var(--mauve-b) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 90% 90% at 50% 50%,black 10%,transparent 100%);opacity:0.45}
 .hero-content{position:relative;z-index:1;max-width:720px}
 .hero-pill{display:inline-flex;align-items:center;gap:0.5rem;background:var(--mauve-sub);border:1px solid var(--mauve-b2);color:var(--mauve-l);font-size:0.68rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;padding:0.32rem 0.9rem;border-radius:20px;margin-bottom:1.3rem;animation:fadeUp 0.7s 0.1s both}
 .hero-pill-dot{width:5px;height:5px;border-radius:50%;background:var(--mauve);animation:pd 2s infinite}
 @keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.3;transform:scale(0.7)}}
-.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,13vw,7.5rem);line-height:0.93;letter-spacing:-0.04em;animation:fadeUp 0.7s 0.2s both}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.6rem,7.5vw,7.5rem);line-height:0.93;letter-spacing:-0.04em;animation:fadeUp 0.7s 0.2s both}
 .hero h1 .l1{display:block;color:var(--txt)}
 .hero h1 .l2{display:block;color:var(--mauve-l)}
 .hero h1 .l2 .amp{font-weight:300;opacity:0.75;font-style:italic}
@@ -65,19 +62,7 @@
 .stab.on{color:var(--mauve-l);border-bottom-color:var(--mauve)}
 .stab:hover{color:var(--txt)}
 .tab-content{display:none}.tab-content.on{display:block}
-@media(max-width:640px){
-  .hero{min-height:auto;padding:5rem 1.2rem 2.5rem}
-  .hero h1{font-size:clamp(2.8rem,14vw,4.5rem)}
-  .hero-sub{font-size:0.88rem;margin-top:1rem}
-  .hero-ctas{margin-top:1.4rem;gap:0.5rem}
-  .hero-ctas .btn-primary,.hero-ctas .btn-outline{width:100%;text-align:center;justify-content:center}
-  .hero-scroll{display:none}
-  .preview-grid{grid-template-columns:1fr}
-}
-@media(max-width:430px){
-  .hero{padding:4.5rem 1rem 2rem}
-  .hero h1{font-size:clamp(2.6rem,15vw,4rem)}
-}
+@media(max-width:640px){.hero h1{font-size:clamp(2.4rem,11vw,4rem)}.preview-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -269,7 +254,7 @@ function renderFavSection(){
 }
 
 async function init(){
-  allEvents = await loadData();
+  allEvents = await loadData(); window._allEvents = allEvents;
   const exp = expandEvents(allEvents);
   document.getElementById('stat-future').textContent = exp.length + '+';
 
