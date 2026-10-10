@@ -22,8 +22,7 @@ const INSTA_URL = 'https://www.instagram.com/club.automoto.247';
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 
 // ── LOAD DATA ────────────────────────────────────────────────
-// Global event store for story generator
-window._allEvents = [];
+window._allEvents=[];
 
 async function loadData() {
   try {
@@ -79,12 +78,12 @@ function expandEvents(evts) {
         const displayObj = obj < TODAY ? TODAY : obj;
         const hd = d.heureDebut||'', hf = d.heureFin||'';
         const h = fmtHours(hd, hf, d.date, df);
-        out.push({ ...e, _obj:displayObj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length, _ongoing: obj < TODAY, _theme: d.theme||'', _theme_photo: d.theme_photo||'' });
+        out.push({ ...e, _obj:displayObj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length, _ongoing: obj < TODAY, _theme:d.theme||'', _theme_photo:d.theme_photo||'' });
       } else {
         if (obj < TODAY) return;
         const hd = d.heureDebut||'', hf = d.heureFin||'';
         const h = fmtHours(hd, hf, d.date, df);
-        out.push({ ...e, _obj:obj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length, _theme: d.theme||'', _theme_photo: d.theme_photo||'' });
+        out.push({ ...e, _obj:obj, _str:d.date, _hd:hd, _hf:hf, _df:df, _h:h, _i:i, _tot:dates.length, _theme:d.theme||'', _theme_photo:d.theme_photo||'' });
       }
     });
   });
@@ -166,224 +165,123 @@ function vehChips(e) {
 }
 
 
-// ── STORY INSTAGRAM GENERATOR ────────────────────────────────
+// ── STORY INSTAGRAM (admin only) ─────────────────────────────
 function generateStory(eventId, dateStr) {
-  // Find the event
+  if (!localStorage.getItem('gh_token')) return; // admin only
   const e = (window._allEvents||[]).find(x => x.id === eventId);
-  if (!e) return;
-
-  // Find the specific date
-  const dates = e.dates?.length ? e.dates : [{date:e.date||dateStr,heureDebut:e.heureDebut||'',heureFin:e.heureFin||'',theme:e.theme||'',theme_photo:e.theme_photo||''}];
+  if (!e) { alert('Événement introuvable'); return; }
+  const dates = e.dates?.length ? e.dates
+    : [{date:e.date||dateStr,heureDebut:e.heureDebut||'',heureFin:e.heureFin||'',theme:e.theme||'',theme_photo:e.theme_photo||''}];
   const d = dates.find(x => x.date === dateStr) || dates[0];
 
+  const W=1080, H=1920;
   const canvas = document.createElement('canvas');
-  canvas.width = 1080;
-  canvas.height = 1920;
+  canvas.width=W; canvas.height=H;
   const ctx = canvas.getContext('2d');
 
-  // Background gradient (dark mauve mesh)
-  const grad = ctx.createLinearGradient(0, 0, 1080, 1920);
-  grad.addColorStop(0, '#080611');
-  grad.addColorStop(0.5, '#0d0a18');
-  grad.addColorStop(1, '#080611');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 1080, 1920);
+  function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
 
-  // Glow top-right
-  const glow = ctx.createRadialGradient(900, 200, 0, 900, 200, 600);
-  glow.addColorStop(0, 'rgba(139,107,181,0.3)');
-  glow.addColorStop(1, 'rgba(139,107,181,0)');
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, 1080, 1920);
-
-  // Glow bottom-left
-  const glow2 = ctx.createRadialGradient(180, 1700, 0, 180, 1700, 500);
-  glow2.addColorStop(0, 'rgba(100,70,160,0.2)');
-  glow2.addColorStop(1, 'rgba(100,70,160,0)');
-  ctx.fillStyle = glow2;
-  ctx.fillRect(0, 0, 1080, 1920);
-
-  const drawStory = (flyerImg) => {
-    // === FLYER / THEME PHOTO ===
-    if (flyerImg) {
-      const fw = 1080, fh = 720;
-      const scale = Math.max(fw/flyerImg.width, fh/flyerImg.height);
-      const sw = flyerImg.width * scale, sh = flyerImg.height * scale;
-      const sx = (fw - sw) / 2, sy = (fh - sh) / 2;
-      // Clip rounded rect
-      ctx.save();
-      roundRect(ctx, 40, 160, 1000, 700, 32);
-      ctx.clip();
-      ctx.drawImage(flyerImg, sx + 40, sy + 160, sw, sh);
-      ctx.restore();
-      // Gradient overlay at bottom of image
-      const imgGrad = ctx.createLinearGradient(0, 600, 0, 860);
-      imgGrad.addColorStop(0, 'rgba(8,6,17,0)');
-      imgGrad.addColorStop(1, 'rgba(8,6,17,0.85)');
-      ctx.fillStyle = imgGrad;
-      roundRect(ctx, 40, 160, 1000, 700, 32);
-      ctx.fill();
-    } else {
-      // No image — pattern background
-      ctx.save();
-      roundRect(ctx, 40, 160, 1000, 700, 32);
-      ctx.clip();
-      ctx.fillStyle = 'rgba(139,107,181,0.08)';
-      ctx.fill();
-      for (let i = 0; i < 1080; i += 40) {
-        ctx.strokeStyle = 'rgba(139,107,181,0.06)';
-        ctx.lineWidth = 1;
-        ctx.beginPath(); ctx.moveTo(i, 160); ctx.lineTo(i, 860); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(40, 160 + (i/1080)*700); ctx.lineTo(1040, 160 + (i/1080)*700); ctx.stroke();
-      }
-      ctx.restore();
-      ctx.font = 'bold 180px serif';
-      ctx.textAlign = 'center';
-      ctx.fillStyle = 'rgba(168,136,212,0.2)';
-      ctx.fillText('🏁', 540, 580);
-    }
-
-    // === LOGO / HANDLE ===
-    ctx.font = '500 36px Outfit,sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.textAlign = 'center';
-    ctx.fillText('@club.automoto.247', 540, 110);
-
-    // Dot separator
-    ctx.fillStyle = '#A888D4';
-    ctx.beginPath(); ctx.arc(540, 140, 4, 0, Math.PI*2); ctx.fill();
-
-    // === DATE ===
-    const dateObj = parseDate(d.date);
-    const months = ['JANVIER','FÉVRIER','MARS','AVRIL','MAI','JUIN','JUILLET','AOÛT','SEPTEMBRE','OCTOBRE','NOVEMBRE','DÉCEMBRE'];
-    const days = ['DIMANCHE','LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI','SAMEDI'];
-    const dayName = days[dateObj.getDay()];
-    const dateStr2 = `${dateObj.getDate()} ${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
-
-    // Date badge
-    ctx.save();
-    ctx.fillStyle = '#A888D4';
-    roundRect(ctx, 40, 920, 300, 80, 16);
-    ctx.fill();
-    ctx.font = 'bold 30px Syne,sans-serif';
-    ctx.fillStyle = '#fff';
-    ctx.textAlign = 'center';
-    ctx.fillText(dayName, 190, 968);
-    ctx.restore();
-
-    ctx.font = 'bold 52px Syne,sans-serif';
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'left';
-    ctx.fillText(dateStr2, 40, 1060);
-
-    // === TITRE ===
-    const titre = (d.theme || e.titre || '').toUpperCase();
-    ctx.font = 'bold 88px Syne,sans-serif';
-    ctx.fillStyle = '#A888D4';
-    ctx.textAlign = 'left';
-    // Word wrap
-    const words = titre.split(' ');
-    let line = '', lines = [], maxW = 1000;
-    for (const w of words) {
-      const test = line + (line?'  ':'')+w;
-      if (ctx.measureText(test).width > maxW && line) { lines.push(line); line = w; }
-      else line = test;
-    }
-    lines.push(line);
-    lines.slice(0,3).forEach((l,i) => ctx.fillText(l, 40, 1180 + i*100));
-
-    // === LIEU ===
-    ctx.font = '500 50px Outfit,sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.75)';
-    ctx.fillText(`📍 ${e.ville} · ${e.departement}`, 40, 1530);
-
-    // === HORAIRES ===
-    if (d.heureDebut) {
-      ctx.font = '400 44px Outfit,sans-serif';
-      ctx.fillStyle = 'rgba(255,255,255,0.55)';
-      const hStr = d.heureDebut.replace(':','h') + (d.heureFin?' – '+d.heureFin.replace(':','h'):'');
-      ctx.fillText(`⏰ ${hStr}`, 40, 1610);
-    }
-
-    // === CHIPS VÉHICULES ===
-    const chips = [];
-    if ((e.vehicules||[]).includes('Voitures') && e.vehicules_anciens) chips.push('🚗 Anciennes');
-    if ((e.vehicules||[]).includes('Voitures') && e.vehicules_modernes) chips.push('🚗 Modernes');
-    if ((e.vehicules||[]).includes('Voitures') && !e.vehicules_anciens && !e.vehicules_modernes) chips.push('🚗 Voitures');
-    if ((e.vehicules||[]).includes('Motos') && e.vehicules_anciens) chips.push('🏍 Anciennes');
-    if ((e.vehicules||[]).includes('Motos') && e.vehicules_modernes) chips.push('🏍 Modernes');
-    if ((e.vehicules||[]).includes('Motos') && !e.vehicules_anciens && !e.vehicules_modernes) chips.push('🏍 Motos');
-
-    let cx = 40;
-    chips.forEach(chip => {
-      ctx.font = 'bold 32px Outfit,sans-serif';
-      const tw = ctx.measureText(chip).width;
-      ctx.fillStyle = 'rgba(139,107,181,0.2)';
-      roundRect(ctx, cx, 1660, tw+40, 54, 12);
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(139,107,181,0.4)';
-      ctx.lineWidth = 1.5;
-      roundRect(ctx, cx, 1660, tw+40, 54, 12);
-      ctx.stroke();
-      ctx.fillStyle = '#A888D4';
-      ctx.textAlign = 'left';
-      ctx.fillText(chip, cx+20, 1697);
-      cx += tw + 60;
+  const draw = (flyerImg) => {
+    // BG gradient
+    const grad = ctx.createLinearGradient(0,0,W,H);
+    grad.addColorStop(0,'#080611'); grad.addColorStop(0.5,'#0d0a18'); grad.addColorStop(1,'#080611');
+    ctx.fillStyle=grad; ctx.fillRect(0,0,W,H);
+    // Glows
+    [['rgba(139,107,181,0.28)',900,250,620],['rgba(100,70,160,0.18)',160,1700,480]].forEach(([c,x,y,r])=>{
+      const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,c);g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
     });
 
-    // === TARIF BADGE ===
-    const tarifLabel = e.tarif==='gratuit'?'GRATUIT':e.tarif==='payant'?'PAYANT':'GRATUIT & PAYANT';
-    const tarifColor = e.tarif==='gratuit'?'#4ade80':e.tarif==='payant'?'#f87171':'#fb923c';
-    ctx.font = 'bold 34px Syne,sans-serif';
-    const tw2 = ctx.measureText(tarifLabel).width;
-    ctx.fillStyle = tarifColor + '22';
-    roundRect(ctx, 1040-tw2-50, 920, tw2+50, 70, 14);
-    ctx.fill();
-    ctx.strokeStyle = tarifColor + '66';
-    ctx.lineWidth = 2;
-    roundRect(ctx, 1040-tw2-50, 920, tw2+50, 70, 14);
-    ctx.stroke();
-    ctx.fillStyle = tarifColor;
-    ctx.textAlign = 'right';
-    ctx.fillText(tarifLabel, 1040, 965);
+    // FLYER IMAGE
+    if(flyerImg){
+      const fw=1000,fh=760,fx=40,fy=150;
+      const scale=Math.max(fw/flyerImg.width,fh/flyerImg.height);
+      const sw=flyerImg.width*scale,sh=flyerImg.height*scale;
+      ctx.save();rr(fx,fy,fw,fh,28);ctx.clip();
+      ctx.drawImage(flyerImg,(fw-sw)/2+fx,(fh-sh)/2+fy,sw,sh);
+      ctx.restore();
+      // Bottom fade
+      const fg=ctx.createLinearGradient(0,700,0,910);fg.addColorStop(0,'rgba(8,6,17,0)');fg.addColorStop(1,'rgba(8,6,17,0.9)');
+      ctx.save();rr(fx,fy,fw,fh,28);ctx.clip();ctx.fillStyle=fg;ctx.fillRect(fx,fy,fw,fh);ctx.restore();
+    } else {
+      ctx.save();rr(40,150,1000,760,28);ctx.clip();
+      ctx.fillStyle='rgba(139,107,181,0.07)';ctx.fill();
+      for(let i=0;i<W;i+=44){ctx.strokeStyle='rgba(139,107,181,0.05)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(i,150);ctx.lineTo(i,910);ctx.stroke();}
+      ctx.restore();
+      ctx.font='180px serif';ctx.textAlign='center';ctx.fillStyle='rgba(168,136,212,0.15)';ctx.fillText('🏁',W/2,590);
+    }
 
-    // === SITE URL ===
-    ctx.font = '400 34px Outfit,sans-serif';
-    ctx.fillStyle = 'rgba(168,136,212,0.6)';
-    ctx.textAlign = 'center';
-    ctx.fillText('clubautomoto247.github.io', 540, 1860);
+    // HANDLE
+    ctx.font='500 38px Outfit,sans-serif';ctx.fillStyle='rgba(255,255,255,0.55)';ctx.textAlign='center';ctx.fillText('@club.automoto.247',W/2,100);
+    ctx.fillStyle='#A888D4';ctx.beginPath();ctx.arc(W/2,132,5,0,Math.PI*2);ctx.fill();
 
-    // Download
-    const link = document.createElement('a');
-    link.download = `story-${e.titre.replace(/\s+/g,'-').toLowerCase()}-${d.date}.jpg`;
-    link.href = canvas.toDataURL('image/jpeg', 0.92);
-    link.click();
+    // DATE
+    const dObj=parseDate(d.date);
+    const DAYS=['DIMANCHE','LUNDI','MARDI','MERCREDI','JEUDI','VENDREDI','SAMEDI'];
+    const MTHS=['JANVIER','FÉVRIER','MARS','AVRIL','MAI','JUIN','JUILLET','AOÛT','SEPTEMBRE','OCTOBRE','NOVEMBRE','DÉCEMBRE'];
+    const dayLbl=DAYS[dObj.getDay()];
+    const dateLbl=`${dObj.getDate()} ${MTHS[dObj.getMonth()]} ${dObj.getFullYear()}`;
+    ctx.save();ctx.fillStyle='#A888D4';rr(40,940,ctx.measureText ? 320:300,78,16);
+    ctx.font='bold 32px Syne,sans-serif';ctx.textAlign='left';
+    const dw=ctx.measureText(dayLbl).width+60;rr(40,940,dw,78,16);ctx.fill();
+    ctx.fillStyle='#fff';ctx.fillText(dayLbl,70,990);ctx.restore();
+    ctx.font='bold 56px Syne,sans-serif';ctx.fillStyle='#fff';ctx.textAlign='left';ctx.fillText(dateLbl,40,1090);
+
+    // TITRE / THÈME
+    const titre=(d.theme||e.titre||'').toUpperCase();
+    ctx.font='bold 90px Syne,sans-serif';ctx.fillStyle='#A888D4';ctx.textAlign='left';
+    const words=titre.split(' ');let line='',lines=[];
+    for(const w of words){const t=line+(line?' ':'')+w;if(ctx.measureText(t).width>1000&&line){lines.push(line);line=w;}else line=t;}
+    lines.push(line);
+    lines.slice(0,3).forEach((l,i)=>ctx.fillText(l,40,1220+i*105));
+
+    // LIEU
+    ctx.font='500 52px Outfit,sans-serif';ctx.fillStyle='rgba(255,255,255,0.75)';ctx.fillText(`📍 ${e.ville} · ${e.departement}`,40,1570);
+
+    // HORAIRES
+    if(d.heureDebut){
+      const hStr=d.heureDebut.replace(':','h')+(d.heureFin?' – '+d.heureFin.replace(':','h'):'');
+      ctx.font='400 46px Outfit,sans-serif';ctx.fillStyle='rgba(255,255,255,0.5)';ctx.fillText(`⏰ ${hStr}`,40,1650);
+    }
+
+    // CHIPS VÉHICULES
+    const chips=[];
+    if((e.vehicules||[]).includes('Voitures')&&e.vehicules_anciens)chips.push('🚗 Anciennes');
+    if((e.vehicules||[]).includes('Voitures')&&e.vehicules_modernes)chips.push('🚗 Modernes');
+    if((e.vehicules||[]).includes('Voitures')&&!e.vehicules_anciens&&!e.vehicules_modernes)chips.push('🚗 Voitures');
+    if((e.vehicules||[]).includes('Motos')&&e.vehicules_anciens)chips.push('🏍 Anciennes');
+    if((e.vehicules||[]).includes('Motos')&&e.vehicules_modernes)chips.push('🏍 Modernes');
+    if((e.vehicules||[]).includes('Motos')&&!e.vehicules_anciens&&!e.vehicules_modernes)chips.push('🏍 Motos');
+    ctx.font='bold 34px Outfit,sans-serif';
+    let cx=40;
+    chips.forEach(chip=>{
+      const tw=ctx.measureText(chip).width;
+      ctx.fillStyle='rgba(139,107,181,0.18)';rr(cx,1700,tw+44,56,12);ctx.fill();
+      ctx.strokeStyle='rgba(139,107,181,0.35)';ctx.lineWidth=1.5;rr(cx,1700,tw+44,56,12);ctx.stroke();
+      ctx.fillStyle='#A888D4';ctx.fillText(chip,cx+22,1737);cx+=tw+64;
+    });
+
+    // TARIF
+    const tLabel=e.tarif==='gratuit'?'GRATUIT':e.tarif==='payant'?'PAYANT':'MIXTE';
+    const tColor=e.tarif==='gratuit'?'#4ade80':e.tarif==='payant'?'#f87171':'#fb923c';
+    ctx.font='bold 34px Syne,sans-serif';const tw=ctx.measureText(tLabel).width;
+    ctx.fillStyle=tColor+'22';rr(W-tw-90,940,tw+50,70,14);ctx.fill();
+    ctx.strokeStyle=tColor+'55';ctx.lineWidth=2;rr(W-tw-90,940,tw+50,70,14);ctx.stroke();
+    ctx.fillStyle=tColor;ctx.textAlign='right';ctx.fillText(tLabel,W-55,988);
+
+    // URL
+    ctx.font='400 36px Outfit,sans-serif';ctx.fillStyle='rgba(168,136,212,0.5)';ctx.textAlign='center';ctx.fillText('clubautomoto247.github.io',W/2,1880);
+
+    // TÉLÉCHARGEMENT
+    const a=document.createElement('a');
+    a.download=`story-${(e.titre||'event').replace(/\s+/g,'-').toLowerCase()}-${d.date}.jpg`;
+    a.href=canvas.toDataURL('image/jpeg',0.92);
+    document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),300);
   };
 
-  // Load flyer/theme image
-  const imgSrc = d.theme_photo || e.flyer;
-  if (imgSrc) {
-    const img = new Image();
-    img.onload = () => drawStory(img);
-    img.onerror = () => drawStory(null);
-    img.src = imgSrc;
-  } else {
-    drawStory(null);
-  }
-}
-
-function roundRect(ctx, x, y, w, h, r) {
-  ctx.beginPath();
-  ctx.moveTo(x+r, y);
-  ctx.lineTo(x+w-r, y);
-  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-  ctx.lineTo(x+w, y+h-r);
-  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-  ctx.lineTo(x+r, y+h);
-  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-  ctx.lineTo(x, y+r);
-  ctx.quadraticCurveTo(x, y, x+r, y);
-  ctx.closePath();
+  const src=d.theme_photo||e.flyer;
+  if(src){const img=new Image();img.crossOrigin='anonymous';img.onload=()=>draw(img);img.onerror=()=>draw(null);img.src=src;}
+  else draw(null);
 }
 
 // ── DISCLAIMER ───────────────────────────────────────────────
@@ -395,7 +293,7 @@ function evCardHTML(e) {
   return `
   <div class="ev-card" onclick="openModal(${e.id},'${e._str}');track('Fiche ouverte',{titre:'${e.titre.replace(/'/g,'')}'})" >
     <div class="ev-card-img">
-      ${(e._theme_photo||e.flyer) ? `<img src="${e._theme_photo||e.flyer}" alt="${e.titre}" loading="lazy">` : '🏁'}
+      ${(e._theme_photo||e.flyer) ? `<img src="${e._theme_photo||e.flyer}" alt="${e.titre}" loading="lazy" style="object-position:${e._theme_photo?'center center':(e.flyer_position||'center center')}">` : '🏁'}
       <span class="ev-card-badge tr b-rasso">Rasso.</span>
       <span class="ev-card-badge tl ${tarifBadgeClass(e.tarif)}">${tarifLabel(e.tarif)}</span>
       ${timingBadge(e)}
@@ -423,7 +321,7 @@ function museeCardHTML(e) {
   return `
   <div class="ev-card" onclick="openMuseeModal(${e.id})">
     <div class="ev-card-img">
-      ${e.flyer ? `<img src="${e.flyer}" alt="${e.titre}" loading="lazy">` : '🏛️'}
+      ${e.flyer ? `<img src="${e.flyer}" alt="${e.titre}" loading="lazy" style="object-position:${e.flyer_position||'center center'}">` : '🏛️'}
       <span class="ev-card-badge tr b-musee">Musée</span>
     </div>
     <div class="ev-card-body">
@@ -440,7 +338,7 @@ function loisirCardHTML(e) {
   return `
   <div class="ev-card" onclick="openLoisirModal(${e.id})">
     <div class="ev-card-img">
-      ${e.flyer ? `<img src="${e.flyer}" alt="${e.titre}" loading="lazy">` : '🎯'}
+      ${e.flyer ? `<img src="${e.flyer}" alt="${e.titre}" loading="lazy" style="object-position:${e.flyer_position||'center center'}">` : '🎯'}
       <span class="ev-card-badge tr b-loisir">Loisir</span>
       ${e.type_loisir ? `<span class="ev-card-badge tl b-loisir">${e.type_loisir}</span>` : ''}
     </div>
@@ -538,7 +436,7 @@ function buildModal(id, ds, allEvents) {
 
   return `
     <div class="modal-handle"></div>
-    ${(e._theme_photo||e.flyer) ? `<img class="modal-img" src="${e._theme_photo||e.flyer}" alt="${e.titre}" onclick="openLightbox('${e._theme_photo||e.flyer}')">` : '<div class="modal-placeholder">🏁</div>'}
+    ${(e._theme_photo||e.flyer) ? `<img class="modal-img" src="${e._theme_photo||e.flyer}" alt="${e.titre}" onclick="openLightbox('${e._theme_photo||e.flyer}')" style="object-position:${e._theme_photo?'center center':(e.flyer_position||'center center')}">` : '<div class="modal-placeholder">🏁</div>'}
     <div class="modal-body">
       <div class="modal-badges">
         <span class="modal-badge b-rasso">Rassemblement</span>
@@ -556,7 +454,7 @@ function buildModal(id, ds, allEvents) {
           ${dates.slice(0,5).map(d => {
             const isToday = parseDate(d.date).getTime() === TODAY.getTime();
             const h = fmtHours(d.heureDebut||'', d.heureFin||'', d.date, d.dateFin||'');
-            return `<div class="modal-date-row">${d.theme_photo?`<img src="${d.theme_photo}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;cursor:pointer" onclick="openLightbox('${d.theme_photo}')">`:''}<div style="flex:1"><div class="modal-date-main">${fmtFull(d.date)}${d.dateFin && d.dateFin!==d.date ? ' → '+fmtFull(d.dateFin):''}</div>${d.theme?`<div class="modal-date-theme">🎨 ${d.theme}</div>`:''} ${h?`<div class="modal-date-time">⏰ ${h}</div>`:''}</div>${isToday?'<span class="modal-date-today">Aujourd\'hui</span>':''}</div>`;
+            return `<div class="modal-date-row" style="display:flex;align-items:center;gap:0.6rem">${d.theme_photo?`<img src="${d.theme_photo}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;cursor:pointer" onclick="openLightbox('${d.theme_photo}')">`:''}<div style="flex:1"><div class="modal-date-main">${fmtFull(d.date)}${d.dateFin && d.dateFin!==d.date ? ' → '+fmtFull(d.dateFin):''}</div>${d.theme?`<div class="modal-date-theme">🎨 ${d.theme}</div>`:''} ${h?`<div class="modal-date-time">⏰ ${h}</div>`:''}</div>${isToday?'<span class="modal-date-today">Aujourd\'hui</span>':''}</div>`;
           }).join('')}
         </div>
         ${dates.length > 5 ? `
@@ -565,7 +463,7 @@ function buildModal(id, ds, allEvents) {
             ${dates.slice(5).map(d => {
               const isToday = parseDate(d.date).getTime() === TODAY.getTime();
               const h = fmtHours(d.heureDebut||'', d.heureFin||'', d.date, d.dateFin||'');
-              return `<div class="modal-date-row">${d.theme_photo?`<img src="${d.theme_photo}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;cursor:pointer" onclick="openLightbox('${d.theme_photo}')">`:''}<div style="flex:1"><div class="modal-date-main">${fmtFull(d.date)}${d.dateFin && d.dateFin!==d.date ? ' → '+fmtFull(d.dateFin):''}</div>${d.theme?`<div class="modal-date-theme">🎨 ${d.theme}</div>`:''} ${h?`<div class="modal-date-time">⏰ ${h}</div>`:''}</div>${isToday?'<span class="modal-date-today">Aujourd\'hui</span>':''}</div>`;
+              return `<div class="modal-date-row" style="display:flex;align-items:center;gap:0.6rem">${d.theme_photo?`<img src="${d.theme_photo}" alt="" style="width:48px;height:48px;object-fit:cover;border-radius:6px;flex-shrink:0;cursor:pointer" onclick="openLightbox('${d.theme_photo}')">`:''}<div style="flex:1"><div class="modal-date-main">${fmtFull(d.date)}${d.dateFin && d.dateFin!==d.date ? ' → '+fmtFull(d.dateFin):''}</div>${d.theme?`<div class="modal-date-theme">🎨 ${d.theme}</div>`:''} ${h?`<div class="modal-date-time">⏰ ${h}</div>`:''}</div>${isToday?'<span class="modal-date-today">Aujourd\'hui</span>':''}</div>`;
             }).join('')}
           </div>
         </div>
@@ -591,7 +489,6 @@ function buildModal(id, ds, allEvents) {
       <div class="modal-actions">
         ${e.waze?`<a href="${e.waze}" target="_blank" rel="noopener" class="btn-waze" onclick="track('Waze click',{event:'${e.titre.replace(/'/g,'')}'})">📍 Waze</a>`:''}
         ${e.site?`<a href="${e.site}" target="_blank" rel="noopener" class="btn-sec">🌐 Site</a>`:''}
-        <button class="btn-sec" style="border:none;cursor:pointer;font-family:inherit" onclick="generateStory(${e.id},'${ds}')" title="Télécharger une story Instagram">📱 Story</button>
       </div>
       <div style="margin-top:1rem;padding:0.75rem 1rem;background:var(--surf2);border-radius:var(--radius-sm);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem">
         <div style="font-size:0.78rem;color:var(--txt-d)">📷 Plus de photos de rassemblements sur Instagram</div>

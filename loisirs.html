@@ -107,7 +107,7 @@ function openLoisirModal(id){document.getElementById('modal-content').innerHTML=
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 async function init(){
-  allEvents=await loadData(); window._allEvents = allEvents;
+  allEvents=await loadData();
   const items=allEvents.filter(e=>e.type==='loisir'&&e.publie!==false);
   document.getElementById('loisirs-grid').innerHTML=items.length?items.map(loisirCardHTML).join(''):'<div class="empty-msg">Aucun loisir répertorié pour le moment.</div>';
 }

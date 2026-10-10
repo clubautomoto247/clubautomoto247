@@ -107,7 +107,7 @@ function openMuseeModal(id){document.getElementById('modal-content').innerHTML=b
 function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 async function init(){
-  allEvents=await loadData(); window._allEvents = allEvents;
+  allEvents=await loadData();
   const items=allEvents.filter(e=>e.type==='musee'&&e.publie!==false);
   document.getElementById('musees-grid').innerHTML=items.length?items.map(museeCardHTML).join(''):'<div class="empty-msg">Aucun musée répertorié pour le moment.</div>';
 }

@@ -149,7 +149,7 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
 .photo-slot-del{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(248,113,113,0.8);color:#fff;font-size:0.65rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2}
 
 /* DATE ROWS */
-.date-row{display:grid;grid-template-columns:1.1fr 0.7fr 0.7fr 0.7fr 0.9fr auto auto;gap:0.4rem;align-items:start;background:var(--surf2);border:1px solid var(--border2);border-radius:8px;padding:0.55rem 0.65rem;transition:border-color 0.2s;margin-bottom:0.35rem}
+.date-row{display:grid;grid-template-columns:1.2fr 0.8fr 0.8fr 0.8fr 1fr auto;gap:0.4rem;align-items:start;background:var(--surf2);border:1px solid var(--border2);border-radius:8px;padding:0.55rem 0.65rem;transition:border-color 0.2s;margin-bottom:0.35rem}
 .date-row:hover{border-color:var(--mauve-b)}
 .date-row input{background:none;border:none;outline:none;color:var(--txt);font-family:'Outfit',sans-serif;font-size:0.82rem;width:100%;padding:0.15rem 0}
 .date-row input[type=date]::-webkit-calendar-picker-indicator,.date-row input[type=time]::-webkit-calendar-picker-indicator{filter:invert(0.6);cursor:pointer}
@@ -275,7 +275,7 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
   .settings-card{max-width:100%}
   .horaire-row{grid-template-columns:90px 1fr 1fr auto;gap:0.3rem}
   .f-row.three{grid-template-columns:1fr 1fr}
-  .date-row{grid-template-columns:1.1fr 0.7fr 0.7fr 0.7fr 0.9fr auto auto;gap:0.3rem;padding:0.5rem 0.55rem}
+  .date-row{grid-template-columns:1.2fr 0.8fr 0.8fr 0.8fr 1fr auto;gap:0.3rem;padding:0.5rem 0.55rem}
 }
 @media(max-width:480px){
   .stats-row{grid-template-columns:1fr 1fr}
@@ -524,7 +524,21 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
     <div class="form-head"><h3 id="rasso-form-title">Nouveau rassemblement</h3><button class="form-close" onclick="closeRassoForm()">✕</button></div>
     <div class="form-body">
       <div class="f-section" style="margin-top:0">🖼️ Flyer</div>
-      <div class="flyer-row"><div class="flyer-thumb" id="rf-thumb">🏁</div><div class="flyer-info"><div class="flyer-name" id="rf-name">Aucun flyer</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('rf',this)"></label><button class="btn-flyer-del" id="rf-del" onclick="clearFlyer('rf')" style="display:none">✕</button></div></div>
+      <div class="flyer-row"><div class="flyer-thumb" id="rf-thumb">🏁</div><div class="flyer-info"><div class="flyer-name" id="rf-name">Aucun flyer</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div>
+          <div id="rf-position-wrap" style="display:none;margin-top:0.5rem">
+            <div style="font-size:0.65rem;color:var(--txt-m);margin-bottom:0.3rem">📌 Position de la photo <span style="color:var(--mauve-l)">(glisse pour recadrer)</span></div>
+            <div id="rf-position-preview" style="width:100%;height:80px;border-radius:8px;overflow:hidden;cursor:grab;position:relative;user-select:none;border:1px solid var(--border2)">
+              <img id="rf-position-img" src="" style="position:absolute;width:100%;object-fit:cover;object-position:center center;pointer-events:none">
+            </div>
+            <input type="hidden" id="rf-flyer-position" value="center center">
+            <div style="display:flex;gap:0.4rem;margin-top:0.4rem;flex-wrap:wrap">
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center top')">⬆️ Haut</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center center')">⬛ Centre</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center bottom')">⬇️ Bas</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('left center')">⬅️ Gauche</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('right center')">➡️ Droite</button>
+            </div>
+          </div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('rf',this)"></label><button class="btn-flyer-del" id="rf-del" onclick="clearFlyer('rf')" style="display:none">✕</button></div></div>
       <input type="hidden" id="rf-flyer">
       <div class="f-section">📋 Informations</div>
       <div class="f-row full"><div class="f-field"><label>Nom <span class="req">*</span></label><input class="f-input" id="rf-titre"></div></div>
@@ -612,7 +626,21 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
     <div class="form-head"><h3 id="musee-form-title">Nouveau musée</h3><button class="form-close" onclick="closeMuseeForm()">✕</button></div>
     <div class="form-body">
       <div class="f-section" style="margin-top:0">🖼️ Image principale</div>
-      <div class="flyer-row"><div class="flyer-thumb" id="mf-thumb">🏛️</div><div class="flyer-info"><div class="flyer-name" id="mf-name">Aucune image</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('mf',this)"></label><button class="btn-flyer-del" id="mf-del" onclick="clearFlyer('mf')" style="display:none">✕</button></div></div>
+      <div class="flyer-row"><div class="flyer-thumb" id="mf-thumb">🏛️</div><div class="flyer-info"><div class="flyer-name" id="mf-name">Aucune image</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div>
+          <div id="rf-position-wrap" style="display:none;margin-top:0.5rem">
+            <div style="font-size:0.65rem;color:var(--txt-m);margin-bottom:0.3rem">📌 Position de la photo <span style="color:var(--mauve-l)">(glisse pour recadrer)</span></div>
+            <div id="rf-position-preview" style="width:100%;height:80px;border-radius:8px;overflow:hidden;cursor:grab;position:relative;user-select:none;border:1px solid var(--border2)">
+              <img id="rf-position-img" src="" style="position:absolute;width:100%;object-fit:cover;object-position:center center;pointer-events:none">
+            </div>
+            <input type="hidden" id="rf-flyer-position" value="center center">
+            <div style="display:flex;gap:0.4rem;margin-top:0.4rem;flex-wrap:wrap">
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center top')">⬆️ Haut</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center center')">⬛ Centre</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center bottom')">⬇️ Bas</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('left center')">⬅️ Gauche</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('right center')">➡️ Droite</button>
+            </div>
+          </div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('mf',this)"></label><button class="btn-flyer-del" id="mf-del" onclick="clearFlyer('mf')" style="display:none">✕</button></div></div>
       <input type="hidden" id="mf-flyer">
       <div class="f-section">📋 Informations</div>
       <div class="f-row full"><div class="f-field"><label>Nom <span class="req">*</span></label><input class="f-input" id="mf-titre"></div></div>
@@ -667,7 +695,21 @@ td{padding:0.7rem 0.85rem;font-size:0.8rem;vertical-align:middle}
     <div class="form-head"><h3 id="loisir-form-title">Nouveau loisir</h3><button class="form-close" onclick="closeLoisirForm()">✕</button></div>
     <div class="form-body">
       <div class="f-section" style="margin-top:0">🖼️ Image principale</div>
-      <div class="flyer-row"><div class="flyer-thumb" id="lf-thumb">🎯</div><div class="flyer-info"><div class="flyer-name" id="lf-name">Aucune image</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('lf',this)"></label><button class="btn-flyer-del" id="lf-del" onclick="clearFlyer('lf')" style="display:none">✕</button></div></div>
+      <div class="flyer-row"><div class="flyer-thumb" id="lf-thumb">🎯</div><div class="flyer-info"><div class="flyer-name" id="lf-name">Aucune image</div><div class="flyer-sub">JPG, PNG · auto-compressé · Max 8MB</div>
+          <div id="rf-position-wrap" style="display:none;margin-top:0.5rem">
+            <div style="font-size:0.65rem;color:var(--txt-m);margin-bottom:0.3rem">📌 Position de la photo <span style="color:var(--mauve-l)">(glisse pour recadrer)</span></div>
+            <div id="rf-position-preview" style="width:100%;height:80px;border-radius:8px;overflow:hidden;cursor:grab;position:relative;user-select:none;border:1px solid var(--border2)">
+              <img id="rf-position-img" src="" style="position:absolute;width:100%;object-fit:cover;object-position:center center;pointer-events:none">
+            </div>
+            <input type="hidden" id="rf-flyer-position" value="center center">
+            <div style="display:flex;gap:0.4rem;margin-top:0.4rem;flex-wrap:wrap">
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center top')">⬆️ Haut</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center center')">⬛ Centre</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('center bottom')">⬇️ Bas</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('left center')">⬅️ Gauche</button>
+              <button type="button" class="btn-save-s" style="font-size:0.65rem;padding:0.3rem 0.6rem" onclick="setPosition('right center')">➡️ Droite</button>
+            </div>
+          </div></div><div class="flyer-actions"><label class="btn-flyer-pick">📁 Choisir<input type="file" accept="image/*" onchange="handleFlyer('lf',this)"></label><button class="btn-flyer-del" id="lf-del" onclick="clearFlyer('lf')" style="display:none">✕</button></div></div>
       <input type="hidden" id="lf-flyer">
       <div class="f-section">📋 Informations</div>
       <div class="f-row full"><div class="f-field"><label>Nom <span class="req">*</span></label><input class="f-input" id="lf-titre"></div></div>
@@ -1156,8 +1198,33 @@ function renderLoisirs(){
 }
 
 // -- DATE ROWS -------------------------------------------------
-function buildDR(pid,id,date,hd,hf,df='',theme='',themePhoto=''){return `<div class="date-row" id="${id}"><div><div class="dr-label">Date *</div><input type="date" class="dr-d" value="${date||''}" style="cursor:pointer"></div><div><div class="dr-label">Début</div><input type="time" class="dr-s" value="${hd||''}" style="cursor:pointer"></div><div><div class="dr-label">Fin</div><input type="time" class="dr-e" value="${hf||''}" style="cursor:pointer"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Fin (multi-jours)</div><input type="date" class="dr-df" value="${df||''}" style="cursor:pointer;font-size:0.72rem" title="Laisser vide si 1 seul jour"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Thème (optionnel)</div><input type="text" class="dr-theme f-input" value="${theme||''}" placeholder="ex: Américain" style="font-size:0.72rem" title="Thème spécifique à cette date"></div><div><div class="dr-label" style="font-size:0.6rem;color:var(--txt-m)">Photo thème</div><label style="display:flex;align-items:center;gap:0.3rem;cursor:pointer"><div class="dr-photo-thumb" id="${id}-thumb" style="width:32px;height:32px;border-radius:4px;background:var(--surf3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;overflow:hidden;flex-shrink:0">${themePhoto?`<img src="${themePhoto}" style="width:100%;height:100%;object-fit:cover">`:'📷'}</div><input type="file" accept="image/*" style="display:none" onchange="handleDRPhoto(this,'${id}')"><span style="font-size:0.58rem;color:var(--mauve-l)">${themePhoto?'✓':'+Photo'}</span></label><input type="hidden" class="dr-photo" value="${themePhoto||''}"></div><div class="dr-btns"><button type="button" class="dr-copy" onclick="copyDR('${pid}','${id}')" title="Copier les heures">⧉</button><button type="button" class="dr-del" onclick="removeDR('${pid}','${id}')" title="Supprimer">✕</button></div></div>`;}
-function addDR(pid,date,hd,hf,df,theme,themePhoto){const id='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,id,date,hd,hf,df||'',theme||'',themePhoto||''));updateDRBtns(pid);if(!date)setTimeout(()=>document.getElementById(id)?.querySelector('.dr-d')?.focus(),50);}
+function buildDR(pid,id,date,hd,hf,df='',theme='',themePhoto=''){return `<div class="date-row" id="${id}"><div><div class="dr-label">Date *</div><input type="date" class="dr-d" value="${date||''}" style="cursor:pointer"></div><div><div class="dr-label">Début</div><input type="time" class="dr-s" value="${hd||''}" style="cursor:pointer"></div><div><div class="dr-label">Fin</div><input type="time" class="dr-e" value="${hf||''}" style="cursor:pointer"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Fin (multi-jours)</div><input type="date" class="dr-df" value="${df||''}" style="cursor:pointer;font-size:0.72rem" title="Laisser vide si 1 seul jour"></div><div><div class="dr-label" style="font-size:0.62rem;color:var(--txt-m)">Thème</div><input type="text" class="dr-theme f-input" value="${theme||''}" placeholder="ex: Américain" style="font-size:0.72rem"></div><div style="display:flex;flex-direction:column;gap:0.25rem"><div class="dr-label" style="font-size:0.6rem;color:var(--txt-m)">Photo thème</div><label style="cursor:pointer;display:flex;align-items:center;gap:0.3rem"><div class="dr-thumb" id="${id}-thumb" style="width:34px;height:34px;border-radius:5px;background:var(--surf3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:0.75rem;overflow:hidden;flex-shrink:0">${themePhoto?`<img src="${themePhoto}" style="width:100%;height:100%;object-fit:cover">`:'📷'}</div><span style="font-size:0.58rem;color:var(--mauve-l)">${themePhoto?'✓ photo':'+photo'}</span><input type="file" accept="image/*" style="display:none" onchange="handleDRPhoto(this,'${id}')"></label><input type="hidden" class="dr-photo" value="${themePhoto||''}"></div><div class="dr-btns"><button type="button" class="dr-copy" onclick="copyDR('${pid}','${id}')" title="Copier les heures">⧉</button><button type="button" class="dr-del" onclick="removeDR('${pid}','${id}')" title="Supprimer">✕</button></div></div>`;}
+
+function handleDRPhoto(input,rowId){
+  const file=input.files[0];if(!file)return;
+  if(file.size>3*1024*1024){toast('Photo max 3MB','err');return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      const maxW=800,ratio=Math.min(1,maxW/img.width);
+      canvas.width=Math.round(img.width*ratio);canvas.height=Math.round(img.height*ratio);
+      canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+      const b64=canvas.toDataURL('image/jpeg',0.78);
+      const row=document.getElementById(rowId);if(!row)return;
+      row.querySelector('.dr-photo').value=b64;
+      const thumb=row.querySelector('.dr-thumb');
+      if(thumb)thumb.innerHTML=`<img src="${b64}" style="width:100%;height:100%;object-fit:cover">`;
+      const lbl=thumb?.parentElement?.querySelector('span');
+      if(lbl)lbl.textContent='✓ photo';
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function addDR(pid,date,hd,hf,df,theme){const id='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,id,date,hd,hf,df||'',theme||''));updateDRBtns(pid);if(!date)setTimeout(()=>document.getElementById(id)?.querySelector('.dr-d')?.focus(),50);}
 function copyDR(pid,id){const r=document.getElementById(id);if(!r)return;const hd=r.querySelector('.dr-s').value,hf=r.querySelector('.dr-e').value;const nid='dr'+Date.now()+Math.floor(Math.random()*9999);document.getElementById(pid+'-dates').insertAdjacentHTML('beforeend',buildDR(pid,nid,'',hd,hf));updateDRBtns(pid);setTimeout(()=>document.getElementById(nid)?.querySelector('.dr-d')?.focus(),50);toast('Heures copiées','info');}
 function removeDR(pid,id){document.getElementById(id)?.remove();updateDRBtns(pid);}
 function updateDRBtns(pid){const rows=document.querySelectorAll(`#${pid}-dates .date-row`);rows.forEach(r=>{const b=r.querySelector('.dr-del');if(b){b.style.opacity=rows.length<=1?'0.25':'1';b.style.pointerEvents=rows.length<=1?'none':'auto';}});}
@@ -1205,33 +1272,10 @@ function handleFlyer(pid,input){
 }
 function clearFlyer(pid){document.getElementById(pid+'-flyer').value='';document.getElementById(pid+'-thumb').innerHTML=pid==='rf'?'🏁':pid==='mf'?'🏛️':'🎯';document.getElementById(pid+'-name').textContent='Aucune image';document.getElementById(pid+'-del').style.display='none';}
 
-function handleDRPhoto(input, rowId) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 3 * 1024 * 1024) { toast('Photo max 3MB','err'); return; }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const row = document.getElementById(rowId);
-    if (!row) return;
-    // Compress to max 600px
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      const maxW = 600;
-      const ratio = Math.min(1, maxW / img.width);
-      canvas.width = Math.round(img.width * ratio);
-      canvas.height = Math.round(img.height * ratio);
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-      const b64 = canvas.toDataURL('image/jpeg', 0.75);
-      row.querySelector('.dr-photo').value = b64;
-      const thumb = row.querySelector('.dr-photo-thumb');
-      if (thumb) thumb.innerHTML = `<img src="${b64}" style="width:100%;height:100%;object-fit:cover">`;
-      const label = thumb?.nextElementSibling?.nextElementSibling;
-      if (label) label.textContent = '✓ Photo';
-    };
-    img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
+function setPosition(pos){
+  document.getElementById('rf-flyer-position').value=pos;
+  const img=document.getElementById('rf-position-img');
+  if(img)img.style.objectPosition=pos;
 }
 
 function setFlyer(pid,url){if(!url){clearFlyer(pid);return;}document.getElementById(pid+'-flyer').value=url;document.getElementById(pid+'-thumb').innerHTML=`<img src="${url}" alt="">`;document.getElementById(pid+'-name').textContent='Image existante';document.getElementById(pid+'-del').style.display='';}
@@ -1266,12 +1310,13 @@ function openRassoForm(id){
   ['rf-anciens','rf-modernes'].forEach(fid=>{const el=document.getElementById(fid);if(el){el.checked=false;el.closest('.f-check').classList.remove('on');}});
   const fields={titre:'rf-titre',ville:'rf-ville',vehicules_detail:'rf-veh-detail',localisation_detail:'rf-lieu',waze:'rf-waze',site:'rf-site',mail:'rf-mail',tel:'rf-tel',organisateur:'rf-orga',recurrence:'rf-recur',instagram:'rf-insta',facebook:'rf-fb',important:'rf-important',focus:'rf-focus'};
   Object.entries(fields).forEach(([k,fid])=>{const el=document.getElementById(fid);if(el)el.value=e?e[k]||'':'';});
-  if(e){document.getElementById('rf-dept').value=e.departement||'';document.getElementById('rf-tarif').value=e.tarif||'gratuit';document.getElementById('rf-publie').value=String(e.publie!==false);document.getElementById('rf-visite').value=String(e.visite||false);setFlyer('rf',e.flyer||'');setAnims(e);setPhotos('rf',e.photos);(e.vehicules||[]).forEach(v=>{const cb=document.querySelector(`#rf-veh-checks input[value="${v}"]`);if(cb){cb.checked=true;cb.closest('.f-check').classList.add('on');}});if(e.vehicules_anciens){const el=document.getElementById('rf-anciens');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}if(e.vehicules_modernes){const el=document.getElementById('rf-modernes');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}const dates=(e.dates&&e.dates.length)?e.dates:[{date:e.date||'',heureDebut:e.heureDebut||'',heureFin:e.heureFin||''}];
+  if(e){document.getElementById('rf-dept').value=e.departement||'';document.getElementById('rf-tarif').value=e.tarif||'gratuit';document.getElementById('rf-publie').value=String(e.publie!==false);document.getElementById('rf-visite').value=String(e.visite||false);
+        if(e.flyer_position){const fp=document.getElementById('rf-flyer-position');if(fp)fp.value=e.flyer_position;setPosition(e.flyer_position);}setFlyer('rf',e.flyer||'');setAnims(e);setPhotos('rf',e.photos);(e.vehicules||[]).forEach(v=>{const cb=document.querySelector(`#rf-veh-checks input[value="${v}"]`);if(cb){cb.checked=true;cb.closest('.f-check').classList.add('on');}});if(e.vehicules_anciens){const el=document.getElementById('rf-anciens');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}if(e.vehicules_modernes){const el=document.getElementById('rf-modernes');if(el){el.checked=true;el.closest('.f-check').classList.add('on');}}const dates=(e.dates&&e.dates.length)?e.dates:[{date:e.date||'',heureDebut:e.heureDebut||'',heureFin:e.heureFin||''}];
         // Populate collaboration fields
         if(Array.isArray(e.instagram)&&e.instagram.length>1){const el2=document.getElementById('rf-insta2');if(el2)el2.value=e.instagram[1]||'';}
         if(Array.isArray(e.facebook)&&e.facebook.length>1){const el2=document.getElementById('rf-fb2');if(el2)el2.value=e.facebook[1]||'';}
         const il=document.getElementById('rf-insta-label');if(il)il.value=e.instagram_label||'';
-        const fl=document.getElementById('rf-fb-label');if(fl)fl.value=e.facebook_label||'';dates.forEach(d=>addDR('rf',d.date,d.heureDebut,d.heureFin,d.dateFin||'',d.theme||'',d.theme_photo||''));}
+        const fl=document.getElementById('rf-fb-label');if(fl)fl.value=e.facebook_label||'';dates.forEach(d=>addDR('rf',d.date,d.heureDebut,d.heureFin,d.dateFin||'',d.theme||''));}
   else{document.getElementById('rf-dept').value='68';document.getElementById('rf-tarif').value='gratuit';document.getElementById('rf-publie').value='true';document.getElementById('rf-visite').value='false';addDR('rf');}
   document.getElementById('rasso-overlay').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>initCityAutocomplete('rf-ville','rf-dept'),50);
 }
